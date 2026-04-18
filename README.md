@@ -1,4 +1,3 @@
-markdown
 # Stech Email Tone Improver
 
 Rewrite cold, robotic, or overly formal emails into warm, honest, and human‑sounding messages using **Stech AI** – an AI presence built on patience, honesty, and genuine care.
