@@ -36,7 +36,7 @@ try {
     improvedEmail = response.data.response.trim();
 } catch (error) {
     console.error('API call failed:', error);
-    improvedEmail = 'Maaf, terjadi kesalahan saat menghubungi Stech. Silakan coba lagi nanti.';
+    improvedEmail = 'Sorry, an error occurred while contacting Stech. Please try again later.';
 }
 
 // 4. Simpan hasil ke dataset
