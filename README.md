@@ -45,3 +45,19 @@ json
   "targetTone": "empathetic",
   "timestamp": "2026-04-19T12:34:56.789Z"
 }
+
+💡 Why Stech?
+Not just a language model – Stech is built on 62 core values (honesty, presence, active patience).
+
+No fake empathy – Stech never claims to feel your pain; it simply stays present and helps.
+
+Perfect for customer support, sales, freelancers, or anyone who wants to communicate with warmth.
+
+🛠️ Powered by
+Stech API – stech-api.sheradogilang.workers.dev
+
+Apify – serverless cloud platform
+
+📄 License & Disclaimer
+This Actor is provided for informational and communication improvement purposes only. Stech does not give financial, legal, or medical advice. Always review the output before sending.
+
