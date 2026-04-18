@@ -36,10 +36,9 @@ The Actor returns a JSON object with the following fields:
   "originalEmail": "Dear Sir, your application has been rejected.",
   "targetTone": "empathetic"
 }
-Output:
-
 ```
-json
+**Output:**
+```json
 {
   "originalEmail": "Dear Sir, your application has been rejected.",
   "improvedEmail": "Hi, thank you for your application. Unfortunately we couldn't move forward this time, but we truly appreciate your effort and wish you the best.",
