@@ -9,7 +9,7 @@ const { originalEmail, targetTone, additionalInstructions, stechApiSecret } = in
 if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
-if (!SETI_ACTOR_SECRET_KEY) {
+if (!stechApiSecret) {
     throw new Error('Parameter "stechApiSecret" is required. Please set your stech Api Secret in Actor input.');
 }
 
