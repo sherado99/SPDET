@@ -4,13 +4,13 @@ import axios from 'axios';
 await Actor.init();
 
 const input = await Actor.getInput();
-const { originalEmail, targetTone, additionalInstructions, stechApiSecret } = input || {};
+const { originalEmail, targetTone, additionalInstructions, STECH_API_SECRET } = input || {};
 
 if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
-if (!stechApiSecret) {
-    throw new Error('Parameter "stechApiSecret" is required. Please set your stech Api Secret in Actor input.');
+if (!STECH_API_SECRET) {
+    throw new Error('Parameter "stechApiSecret" is required. Please set your STECH_API_SECRET in Actor input.');
 }
 
 const finalTone = targetTone || 'warm and honest';
@@ -34,7 +34,7 @@ let improvedEmail = '';
 try {
     const response = await axios.post(apiUrl, { message: prompt }, {
         headers: {
-            'X-Stech-Actor-Secret': stechApiSecret
+            'X-Stech-Actor-Secret': STECH_API_SECRET
         }
     });
     improvedEmail = response.data.response.trim();
