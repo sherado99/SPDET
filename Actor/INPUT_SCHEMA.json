@@ -1,29 +1,30 @@
 {
-  "title": "Stech Market Data & Trends Analysis",
-  "description": "Provide objective market data and observable trends for any asset (commodities, currencies, stocks, crypto) based on last 14 days. Does NOT give predictions or financial advice.",
+  "title": "Stech Email Tone Improver",
+  "description": "Paste your original email, and Stech will rewrite it with a warmer, more honest, and human tone.",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "asset": {
-      "title": "Asset to analyze",
+    "originalEmail": {
+      "title": "Original Email",
       "type": "string",
-      "description": "Example: Gold, Bitcoin, USD/IDR, Crude Oil, S&P 500",
-      "editor": "textfield",
-      "prefill": "Gold"
+      "description": "The email content you want to improve.",
+      "editor": "textarea",
+      "prefill": "Dear Sir, we regret to inform you that your application has been rejected. Thank you for your understanding."
     },
-    "timeFrame": {
-      "title": "Scenario timeframe (illustrative)",
+    "targetTone": {
+      "title": "Target Tone (optional)",
       "type": "string",
-      "description": "Used for the hypothetical scenario if current trends hold. Example: '1 week', '2 weeks', '1 month'",
+      "description": "e.g., friendly, professional-warm, empathetic, encouraging. Default: warm and honest.",
       "editor": "textfield",
-      "prefill": "2 weeks"
+      "prefill": "warm and honest"
     },
-    "startUrls": {
-      "title": "Optional: Data source URLs",
-      "type": "array",
-      "description": "You can provide specific URLs for the AI to consider (optional).",
-      "editor": "requestListSources"
+    "additionalInstructions": {
+      "title": "Additional Instructions (optional)",
+      "type": "string",
+      "description": "Anything else you want Stech to consider?",
+      "editor": "textarea",
+      "prefill": ""
     }
   },
-  "required": ["asset"]
+  "required": ["originalEmail"]
 }
