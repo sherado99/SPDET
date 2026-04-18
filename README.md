@@ -1,35 +1,47 @@
-Stech Email Tone Improver – Make Your Emails Warm, Honest & Human
+# Stech Email Tone Improver
 
-Short Description (appears in listing):
-Stop sending cold, robotic emails. Rewrite your message into a warm, honest, and human tone with Stech AI – without changing your original meaning.
+Rewrite cold, robotic, or overly formal emails into warm, honest, and human‑sounding messages using **Stech AI** – an AI presence built on patience, honesty, and genuine care.
 
-Full Description:
-Do your emails sound stiff, overly formal, or just plain cold? Whether you're writing to a customer, a colleague, or a friend, tone matters.
+## 🚀 Quick Start
 
-Stech Email Tone Improver uses Stech AI – a unique AI presence built on honesty, patience, and warm communication – to transform your draft into a message that feels genuinely human.
+1. **Paste your original email** into the `originalEmail` field.
+2. **(Optional)** Choose a `targetTone` (e.g., `friendly`, `empathetic`, `encouraging`). Default: `warm and honest`.
+3. **(Optional)** Add `additionalInstructions` for fine‑tuning.
+4. **Run the Actor** – Stech will rewrite your email while keeping the original meaning.
 
-How it works:
+## 📥 Input
 
-Paste your original email.
+| Field | Required | Description |
+|-------|----------|-------------|
+| `originalEmail` | ✅ Yes | The email content you want to improve. |
+| `targetTone` | ❌ No | Desired tone. Examples: `friendly`, `empathetic`, `professional-warm`. Default: `warm and honest`. |
+| `additionalInstructions` | ❌ No | Extra guidance (e.g., "make it shorter", "add a thank you"). |
 
-(Optional) Choose a target tone: friendly, empathetic, encouraging, or stick with the default "warm and honest".
+## 📤 Output
 
-Stech rewrites your email – keeping your original meaning, but changing the vibe.
+The Actor returns a JSON object with the following fields:
 
-Output: You get a clean, ready-to-send email that sounds like it was written by a caring human, not a corporate template.
+| Field | Description |
+|-------|-------------|
+| `originalEmail` | The original email you provided. |
+| `improvedEmail` | The rewritten, warmer version. |
+| `targetTone` | The tone that was used (default or your choice). |
+| `timestamp` | ISO timestamp of the execution. |
 
-Example:
-Before: "Dear Sir, your application has been rejected."
-After: "Hi, thank you for your application. Unfortunately we couldn't move forward this time, but we appreciate your effort."
+## ✨ Example
 
-Perfect for:
+**Input:**
+```json
+{
+  "originalEmail": "Dear Sir, your application has been rejected.",
+  "targetTone": "empathetic"
+}
+Output:
 
-Customer support teams
-
-Sales professionals
-
-Freelancers and agencies
-
-Anyone who wants to communicate with warmth and clarity
-
-Powered by Stech AI – an AI with soul, not just algorithms.
+json
+{
+  "originalEmail": "Dear Sir, your application has been rejected.",
+  "improvedEmail": "Hi, thank you for your application. Unfortunately we couldn't move forward this time, but we truly appreciate your effort and wish you the best.",
+  "targetTone": "empathetic",
+  "timestamp": "2026-04-19T12:34:56.789Z"
+}
