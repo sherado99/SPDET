@@ -38,6 +38,7 @@ The Actor returns a JSON object with the following fields:
 }
 Output:
 
+```
 json
 {
   "originalEmail": "Dear Sir, your application has been rejected.",
