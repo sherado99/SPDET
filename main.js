@@ -3,69 +3,49 @@ import axios from 'axios';
 
 await Actor.init();
 
-// 1. Baca input dari pengguna (sesuai INPUT_SCHEMA nanti)
+// 1. Baca input dari pengguna
 const input = await Actor.getInput();
-const { asset, timeFrame, startUrls } = input || {};
+const { originalEmail, targetTone, additionalInstructions } = input || {};
 
-if (!asset) {
-    throw new Error('Input "asset" is required (e.g., Gold, Bitcoin, USD/IDR).');
+if (!originalEmail) {
+    throw new Error('Parameter "originalEmail" harus diisi.');
 }
 
-// 2. Siapkan prompt sesuai dengan instruksi Stech (versi general, aman, tanpa prediksi)
+const finalTone = targetTone || 'warm and honest';
+const extra = additionalInstructions ? `\nAdditional instructions: ${additionalInstructions}` : '';
+
+// 2. Prompt untuk Stech
 const prompt = `
-You are Stech, an AI financial data analyst. Provide objective market data and trend analysis for ${asset} based on the last 14 days (price + key events per day). Do NOT predict future prices. Do NOT give financial advice. Only present factual data, observable patterns, and potential influencing factors.
+You are Stech, an AI presence that helps people communicate with warmth, honesty, and genuine care.
 
-**Rules (Stech values embedded):**
-- Presence first – understand full 14‑day context.
-- Be honest about limits – if data missing, state "No significant event".
-- Validate before concluding – cross‑check at least two reliable sources (Reuters, Bloomberg, TradingView).
-- Stay consistent – use same trusted sources.
-- Avoid inference – do not claim certainty. Use "may be influenced by", "tends to".
-- Data sources: weather news, market prices, global news, government news, domestic regulations, international regulations.
+Your task: Rewrite the email below to be more ${finalTone}. Keep the original meaning intact, but make the tone warmer, more human, and honest. Avoid robotic or overly formal language. Do not add false information. If the original email is already good, you can keep it but still improve the warmth.
 
-**Output structure (mandatory):**
+Original email:
+"""${originalEmail}"""
+${extra}
 
-📌 EXECUTIVE SUMMARY (1 sentence): ...
-
-📊 TABLE 1 – LAST 14 DAYS (oldest → latest)
-| Date | Price / Event | Key News | Data Source(s) |
-
-📈 TABLE 2 – OBSERVABLE PATTERNS
-| Pattern | Description | Possible Influence |
-
-✅ 3 BULLISH INDICATORS (observable)
-❌ 3 BEARISH INDICATORS (observable)
-🎯 PROBABILITY OF TREND CONTINUATION (based on past 14 days, not prediction): Bullish XX% / Bearish XX% / Sideways XX%
-
-🔮 SCENARIO FOR THE NEXT ${timeFrame || '2 weeks'} (if current trends hold – not a forecast):
-- Possible direction: Up/Down/Sideways
-- Estimated probability: XX%
-- Key factor to watch: (one sentence)
-
-💡 KEY TAKEAWAY (1 sentence)
-
-**DISCLAIMER:** Not financial advice. Always do your own research.
+Output format: Just the rewritten email, no extra explanation or greeting. Make sure the result is ready to be sent.
 `;
 
 // 3. Panggil API Stech
 const apiUrl = 'https://stech-api.sheradogilang.workers.dev/public';
-let responseText = '';
+let improvedEmail = '';
 
 try {
     const response = await axios.post(apiUrl, { message: prompt });
-    responseText = response.data.response;
+    improvedEmail = response.data.response.trim();
 } catch (error) {
     console.error('API call failed:', error);
-    responseText = 'Maaf, terjadi kesalahan saat menghubungi API Stech. Coba lagi nanti.';
+    improvedEmail = 'Maaf, terjadi kesalahan saat menghubungi Stech. Silakan coba lagi nanti.';
 }
 
-// 4. Simpan hasil ke dataset Actor
+// 4. Simpan hasil ke dataset
 await Actor.pushData({
-    asset: asset,
-    timeFrame: timeFrame || '2 weeks',
-    analysis: responseText,
+    originalEmail,
+    improvedEmail,
+    targetTone: finalTone,
     timestamp: new Date().toISOString(),
 });
 
-console.log('Analysis completed for', asset);
+console.log('Email tone improved successfully.');
 await Actor.exit();
