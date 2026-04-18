@@ -1,0 +1,9 @@
+{
+  "name": "stech-actor-c",
+  "version": "0.0.2",
+  "type": "module",
+  "dependencies": {
+    "apify": "^3.1.0",
+    "axios": "^1.6.0"
+  }
+}
