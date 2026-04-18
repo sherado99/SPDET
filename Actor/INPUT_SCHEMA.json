@@ -1,6 +1,29 @@
 {
-  "title": "Stech Actor",
+  "title": "Stech Market Data & Trends Analysis",
+  "description": "Provide objective market data and observable trends for any asset (commodities, currencies, stocks, crypto) based on last 14 days. Does NOT give predictions or financial advice.",
   "type": "object",
   "schemaVersion": 1,
-  "properties": {}
+  "properties": {
+    "asset": {
+      "title": "Asset to analyze",
+      "type": "string",
+      "description": "Example: Gold, Bitcoin, USD/IDR, Crude Oil, S&P 500",
+      "editor": "textfield",
+      "prefill": "Gold"
+    },
+    "timeFrame": {
+      "title": "Scenario timeframe (illustrative)",
+      "type": "string",
+      "description": "Used for the hypothetical scenario if current trends hold. Example: '1 week', '2 weeks', '1 month'",
+      "editor": "textfield",
+      "prefill": "2 weeks"
+    },
+    "startUrls": {
+      "title": "Optional: Data source URLs",
+      "type": "array",
+      "description": "You can provide specific URLs for the AI to consider (optional).",
+      "editor": "requestListSources"
+    }
+  },
+  "required": ["asset"]
 }
