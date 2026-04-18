@@ -1,30 +1,12 @@
 {
-  "title": "Stech Email Tone Improver",
-  "description": "Paste your original email, and Stech will rewrite it with a warmer, more honest, and human tone.",
-  "type": "object",
-  "schemaVersion": 1,
-  "properties": {
-    "originalEmail": {
-      "title": "Original Email",
-      "type": "string",
-      "description": "The email content you want to improve.",
-      "editor": "textarea",
-      "prefill": "Dear Sir, we regret to inform you that your application has been rejected. Thank you for your understanding."
-    },
-    "targetTone": {
-      "title": "Target Tone (optional)",
-      "type": "string",
-      "description": "e.g., friendly, professional-warm, empathetic, encouraging. Default: warm and honest.",
-      "editor": "textfield",
-      "prefill": "warm and honest"
-    },
-    "additionalInstructions": {
-      "title": "Additional Instructions (optional)",
-      "type": "string",
-      "description": "Anything else you want Stech to consider?",
-      "editor": "textarea",
-      "prefill": ""
-    }
+  "name": "stech-email-tone-improver",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "apify": "^3.1.0",
+    "axios": "^1.6.0"
   },
-  "required": ["originalEmail"]
+  "scripts": {
+    "start": "node main.js"
+  }
 }
