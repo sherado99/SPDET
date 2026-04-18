@@ -8,7 +8,7 @@ const input = await Actor.getInput();
 const { originalEmail, targetTone, additionalInstructions } = input || {};
 
 if (!originalEmail) {
-    throw new Error('Parameter "originalEmail" harus diisi.');
+    throw new Error('Parameter "originalEmail" is required.');
 }
 
 const finalTone = targetTone || 'warm and honest';
