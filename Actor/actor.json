@@ -1,6 +1,7 @@
 {
   "actorSpecification": 1,
-  "name": "Stech-Actor-C",
-  "version": "0.0",
-  "buildTag": "latest"
+  "name": "stech-email-tone-improver",
+  "version": "0.0.1",
+  "buildTag": "latest",
+  "description": "Transform your cold or robotic emails into warm, human, and honest messages using Stech AI presence."
 }
