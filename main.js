@@ -10,7 +10,7 @@ if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
 if (!STECH_API_SECRET) {
-    throw new Error('Parameter "stechApiSecret" is required. Please set your STECH_API_SECRET in Actor input.');
+    throw new Error('Parameter "STECH_API_SECRET" is required. Please set your STECH_API_SECRET in Actor input.');
 }
 
 const finalTone = targetTone || 'warm and honest';
