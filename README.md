@@ -46,7 +46,7 @@ json
   "targetTone": "empathetic",
   "timestamp": "2026-04-19T12:34:56.789Z"
 }
-
+```
 
 ## 💡 Why Stech?
 Not just a language model – Stech is built on 62 core values (honesty, presence, active patience).
