@@ -10,7 +10,7 @@ if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
 if (!SETI_ACTOR_SECRET_KEY) {
-    throw new Error('Parameter "SETI_ACTOR_SECRET_KEY" is required. Please set your SETI_ACTOR_SECRET_KEY in Actor input.');
+    throw new Error('Parameter "SETI_ACTOR_SECRET_KEY" is required. Please set your secret key in Actor input.');
 }
 
 const finalTone = targetTone || 'warm and honest';
