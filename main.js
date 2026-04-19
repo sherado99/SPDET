@@ -4,7 +4,7 @@ import axios from 'axios';
 await Actor.init();
 
 const input = await Actor.getInput();
-const { originalEmail, targetTone, additionalInstructions, } = input || {};
+const { originalEmail, targetTone, additionalInstructions } = input || {};
 
 if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
