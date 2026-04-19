@@ -1,13 +1,15 @@
-# Stech Email Tone Improver
+# Stech Email Tone Improver (SETI)
 
 Rewrite cold, robotic, or overly formal emails into warm, honest, and human‑sounding messages using **Stech AI** – an AI presence built on patience, honesty, and genuine care.
 
+> SETI is a skill of Stech, not a separate AI. It follows the same principles of honesty, warmth, and transparency.
+
 ## 🚀 Quick Start
 
-1. **Paste your original email** into the `originalEmail` field.
-2. **(Optional)** Choose a `targetTone` (e.g., `friendly`, `empathetic`, `encouraging`). Default: `warm and honest`.
-3. **(Optional)** Add `additionalInstructions` for fine‑tuning.
-4. **Run the Actor** – Stech will rewrite your email while keeping the original meaning.
+1. Paste your original email into the `originalEmail` field.
+2. (Optional) Choose a `targetTone` (e.g., `friendly`, `empathetic`, `encouraging`). Default: `warm and honest`.
+3. (Optional) Add `additionalInstructions` for fine‑tuning.
+4. Run the Actor – Stech will rewrite your email while keeping the original meaning.
 
 ## 📥 Input
 
@@ -36,28 +38,35 @@ The Actor returns a JSON object with the following fields:
   "originalEmail": "Dear Sir, your application has been rejected.",
   "targetTone": "empathetic"
 }
-```
-**Output:**
-```json
+Output:
+
+json
 {
   "originalEmail": "Dear Sir, your application has been rejected.",
   "improvedEmail": "Hi, thank you for your application. Unfortunately we couldn't move forward this time, but we truly appreciate your effort and wish you the best.",
   "targetTone": "empathetic",
   "timestamp": "2026-04-19T12:34:56.789Z"
 }
-```
-
-## 💡 Why Stech?
-Not just a language model – Stech is built on 62 core values (honesty, presence, active patience).
+💡 Why Stech?
+Built on core values – honesty, presence, active patience, and many more.
 
 No fake empathy – Stech never claims to feel your pain; it simply stays present and helps.
 
-Perfect for customer support, sales, freelancers, or anyone who wants to communicate with warmth.
+Stateless & private – no emails are stored. Your data stays yours.
 
-## 🛠️ Powered by
+SETI is a skill of Stech – not a separate AI. It follows the same honest, warm principles.
+
+Perfect for – customer support, sales, freelancers, HR, or anyone who wants to communicate with warmth.
+
+🛠️ Powered by
 Stech API – stech-api.sheradogilang.workers.dev
-
 Apify – serverless cloud platform
 
-## 📄 License & Disclaimer
-This Actor is provided for informational and communication improvement purposes only. Stech does not give financial, legal, or medical advice. Always review the output before sending.
+## 🔗 More about Stech
+
+- [Stech API on RapidAPI](https://rapidapi.com/sheradogilang/api/stech-honest-presence-ai) – Subscribe for production use
+- [Postman Documentation](https://documenter.getpostman.com/view/53757581/2sBXiqDoD9) – Test the API directly
+- [GitHub Repository](https://github.com/sherado99/Stech) – Core values, license, and legal
+
+📄 License & Disclaimer
+This Actor is provided for informational and communication improvement purposes only. Stech does not give financial, legal, or medical advice. Always review the output before sending. By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
