@@ -34,7 +34,7 @@ let improvedEmail = '';
 try {
     const response = await axios.post(apiUrl, { message: prompt }, {
         headers: {
-            'X-Stech-Actor-Secret': SETI_ACTOR_SECRET_KEY
+            'SETI_ACTOR_SECRET_KEY': SETI_ACTOR_SECRET_KEY
         }
     });
     improvedEmail = response.data.response.trim();
