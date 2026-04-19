@@ -11,9 +11,9 @@ if (!originalEmail) {
 }
 
 // Ambil secret dari environment variable (sudah Anda set di Apify)
-const SETI_ACTOR_SECRET_KEY = process.env.SETI_ACTOR_SECRET_KEY;
-if (!SETI_ACTOR_SECRET_KEY) {
-    throw new Error('Environment variable SETI_ACTOR_SECRET_KEY is missing. Please set it in Actor environment variables.');
+const SETI_PROXY_SECRET = process.env.SETI_PROXY_SECRET;
+if (!SETI_PROXY_SECRET) {
+    throw new Error('Environment variable SETI_PROXY_SECRET is missing. Please set it in Actor environment variables.');
 }
 
 const finalTone = targetTone || 'warm and honest';
@@ -27,7 +27,7 @@ let improvedEmail = '';
 try {
     const response = await axios.post(apiUrl, { message: prompt }, {
         headers: {
-            'X-Stech-Actor-Secret': SETI_ACTOR_SECRET_KEY
+            'X-Stech-Actor-Secret': SETI_PROXY_SECRET
         }
     });
     improvedEmail = response.data.response.trim();
