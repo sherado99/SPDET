@@ -10,7 +10,6 @@ if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
 
-// Ambil secret dari environment variable (sudah Anda set di Apify)
 const SETI_PROXY_SECRET = process.env.SETI_PROXY_SECRET;
 if (!SETI_PROXY_SECRET) {
     throw new Error('Environment variable SETI_PROXY_SECRET is missing. Please set it in Actor environment variables.');
@@ -19,7 +18,6 @@ if (!SETI_PROXY_SECRET) {
 const finalTone = targetTone || 'warm and honest';
 const extra = additionalInstructions ? `\nAdditional instructions: ${additionalInstructions}` : '';
 
-// ✅ Prompt yang benar untuk email rewriting
 const prompt = `Rewrite the following email to be ${finalTone}. Keep the original meaning and key information intact. Do not add unrelated content like offering general help. Only output the rewritten email, nothing else.
 
 Original email:
