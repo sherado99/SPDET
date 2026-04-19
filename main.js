@@ -1,4 +1,3 @@
-javascript
 import { Actor } from 'apify';
 import axios from 'axios';
 
