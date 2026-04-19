@@ -18,7 +18,7 @@ if (!SETI_PROXY_SECRET) {
 const finalTone = targetTone || 'warm and honest';
 const extra = additionalInstructions ? `\nAdditional instructions: ${additionalInstructions}` : '';
 
-const prompt = `Rewrite the following email to be ${finalTone}. Keep the original meaning and key information intact. Do not add unrelated content like offering general help. Only output the rewritten email, nothing else.
+const prompt = `Rewrite the following email to be ${finalTone}. Keep the original meaning and key information intact. Do not add unrelated content like offering general help. Keep the email concise (under 50 words). Do not use any emojis. Output only the rewritten email, nothing else.
 
 Original email:
 ${originalEmail}
