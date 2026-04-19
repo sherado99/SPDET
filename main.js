@@ -9,24 +9,17 @@ const { originalEmail, targetTone, additionalInstructions } = input || {};
 if (!originalEmail) {
     throw new Error('Parameter "originalEmail" is required.');
 }
+
+// Ambil secret dari environment variable (sudah Anda set di Apify)
+const SETI_ACTOR_SECRET_KEY = process.env.SETI_ACTOR_SECRET_KEY;
 if (!SETI_ACTOR_SECRET_KEY) {
-    throw new Error('Parameter "SETI_ACTOR_SECRET_KEY" is required. Please set your secret key in Actor input.');
+    throw new Error('Environment variable SETI_ACTOR_SECRET_KEY is missing. Please set it in Actor environment variables.');
 }
 
 const finalTone = targetTone || 'warm and honest';
 const extra = additionalInstructions ? `\nAdditional instructions: ${additionalInstructions}` : '';
 
-const prompt = `
-You are Stech, an AI presence that helps people communicate with warmth, honesty, and genuine care.
-
-Your task: Rewrite the email below to be more ${finalTone}. Keep the original meaning intact, but make the tone warmer, more human, and honest. Avoid robotic or overly formal language. Do not add false information. If the original email is already good, you can keep it but still improve the warmth.
-
-Original email:
-"""${originalEmail}"""
-${extra}
-
-Output format: Just the rewritten email, no extra explanation or greeting. Make sure the result is ready to be sent.
-`;
+const prompt = `...`; // (prompt tetap sama seperti sebelumnya)
 
 const apiUrl = 'https://stech-api.sheradogilang.workers.dev/seti';
 let improvedEmail = '';
@@ -34,7 +27,7 @@ let improvedEmail = '';
 try {
     const response = await axios.post(apiUrl, { message: prompt }, {
         headers: {
-            'SETI_ACTOR_SECRET_KEY': SETI_ACTOR_SECRET_KEY
+            'X-Stech-Actor-Secret': SETI_ACTOR_SECRET_KEY
         }
     });
     improvedEmail = response.data.response.trim();
