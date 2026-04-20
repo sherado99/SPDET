@@ -1,15 +1,11 @@
 import { Actor } from 'apify';
 import axios from 'axios';
-import { createReadStream } from 'fs';
-import csv from 'csv-parser';
-import { Readable } from 'stream';
 
 await Actor.init();
 
 const input = await Actor.getInput();
 const {
   csvFile,
-  emails,
   columnMapping,
   rejectionTemplate,
   defaultTone = 'warm and honest',
@@ -24,18 +20,49 @@ if (!SETI_PROXY_SECRET) {
 
 const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
 
-let emailList = [];
-
+// Simple CSV parser (handles quotes, commas, newlines inside fields)
 function parseCSV(content) {
-  return new Promise((resolve, reject) => {
-    const results = [];
-    const parser = csv();
-    const stream = Readable.from([content]);
-    stream.pipe(parser);
-    parser.on('data', (data) => results.push(data));
-    parser.on('end', () => resolve(results));
-    parser.on('error', reject);
-  });
+  const lines = content.trim().split(/\r?\n/);
+  if (lines.length === 0) return [];
+  const headers = [];
+  let inQuote = false;
+  let current = '';
+  let headerRow = lines[0];
+  for (let ch of headerRow) {
+    if (ch === '"') inQuote = !inQuote;
+    else if (ch === ',' && !inQuote) {
+      headers.push(current.trim().replace(/^"|"$/g, ''));
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  headers.push(current.trim().replace(/^"|"$/g, ''));
+  
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const values = [];
+    inQuote = false;
+    current = '';
+    for (let ch of line) {
+      if (ch === '"') inQuote = !inQuote;
+      else if (ch === ',' && !inQuote) {
+        values.push(current.trim().replace(/^"|"$/g, ''));
+        current = '';
+      } else {
+        current += ch;
+      }
+    }
+    values.push(current.trim().replace(/^"|"$/g, ''));
+    const row = {};
+    headers.forEach((h, idx) => {
+      row[h] = values[idx] || '';
+    });
+    result.push(row);
+  }
+  return result;
 }
 
 function applyMappingAndTemplate(row, mapping, template) {
@@ -48,14 +75,15 @@ function applyMappingAndTemplate(row, mapping, template) {
   return filledTemplate;
 }
 
+let emailList = [];
+
 if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
   const fileKey = csvFile.replace('FILE-UPLOAD:', '');
   const fileBuffer = await Actor.getFile(fileKey);
   const fileContent = fileBuffer.toString();
-  const rows = await parseCSV(fileContent);
+  const rows = parseCSV(fileContent);
   
   if (columnMapping && rejectionTemplate) {
-    // Dynamic mapping: build originalEmail from template
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
       targetTone: row.targetTone || defaultTone,
@@ -65,10 +93,12 @@ if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')
     // Fallback: assume CSV already has originalEmail column
     emailList = rows.filter(row => row.originalEmail);
   }
-} else if (Array.isArray(emails) && emails.length > 0) {
-  emailList = emails;
 } else {
-  throw new Error('No input provided. Please upload a CSV file or provide an array of emails.');
+  throw new Error('No valid CSV file provided. Please upload a CSV file.');
+}
+
+if (emailList.length === 0) {
+  throw new Error('No valid email entries found. Check your CSV and mapping.');
 }
 
 async function processEmail(item, index) {
