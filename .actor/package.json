@@ -1,17 +1,13 @@
 {
   "name": "stech-email-tone-improver",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Rewrite emails to be warm, honest, and personal using Stech AI. Batch processing via CSV or JSON.",
-  "main": "main.js",
-  "scripts": {
-    "start": "node main.js"
-  },
   "dependencies": {
     "apify": "^3.1.0",
     "axios": "^1.6.0",
     "csv-parser": "^3.0.0"
   },
-  "author": "Sherado Gilang B.",
-  "license": "MIT"
+  "scripts": {
+    "start": "node main.js"
+  }
 }
