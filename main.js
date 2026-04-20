@@ -128,6 +128,21 @@ while (queue.length > 0 || running.size > 0) {
   }
 }
 
+if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
+  const fileKey = csvFile.replace('FILE-UPLOAD:', '');
+  const fileBuffer = await Actor.getFile(fileKey);
+  const fileStream = Readable.from(fileBuffer);
+  const rows = [];
+  await new Promise((resolve, reject) => {
+    fileStream
+      .pipe(csv())
+      .on('data', (row) => rows.push(row))
+      .on('end', resolve)
+      .on('error', reject);
+  });
+  emailList = rows;
+}
+
 results.sort((a, b) => a.index - b.index);
 const finalOutput = results.map(({ index, ...rest }) => rest);
 
