@@ -1,18 +1,52 @@
 {
   "actorSpecification": 1,
-  "views": {
-    "overview": {
-      "title": "Improved Email",
-      "transformation": {
-        "fields": ["originalEmail", "improvedEmail", "targetTone", "timestamp"]
-      },
-      "display": {
-        "component": "table",
-        "properties": {
-          "originalEmail": { "label": "Original Email" },
-          "improvedEmail": { "label": "Improved Email" },
-          "targetTone": { "label": "Target Tone" },
-          "timestamp": { "label": "Time" }
+  "name": "stech-email-tone-improver",
+  "title": "Stech Email Tone Improver",
+  "version": "2.0.0",
+  "storages": {
+    "dataset": {
+      "views": {
+        "overview": {
+          "title": "Rewritten Emails",
+          "transformation": {
+            "fields": [
+              "originalEmail",
+              "improvedEmail",
+              "toneUsed",
+              "status",
+              "timestamp",
+              "error"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "originalEmail": {
+                "label": "Original Email",
+                "format": "text"
+              },
+              "improvedEmail": {
+                "label": "Improved Email",
+                "format": "text"
+              },
+              "toneUsed": {
+                "label": "Tone Used",
+                "format": "text"
+              },
+              "status": {
+                "label": "Status",
+                "format": "text"
+              },
+              "timestamp": {
+                "label": "Timestamp",
+                "format": "date"
+              },
+              "error": {
+                "label": "Error Message",
+                "format": "text"
+              }
+            }
+          }
         }
       }
     }
