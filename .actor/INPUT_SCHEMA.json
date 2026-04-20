@@ -13,11 +13,10 @@
     "columnMapping": {
       "title": "Column Mapping",
       "type": "object",
-      "description": "Map placeholders in your template to actual column names in the CSV.",
+      "description": "Map placeholders in your template to actual column names in the CSV. Example: { \"name\": \"Full Name\", \"position\": \"Job Title\" }",
       "prefill": {
         "name": "Full Name",
-        "position": "Job Title",
-        "company": "Company Name"
+        "position": "Job Title"
       },
       "editor": "json"
     },
@@ -31,20 +30,22 @@
     "defaultTone": {
       "title": "Default Tone",
       "type": "string",
+      "description": "Fallback tone if not specified per email. Choose one of the allowed values.",
       "default": "warm and honest",
       "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
     },
     "maxConcurrency": {
       "title": "Max Concurrency",
       "type": "integer",
+      "description": "Number of emails to process simultaneously (1-20). Higher is faster but may hit rate limits.",
       "minimum": 1,
       "maximum": 20,
-      "default": 5,
-      "description": "Number of emails to process simultaneously."
+      "default": 5
     },
     "timeout": {
       "title": "Timeout (seconds)",
       "type": "integer",
+      "description": "Max wait time per email request in seconds.",
       "minimum": 10,
       "maximum": 300,
       "default": 60
