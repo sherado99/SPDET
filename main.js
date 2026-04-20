@@ -1,5 +1,8 @@
 import { Actor } from 'apify';
 import axios from 'axios';
+import { createReadStream } from 'fs';
+import csv from 'csv-parser';
+import { Readable } from 'stream';
 
 await Actor.init();
 
@@ -7,9 +10,11 @@ const input = await Actor.getInput();
 const {
   csvFile,
   emails,
+  columnMapping,
+  rejectionTemplate,
+  defaultTone = 'warm and honest',
   maxConcurrency = 5,
   timeout = 60,
-  defaultTone = 'warm and honest'
 } = input;
 
 const SETI_PROXY_SECRET = process.env.SETI_PROXY_SECRET;
@@ -22,50 +27,43 @@ const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
 let emailList = [];
 
 function parseCSV(content) {
-  const lines = content.trim().split(/\r?\n/);
-  if (lines.length === 0) return [];
-  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-  const result = [];
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (!line.trim()) continue;
-    const values = [];
-    let inQuote = false;
-    let current = '';
-    for (let ch of line) {
-      if (ch === '"') {
-        inQuote = !inQuote;
-      } else if (ch === ',' && !inQuote) {
-        values.push(current.trim().replace(/^"|"$/g, ''));
-        current = '';
-      } else {
-        current += ch;
-      }
-    }
-    values.push(current.trim().replace(/^"|"$/g, ''));
-    const obj = {};
-    headers.forEach((h, idx) => {
-      obj[h] = values[idx] || '';
-    });
-    if (obj.originalEmail) result.push(obj);
-  }
-  return result;
+  return new Promise((resolve, reject) => {
+    const results = [];
+    const parser = csv();
+    const stream = Readable.from([content]);
+    stream.pipe(parser);
+    parser.on('data', (data) => results.push(data));
+    parser.on('end', () => resolve(results));
+    parser.on('error', reject);
+  });
 }
 
-if (csvFile && typeof csvFile === 'string') {
-  let fileContent = null;
-  if (csvFile.startsWith('FILE-UPLOAD:')) {
-    const fileKey = csvFile.replace('FILE-UPLOAD:', '');
-    const fileBuffer = await Actor.getFile(fileKey);
-    fileContent = fileBuffer.toString();
-  } else if (csvFile.startsWith('http://') || csvFile.startsWith('https://')) {
-    const response = await axios.get(csvFile, { responseType: 'text' });
-    fileContent = response.data;
-  } else {
-    throw new Error('Invalid csvFile format. Must be a FILE-UPLOAD: key or a public URL.');
+function applyMappingAndTemplate(row, mapping, template) {
+  if (!template) return null;
+  let filledTemplate = template;
+  for (const [placeholder, columnName] of Object.entries(mapping)) {
+    const value = row[columnName] || '';
+    filledTemplate = filledTemplate.replace(new RegExp(`{${placeholder}}`, 'g'), value);
   }
-  if (fileContent) {
-    emailList = parseCSV(fileContent);
+  return filledTemplate;
+}
+
+if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
+  const fileKey = csvFile.replace('FILE-UPLOAD:', '');
+  const fileBuffer = await Actor.getFile(fileKey);
+  const fileContent = fileBuffer.toString();
+  const rows = await parseCSV(fileContent);
+  
+  if (columnMapping && rejectionTemplate) {
+    // Dynamic mapping: build originalEmail from template
+    emailList = rows.map(row => ({
+      originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
+      targetTone: row.targetTone || defaultTone,
+      additionalInstructions: row.additionalInstructions || '',
+    })).filter(item => item.originalEmail);
+  } else {
+    // Fallback: assume CSV already has originalEmail column
+    emailList = rows.filter(row => row.originalEmail);
   }
 } else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
@@ -82,7 +80,7 @@ async function processEmail(item, index) {
       improvedEmail: null,
       status: 'error',
       error: 'Missing originalEmail field',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
   const targetTone = item.targetTone || defaultTone;
@@ -94,7 +92,7 @@ async function processEmail(item, index) {
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
       headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
-      timeout: timeout * 1000
+      timeout: timeout * 1000,
     });
     const improvedEmail = response.data.response?.trim() || '';
     return {
@@ -103,7 +101,7 @@ async function processEmail(item, index) {
       improvedEmail,
       toneUsed: targetTone,
       status: 'success',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   } catch (err) {
     return {
@@ -112,7 +110,7 @@ async function processEmail(item, index) {
       improvedEmail: null,
       status: 'error',
       error: err.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 }
