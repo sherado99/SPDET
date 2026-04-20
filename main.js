@@ -52,11 +52,21 @@ function parseCSV(content) {
   return result;
 }
 
-if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
-  const fileKey = csvFile.replace('FILE-UPLOAD:', '');
-  const fileBuffer = await Actor.getFile(fileKey);
-  const fileContent = fileBuffer.toString();
-  emailList = parseCSV(fileContent);
+if (csvFile && typeof csvFile === 'string') {
+  let fileContent = null;
+  if (csvFile.startsWith('FILE-UPLOAD:')) {
+    const fileKey = csvFile.replace('FILE-UPLOAD:', '');
+    const fileBuffer = await Actor.getFile(fileKey);
+    fileContent = fileBuffer.toString();
+  } else if (csvFile.startsWith('http://') || csvFile.startsWith('https://')) {
+    const response = await axios.get(csvFile, { responseType: 'text' });
+    fileContent = response.data;
+  } else {
+    throw new Error('Invalid csvFile format. Must be a FILE-UPLOAD: key or a public URL.');
+  }
+  if (fileContent) {
+    emailList = parseCSV(fileContent);
+  }
 } else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
 } else {
