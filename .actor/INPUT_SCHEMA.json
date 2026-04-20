@@ -1,30 +1,79 @@
 {
-  "title": "Stech Email Tone Improver",
-  "description": "Paste your original email, and Stech will rewrite it with a warmer, more honest, and human tone.",
+  "title": "Stech Email Tone Improver (Batch)",
+  "description": "Rewrite multiple emails to be warm, honest, and personal using Stech AI. Upload a CSV file or provide an array of emails.",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "originalEmail": {
-      "title": "Original Email",
+    "csvFile": {
+      "title": "CSV File",
       "type": "string",
-      "description": "The email content you want to improve.",
-      "editor": "textarea",
-      "prefill": "Dear Sir, we regret to inform you that your application has been rejected. Thank you for your understanding."
+      "description": "Upload a CSV file with columns: originalEmail (required), targetTone (optional), additionalInstructions (optional).",
+      "editor": "file",
+      "format": "csv"
     },
-    "targetTone": {
-      "title": "Target Tone (optional)",
-      "type": "string",
-      "description": "e.g., friendly, professional-warm, empathetic, encouraging. Default: warm and honest.",
-      "editor": "textfield",
-      "prefill": "warm and honest"
+    "emails": {
+      "title": "Emails Array (Alternative)",
+      "type": "array",
+      "description": "If you prefer JSON, provide an array of email objects.",
+      "editor": "json",
+      "prefill": [
+        {
+          "originalEmail": "Dear Sir, your application has been rejected.",
+          "targetTone": "empathetic",
+          "additionalInstructions": "Keep it under 30 words"
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "originalEmail": {
+            "type": "string",
+            "title": "Original Email",
+            "description": "The email content to rewrite."
+          },
+          "targetTone": {
+            "type": "string",
+            "title": "Target Tone",
+            "default": "warm and honest",
+            "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"],
+            "enumTitles": ["Warm & Honest", "Friendly", "Empathetic", "Encouraging", "Professional Warm"]
+          },
+          "additionalInstructions": {
+            "type": "string",
+            "title": "Additional Instructions",
+            "description": "Extra guidance for the rewrite.",
+            "editor": "textarea"
+          }
+        },
+        "required": ["originalEmail"]
+      }
     },
-    "additionalInstructions": {
-      "title": "Additional Instructions (optional)",
+    "defaultTone": {
+      "title": "Default Tone",
       "type": "string",
-      "description": "Anything else you want Stech to consider?",
-      "editor": "textarea",
-      "prefill": ""
+      "description": "Fallback tone if not specified per email.",
+      "default": "warm and honest",
+      "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
+    },
+    "maxConcurrency": {
+      "title": "Max Concurrency",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 5,
+      "description": "Number of emails to process simultaneously (1-20)."
+    },
+    "timeout": {
+      "title": "Timeout (seconds)",
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 300,
+      "default": 60,
+      "description": "Max wait time per email request."
     }
   },
-  "required": ["originalEmail"]
+  "anyOf": [
+    { "required": ["csvFile"] },
+    { "required": ["emails"] }
+  ]
 }
