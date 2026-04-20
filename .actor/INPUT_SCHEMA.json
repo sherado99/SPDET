@@ -25,9 +25,23 @@
       "items": {
         "type": "object",
         "properties": {
-          "originalEmail": { "type": "string", "title": "Original Email" },
-          "targetTone": { "type": "string", "title": "Target Tone", "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"] },
-          "additionalInstructions": { "type": "string", "title": "Additional Instructions", "editor": "textarea" }
+          "originalEmail": {
+            "type": "string",
+            "title": "Original Email",
+            "description": "The email content you want to rewrite."
+          },
+          "targetTone": {
+            "type": "string",
+            "title": "Target Tone",
+            "description": "Desired tone for this email.",
+            "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
+          },
+          "additionalInstructions": {
+            "type": "string",
+            "title": "Additional Instructions",
+            "description": "Extra guidance for the rewrite.",
+            "editor": "textarea"
+          }
         },
         "required": ["originalEmail"]
       }
