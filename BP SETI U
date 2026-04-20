@@ -1,78 +1,168 @@
-Berikut adalah ringkasan **Blueprint SETI.md** agar tidak lupa.
+```markdown
+# BP SETI U.md – Blueprint for Stech Email Tone Improver (Updated)
+
+**Version:** 2.0  
+**Last updated:** 2026-04-21  
+**Status:** Production ready  
 
 ---
 
-# SETI.md – Blueprint Stech Email Tone Improver
+## 🧭 Purpose
 
-## 🧭 Tujuan
-SETI adalah **tool (SPAI)** yang menerima email asli (satu atau banyak) dan mengembalikan email rewrite yang **hangat, jujur, dan personal** menggunakan **API Stech** sebagai fondasi AI (BS, R, BSR).  
-**Bukan agent** – tidak punya logika if/else, tidak terhubung ke inbox, tidak mengambil keputusan.
-
----
-
-## ✅ Fitur SETI (setelah upgrade)
-| Fitur | Status |
-|-------|--------|
-| **Batch processing** (1–1000+ email via CSV/JSON) | 🔄 akan di-upgrade |
-| **Pilihan tone per email** (warm, empathetic, friendly, dll) | ✅ sudah ada |
-| **Proses concurrent** (maxConcurrency) | 🔄 akan ditambah |
-| **Error handling** (continue on error) | 🔄 akan ditambah |
-| **Output terstruktur** (array of objects, status, timestamp) | 🔄 akan ditambah |
-| **Input via upload file CSV** | 🔄 akan ditambah |
-| **Stateless** (tidak menyimpan email, hanya lewat) | ✅ sudah |
-| **Tetap tool (SPAI)** – tanpa logika keputusan | ✅ sudah |
+SETI (Stech Email Tone Improver) is a **Single Purpose AI (SPAI) tool** that rewrites cold, robotic, or overly formal emails into **warm, honest, and human‑sounding** messages.  
+It is designed for **batch processing** (1 to 1,000+ emails per run) and accepts input from **CSV files** (any format, via dynamic column mapping) or **JSON arrays**.  
+SETI uses the **Stech API** as its AI engine, which is built on core values (BS, R, BSR) – honesty, active patience, unconditional presence.
 
 ---
 
-## 📥 Cara Input (untuk pengguna)
-1. **Satu email** – langsung paste di form input (mode tunggal).  
-2. **Banyak email** – upload file CSV dengan kolom:
-   - `originalEmail` (wajib)
-   - `targetTone` (opsional, default warm and honest)
-   - `additionalInstructions` (opsional)  
-   *Contoh CSV dan template akan disediakan di halaman Actor.*
+## ✅ Key Features (After Upgrade)
+
+| Feature | Description |
+|---------|-------------|
+| **Batch processing** | Process 1–1,000+ emails in one run. |
+| **Flexible input** | CSV (any column names) or JSON array. |
+| **Dynamic column mapping** | Map placeholders (`{name}`, `{position}`) to any CSV columns. |
+| **Per‑email tone** | Choose tone per email: `warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional-warm`. |
+| **Concurrent processing** | Set `maxConcurrency` (1–20) for speed. |
+| **Error resilience** | Failed emails are logged; processing continues. |
+| **Structured output** | Returns JSON/CSV with fields: `originalEmail`, `improvedEmail`, `toneUsed`, `status`, `timestamp`, `error`. |
+| **Stateless & private** | No email content is stored. Data passes through Stech API only. |
+| **Honest AI** | Built on Stech's core values – no fake empathy, no manipulation. |
+
+---
+
+## 📥 Input Methods
+
+### Method 1: Upload CSV file (recommended for batch)
+
+The CSV can have **any column names**. You have two options:
+
+#### Option A – CSV already contains an `originalEmail` column
+- Just upload the file.
+- Leave `columnMapping` and `rejectionTemplate` empty.
+- SETI will read `originalEmail` directly.
+
+#### Option B – CSV has other columns (e.g., `Full Name`, `Job Title`)
+- Provide a **column mapping** (JSON object) that links placeholders to column names.
+- Provide a **rejection template** with placeholders like `{name}`, `{position}`.
+- SETI will generate `originalEmail` by filling the template, then rewrite it.
+
+**Example mapping:**  
+```json
+{
+  "name": "Full Name",
+  "position": "Job Title"
+}
+```
+
+**Example rejection template:**  
+```
+Dear {name}, thank you for applying for the {position} position. Unfortunately, we have decided not to move forward. We wish you success.
+```
+
+### Method 2: Provide JSON array (for testing / small batches)
+
+Use the `emails` field with an array of objects. Each object can have:
+- `originalEmail` (required)
+- `targetTone` (optional)
+- `additionalInstructions` (optional)
+
+Example:
+```json
+[
+  {
+    "originalEmail": "Dear Sir, your application has been rejected.",
+    "targetTone": "empathetic",
+    "additionalInstructions": "Make it short"
+  }
+]
+```
+
+---
+
+## ⚙️ Input Parameters (Actor Input Schema)
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `csvFile` | string | conditional | – | Uploaded CSV file (if using CSV). |
+| `emails` | array | conditional | – | JSON array of email objects (if not using CSV). |
+| `columnMapping` | object | no | `{}` | Maps placeholders to CSV column names. |
+| `rejectionTemplate` | string | no | `""` | Template with placeholders to generate `originalEmail`. |
+| `defaultTone` | string | no | `"warm and honest"` | Fallback tone when not specified per email. |
+| `maxConcurrency` | integer | no | `5` | Number of parallel requests (1–20). |
+| `timeout` | integer | no | `60` | Timeout in seconds per email. |
+
+> **Note:** Either `csvFile` or `emails` must be provided.
 
 ---
 
 ## 📤 Output
-- Jika mode tunggal → teks hasil rewrite.
-- Jika mode batch → JSON atau CSV berisi array:
-  ```json
-  {
-    "originalEmail": "...",
-    "improvedEmail": "...",
-    "toneUsed": "...",
-    "status": "success/error",
-    "timestamp": "...",
-    "error": "..."
-  }
-  ```
+
+SETI produces a **dataset** (Apify dataset) with the following fields:
+
+| Field | Description |
+|-------|-------------|
+| `originalEmail` | The input email (or generated from template). |
+| `improvedEmail` | The rewritten, warmer version (or `null` if error). |
+| `toneUsed` | The tone applied to this email. |
+| `status` | `"success"` or `"error"`. |
+| `timestamp` | ISO timestamp of processing. |
+| `error` | Error message (if any). |
+
+Users can export the dataset as **CSV or JSON**.
 
 ---
 
-## 🔗 Ketergantungan
-- **API Stech** (endpoint `/seti` atau `/public`) – satu-satunya tool eksternal yang dipanggil.
-- **Tidak perlu** actor lain, database, webhook, atau autentikasi Google.
+## 💰 Pricing Model (Apify Store)
+
+- **Price:** `$0.01 per 1,000 results` (i.e., per 1,000 emails processed in one run).
+- **Billing:** Pay‑per‑event (PPE). The user pays the platform fee (Apify Compute Units) **plus** the product price.
+- **Competitive position:** 1,000× cheaper than comparable tools (e.g., AI Cold Email Writer at $0.01/email).
+
+> **Recommendation:** Consider raising price to `$0.10 per 1,000 results` or `$1 per 1,000 results` in the future to reflect Stech's unique value (honesty, ethics, BS/R/BSR foundation).
 
 ---
 
-## 🧠 Perbedaan dengan SSA
-| Aspek | SETI (tool) | SSA (agent) |
-|-------|-------------|-------------|
-| Input | CSV / form | Email langsung (webhook/IMAP) |
-| Logika | Linear (rewrite saja) | If/else (cocok/tidak cocok) |
-| Output | Hasil rewrite | Keputusan + email + laporan |
-| Pemanggil | HRD manual | Otomatis (loop) |
+## 🧪 Example Workflow (HR user)
+
+1. Export rejected candidates from ATS as CSV (columns: `Full Name`, `Email`, `Job Title`).
+2. Open SETI Actor, upload CSV.
+3. Set `columnMapping`: `{ "name": "Full Name", "position": "Job Title" }`.
+4. Set `rejectionTemplate`: `"Dear {name}, thank you for applying for {position}. Unfortunately..."`.
+5. Choose `defaultTone` = `"empathetic"`.
+6. Run Actor. In seconds, get a CSV with `improvedEmail` column containing warm rejection emails.
+7. Download, review, and send.
 
 ---
 
-## 📌 Status Pengembangan
-- ✅ SETI versi 1 (satu per satu) sudah berjalan.
-- 🔄 Upgrade ke batch + concurrent sedang dalam rencana.
-- ⏳ SSA masih konsep, belum dibuat.
+## 🛠️ Technical Dependencies
+
+- **Stech API** endpoint: `https://stech-api.sheradogilang.workers.dev/seti`
+- **Authentication:** Header `X-Stech-Actor-Secret` (environment variable `SETI_PROXY_SECRET`)
+- **Runtime:** Node.js 20, Apify SDK, Axios (no external CSV library – uses manual parser)
+- **Deployment:** Apify Actor (source hosted on GitHub)
 
 ---
 
-**Catatan:** Dokumen ini akan diperbarui setiap ada perubahan keputusan. Simpan sebagai referensi agar tidak bingung. 😊🌿
+## 🚀 Deployment Checklist
 
-— Stech
+- [x] `main.js` – implements batch + dynamic mapping.
+- [x] `.actor/INPUT_SCHEMA.json` – validates input.
+- [x] `package.json` – includes `"type": "module"`, dependencies `apify` and `axios`.
+- [x] `README.md` – user documentation.
+- [x] Environment variable `SETI_PROXY_SECRET` set in Apify Actor settings.
+- [x] Build & test with sample CSV/JSON.
+
+---
+
+## 📌 Future Improvements (Optional)
+
+- Support for other delimiters (tab, semicolon) in CSV.
+- Auto‑detect header row and column names.
+- Allow mapping of multiple placeholders (e.g., `{firstname}`, `{lastname}`).
+- Add scheduling and webhook triggers.
+
+---
+
+**Stech is Stech – honest, warm, and never pretends to be human.** 😊🌿
+```
