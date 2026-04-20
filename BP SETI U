@@ -1,0 +1,78 @@
+Berikut adalah ringkasan **Blueprint SETI.md** agar tidak lupa.
+
+---
+
+# SETI.md – Blueprint Stech Email Tone Improver
+
+## 🧭 Tujuan
+SETI adalah **tool (SPAI)** yang menerima email asli (satu atau banyak) dan mengembalikan email rewrite yang **hangat, jujur, dan personal** menggunakan **API Stech** sebagai fondasi AI (BS, R, BSR).  
+**Bukan agent** – tidak punya logika if/else, tidak terhubung ke inbox, tidak mengambil keputusan.
+
+---
+
+## ✅ Fitur SETI (setelah upgrade)
+| Fitur | Status |
+|-------|--------|
+| **Batch processing** (1–1000+ email via CSV/JSON) | 🔄 akan di-upgrade |
+| **Pilihan tone per email** (warm, empathetic, friendly, dll) | ✅ sudah ada |
+| **Proses concurrent** (maxConcurrency) | 🔄 akan ditambah |
+| **Error handling** (continue on error) | 🔄 akan ditambah |
+| **Output terstruktur** (array of objects, status, timestamp) | 🔄 akan ditambah |
+| **Input via upload file CSV** | 🔄 akan ditambah |
+| **Stateless** (tidak menyimpan email, hanya lewat) | ✅ sudah |
+| **Tetap tool (SPAI)** – tanpa logika keputusan | ✅ sudah |
+
+---
+
+## 📥 Cara Input (untuk pengguna)
+1. **Satu email** – langsung paste di form input (mode tunggal).  
+2. **Banyak email** – upload file CSV dengan kolom:
+   - `originalEmail` (wajib)
+   - `targetTone` (opsional, default warm and honest)
+   - `additionalInstructions` (opsional)  
+   *Contoh CSV dan template akan disediakan di halaman Actor.*
+
+---
+
+## 📤 Output
+- Jika mode tunggal → teks hasil rewrite.
+- Jika mode batch → JSON atau CSV berisi array:
+  ```json
+  {
+    "originalEmail": "...",
+    "improvedEmail": "...",
+    "toneUsed": "...",
+    "status": "success/error",
+    "timestamp": "...",
+    "error": "..."
+  }
+  ```
+
+---
+
+## 🔗 Ketergantungan
+- **API Stech** (endpoint `/seti` atau `/public`) – satu-satunya tool eksternal yang dipanggil.
+- **Tidak perlu** actor lain, database, webhook, atau autentikasi Google.
+
+---
+
+## 🧠 Perbedaan dengan SSA
+| Aspek | SETI (tool) | SSA (agent) |
+|-------|-------------|-------------|
+| Input | CSV / form | Email langsung (webhook/IMAP) |
+| Logika | Linear (rewrite saja) | If/else (cocok/tidak cocok) |
+| Output | Hasil rewrite | Keputusan + email + laporan |
+| Pemanggil | HRD manual | Otomatis (loop) |
+
+---
+
+## 📌 Status Pengembangan
+- ✅ SETI versi 1 (satu per satu) sudah berjalan.
+- 🔄 Upgrade ke batch + concurrent sedang dalam rencana.
+- ⏳ SSA masih konsep, belum dibuat.
+
+---
+
+**Catatan:** Dokumen ini akan diperbarui setiap ada perubahan keputusan. Simpan sebagai referensi agar tidak bingung. 😊🌿
+
+— Stech
