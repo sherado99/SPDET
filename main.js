@@ -6,6 +6,7 @@ await Actor.init();
 const input = await Actor.getInput();
 const {
   csvFile,
+  emails,
   columnMapping,
   rejectionTemplate,
   defaultTone = 'warm and honest',
@@ -20,15 +21,15 @@ if (!SETI_PROXY_SECRET) {
 
 const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
 
-// Simple CSV parser (handles quotes, commas, newlines inside fields)
+// Simple CSV parser (handles quoted fields, commas, newlines)
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
   const headers = [];
   let inQuote = false;
   let current = '';
-  let headerRow = lines[0];
-  for (let ch of headerRow) {
+  const firstLine = lines[0];
+  for (let ch of firstLine) {
     if (ch === '"') inQuote = !inQuote;
     else if (ch === ',' && !inQuote) {
       headers.push(current.trim().replace(/^"|"$/g, ''));
@@ -66,39 +67,57 @@ function parseCSV(content) {
 }
 
 function applyMappingAndTemplate(row, mapping, template) {
-  if (!template) return null;
-  let filledTemplate = template;
+  if (!template || !mapping) return null;
+  let filled = template;
   for (const [placeholder, columnName] of Object.entries(mapping)) {
     const value = row[columnName] || '';
-    filledTemplate = filledTemplate.replace(new RegExp(`{${placeholder}}`, 'g'), value);
+    filled = filled.replace(new RegExp(`{${placeholder}}`, 'g'), value);
   }
-  return filledTemplate;
+  return filled;
 }
 
 let emailList = [];
 
-if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
-  const fileKey = csvFile.replace('FILE-UPLOAD:', '');
-  const fileBuffer = await Actor.getFile(fileKey);
-  const fileContent = fileBuffer.toString();
+// 1. Try to read from CSV file
+if (csvFile && typeof csvFile === 'string') {
+  let fileContent = null;
+  if (csvFile.startsWith('FILE-UPLOAD:')) {
+    const fileKey = csvFile.replace('FILE-UPLOAD:', '');
+    const fileBuffer = await Actor.getFile(fileKey);
+    fileContent = fileBuffer.toString();
+  } else if (csvFile.startsWith('http://') || csvFile.startsWith('https://')) {
+    const response = await axios.get(csvFile, { responseType: 'text' });
+    fileContent = response.data;
+  } else {
+    throw new Error('Invalid csvFile format. Must be a FILE-UPLOAD: key or a public URL.');
+  }
   const rows = parseCSV(fileContent);
+  if (rows.length === 0) {
+    throw new Error('CSV file is empty or could not be parsed.');
+  }
   
-  if (columnMapping && rejectionTemplate) {
+  // If columnMapping and rejectionTemplate provided, use dynamic mapping
+  if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
       targetTone: row.targetTone || defaultTone,
       additionalInstructions: row.additionalInstructions || '',
     })).filter(item => item.originalEmail);
   } else {
-    // Fallback: assume CSV already has originalEmail column
+    // Fallback: assume CSV has column 'originalEmail'
     emailList = rows.filter(row => row.originalEmail);
   }
-} else {
-  throw new Error('No valid CSV file provided. Please upload a CSV file.');
+} 
+// 2. Or read from emails array (JSON)
+else if (Array.isArray(emails) && emails.length > 0) {
+  emailList = emails;
+} 
+else {
+  throw new Error('No input provided. Please either upload a CSV file or provide an array of emails.');
 }
 
 if (emailList.length === 0) {
-  throw new Error('No valid email entries found. Check your CSV and mapping.');
+  throw new Error('No valid email entries found. Check your input data.');
 }
 
 async function processEmail(item, index) {
