@@ -1,43 +1,62 @@
 {
-  "title": "Stech Email Tone Improver (Batch + Dynamic Mapping)",
-  "description": "Upload any CSV from your ATS, map columns, and SETI will generate warm rejection emails.",
+  "title": "Stech Email Tone Improver",
+  "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with optional column mapping) or provide JSON array.",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
     "csvFile": {
-      "title": "CSV File",
+      "title": "CSV File (optional)",
       "type": "string",
-      "description": "Upload a CSV file from your ATS (any column names).",
+      "description": "Upload a CSV file. If you use dynamic mapping, provide columnMapping and rejectionTemplate.",
       "editor": "fileupload"
     },
+    "emails": {
+      "title": "Emails Array (optional)",
+      "type": "array",
+      "description": "Alternative to CSV: provide an array of email objects.",
+      "editor": "json",
+      "prefill": [
+        {
+          "originalEmail": "Dear Sir, your application has been rejected.",
+          "targetTone": "empathetic",
+          "additionalInstructions": "Make it short"
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "originalEmail": { "type": "string", "title": "Original Email" },
+          "targetTone": { "type": "string", "title": "Target Tone", "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"] },
+          "additionalInstructions": { "type": "string", "title": "Additional Instructions", "editor": "textarea" }
+        },
+        "required": ["originalEmail"]
+      }
+    },
     "columnMapping": {
-      "title": "Column Mapping",
+      "title": "Column Mapping (for CSV)",
       "type": "object",
-      "description": "Map placeholders in your template to actual column names in the CSV. Example: { \"name\": \"Full Name\", \"position\": \"Job Title\" }",
-      "prefill": {
-        "name": "Full Name",
-        "position": "Job Title"
-      },
-      "editor": "json"
+      "description": "Map placeholders to CSV column names. Example: { \"name\": \"Full Name\", \"position\": \"Job Title\" }",
+      "editor": "json",
+      "default": {}
     },
     "rejectionTemplate": {
-      "title": "Rejection Email Template",
+      "title": "Rejection Template (for CSV)",
       "type": "string",
-      "description": "Use {name}, {position}, {company} as placeholders. Example: 'Dear {name}, thank you for applying for {position}. Unfortunately...'",
+      "description": "Template with placeholders like {name}, {position}. Required if columnMapping is provided.",
       "editor": "textarea",
-      "prefill": "Dear {name}, thank you for your application for the {position} position. After careful review, we have decided not to move forward. We wish you success in your job search."
+      "default": ""
     },
     "defaultTone": {
       "title": "Default Tone",
       "type": "string",
-      "description": "Fallback tone if not specified per email. Choose one of the allowed values.",
+      "description": "Fallback tone if not specified per email.",
       "default": "warm and honest",
       "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
     },
     "maxConcurrency": {
       "title": "Max Concurrency",
       "type": "integer",
-      "description": "Number of emails to process simultaneously (1-20). Higher is faster but may hit rate limits.",
+      "description": "Number of emails to process simultaneously (1-20).",
       "minimum": 1,
       "maximum": 20,
       "default": 5
@@ -45,11 +64,10 @@
     "timeout": {
       "title": "Timeout (seconds)",
       "type": "integer",
-      "description": "Max wait time per email request in seconds.",
+      "description": "Max wait time per email request.",
       "minimum": 10,
       "maximum": 300,
       "default": 60
     }
-  },
-  "required": ["csvFile", "columnMapping", "rejectionTemplate"]
+  }
 }
