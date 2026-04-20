@@ -71,9 +71,5 @@
       "default": 60,
       "description": "Max wait time per email request."
     }
-  },
-  "anyOf": [
-    { "required": ["csvFile"] },
-    { "required": ["emails"] }
-  ]
+  }
 }
