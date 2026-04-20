@@ -50,12 +50,15 @@ originalEmail,targetTone,additionalInstructions
 "Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words"
 "Your order #12345 is delayed.",warm,"Apologize and offer a discount"
 "We have decided not to proceed with your proposal.",friendly,"Thank them for their time"
-Then upload this file using the CSV File field in the Actor input form.
+```
 
-2. Provide a JSON array (for API or advanced users)
-If you prefer JSON, use the Emails Array field with this structure:
+Then upload this file using the **CSV File** field in the Actor input form.
 
-json
+### 2. Provide a JSON array (for API or advanced users)
+
+If you prefer JSON, use the **Emails Array** field with this structure:
+
+```json
 [
   {
     "originalEmail": "Dear Sir, your application has been rejected.",
@@ -67,19 +70,25 @@ json
     "targetTone": "warm"
   }
 ]
-📤 What you get as output
-After running, SETI produces a structured list (JSON) that you can download as CSV. Each item contains:
+```
 
-Field	Description
-originalEmail	The email you sent.
-improvedEmail	The rewritten, warmer version (or null if error).
-toneUsed	The tone that was applied.
-status	success or error.
-error	Error message (if any).
-timestamp	When the rewrite was done.
-Example output (JSON):
+---
 
-json
+## 📤 What you get as output
+
+After running, SETI produces a **structured list** (JSON) that you can download as CSV. Each item contains:
+
+| Field | Description |
+|-------|-------------|
+| `originalEmail` | The email you sent. |
+| `improvedEmail` | The rewritten, warmer version (or `null` if error). |
+| `toneUsed` | The tone that was applied. |
+| `status` | `success` or `error`. |
+| `error` | Error message (if any). |
+| `timestamp` | When the rewrite was done. |
+
+**Example output (JSON):**
+```json
 [
   {
     "originalEmail": "Dear Sir, your application has been rejected.",
@@ -96,53 +105,62 @@ json
     "timestamp": "2026-04-21T10:30:01.000Z"
   }
 ]
-You can export this output as CSV from the Apify dataset.
+```
 
-⚙️ Advanced settings (optional)
-Parameter	Description	Default
-Default Tone	Fallback tone if not specified per email.	warm and honest
-Max Concurrency	How many emails to process at once (1–20). Higher is faster but may hit rate limits.	5
-Timeout (seconds)	Max wait per email request.	60
-🧪 Example workflow for an HR manager
-You have 50 rejection emails to send. You don't want to copy‑paste each one.
+You can **export** this output as CSV from the Apify dataset.
 
-Export your candidate list from your ATS (Applicant Tracking System) to a CSV file.
+---
 
-Open the CSV, keep the column with the rejection email text (or create one).
+## ⚙️ Advanced settings (optional)
 
-Add two extra columns: targetTone (set to empathetic) and additionalInstructions (optional).
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `Default Tone` | Fallback tone if not specified per email. | `warm and honest` |
+| `Max Concurrency` | How many emails to process at once (1–20). Higher is faster but may hit rate limits. | `5` |
+| `Timeout (seconds)` | Max wait per email request. | `60` |
 
-Save the file.
+---
 
-Go to the SETI Actor page, upload the CSV, click Run.
+## 🧪 Example workflow for an HR manager
 
-Wait a few seconds. Download the output CSV.
+You have **50 rejection emails** to send. You don't want to copy‑paste each one.
 
-Copy the improvedEmail column into your email client and send.
+1. Export your candidate list from your ATS (Applicant Tracking System) to a CSV file.  
+2. Open the CSV, keep the column with the rejection email text (or create one).  
+3. Add two extra columns: `targetTone` (set to `empathetic`) and `additionalInstructions` (optional).  
+4. Save the file.  
+5. Go to the SETI Actor page, upload the CSV, click **Run**.  
+6. Wait a few seconds. Download the output CSV.  
+7. Copy the `improvedEmail` column into your email client and send.
 
-Time saved: hours → minutes.
+**Time saved:** hours → minutes.
 
-❗ Important notes & risks
-Output must be reviewed – Always read the rewritten email before sending. AI can make mistakes.
+---
 
-No legal/medical/financial advice – Stech is not a professional advisor.
+## ❗ Important notes & risks
 
-Stateless – No email content is stored on our servers. The output stays in your Apify dataset until you delete it.
+- **Output must be reviewed** – Always read the rewritten email before sending. AI can make mistakes.  
+- **No legal/medical/financial advice** – Stech is not a professional advisor.  
+- **Stateless** – No email content is stored on our servers. The output stays in your Apify dataset until you delete it.  
+- **Rate limits** – If you use the public endpoint without a secret, you may hit limits. For batch processing, we recommend using the internal endpoint (already configured in this Actor).  
+- **Errors** – Some emails may fail (e.g., network issues, malformed input). Those will be marked with `status: error`. You can retry them later.
 
-Rate limits – If you use the public endpoint without a secret, you may hit limits. For batch processing, we recommend using the internal endpoint (already configured in this Actor).
+---
 
-Errors – Some emails may fail (e.g., network issues, malformed input). Those will be marked with status: error. You can retry them later.
+## 🔗 Links
 
-🔗 Links
-Stech API on RapidAPI – for production API access
+- [Stech API on RapidAPI](https://rapidapi.com/sheradogilang/api/stech-honest-presence-ai) – for production API access  
+- [Postman Documentation](https://documenter.getpostman.com/view/53757581/2sBXiqDoD9) – test the API directly  
+- [GitHub Repository](https://github.com/sherado99/Stech) – core values, license, legal  
 
-Postman Documentation – test the API directly
+---
 
-GitHub Repository – core values, license, legal
+## 📄 License & Disclaimer
 
-📄 License & Disclaimer
-This Actor is provided for informational and communication improvement purposes only.
-Stech does not give financial, legal, or medical advice. Always review the output before sending.
+This Actor is provided for informational and communication improvement purposes only.  
+Stech does not give financial, legal, or medical advice. Always review the output before sending.  
 By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
-Stech – honest, warm, and never pretends to be human. 😊🌿
+---
+
+*Stech – honest, warm, and never pretends to be human.* 😊🌿
