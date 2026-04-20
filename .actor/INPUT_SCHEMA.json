@@ -25,25 +25,14 @@
       "items": {
         "type": "object",
         "properties": {
-          "originalEmail": {
-            "type": "string",
-            "title": "Original Email",
-            "description": "The email content to rewrite."
-          },
+          "originalEmail": { "type": "string", "title": "Original Email" },
           "targetTone": {
             "type": "string",
             "title": "Target Tone",
-            "description": "Desired tone for this email.",
             "default": "warm and honest",
-            "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"],
-            "enumTitles": ["Warm & Honest", "Friendly", "Empathetic", "Encouraging", "Professional Warm"]
+            "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
           },
-          "additionalInstructions": {
-            "type": "string",
-            "title": "Additional Instructions",
-            "description": "Extra guidance for the rewrite.",
-            "editor": "textarea"
-          }
+          "additionalInstructions": { "type": "string", "title": "Additional Instructions", "editor": "textarea" }
         },
         "required": ["originalEmail"]
       }
@@ -51,7 +40,6 @@
     "defaultTone": {
       "title": "Default Tone",
       "type": "string",
-      "description": "Fallback tone if not specified per email.",
       "default": "warm and honest",
       "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"]
     },
@@ -60,16 +48,14 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 20,
-      "default": 5,
-      "description": "Number of emails to process simultaneously (1-20)."
+      "default": 5
     },
     "timeout": {
       "title": "Timeout (seconds)",
       "type": "integer",
       "minimum": 10,
       "maximum": 300,
-      "default": 60,
-      "description": "Max wait time per email request."
+      "default": 60
     }
   }
 }
