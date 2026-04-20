@@ -70,3 +70,36 @@ Apify – serverless cloud platform
 ## 📄 License & Disclaimer
 
 This Actor is provided for informational and communication improvement purposes only. Stech does not give financial, legal, or medical advice. Always review the output before sending. By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
+
+
+# Stech Email Tone Improver (Batch)
+
+Rewrite cold, robotic, or overly formal emails into warm, honest, and human-sounding messages using Stech AI.
+
+## Features
+
+- **Batch processing** – Upload a CSV file or provide a JSON array of emails (up to 1000+ emails).
+- **Per-email tone** – Choose tone per email: warm and honest, friendly, empathetic, encouraging, professional-warm.
+- **Concurrent processing** – Set concurrency level for speed (1–20 parallel requests).
+- **Error handling** – Failed emails are logged; processing continues.
+- **Structured output** – Results include original email, rewritten email, status, timestamp, and errors.
+- **Stateless** – No emails stored. Data passes through Stech API only.
+
+## Input
+
+You can provide input in two ways:
+
+### 1. Upload a CSV file
+
+The CSV must have columns:
+
+- `originalEmail` (required)
+- `targetTone` (optional, defaults to "warm and honest")
+- `additionalInstructions` (optional)
+
+Example:
+
+```csv
+originalEmail,targetTone,additionalInstructions
+"Dear Sir, your application has been rejected.",empathetic,"Make it shorter"
+"Your order #12345 is delayed.",warm,"Apologize and offer a discount"
