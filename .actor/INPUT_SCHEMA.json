@@ -8,8 +8,8 @@
       "title": "CSV File",
       "type": "string",
       "description": "Upload a CSV file with columns: originalEmail (required), targetTone (optional), additionalInstructions (optional).",
-      "editor": "file",
-      "format": "csv"
+      "editor": "fileupload",
+      "accept": [".csv"]
     },
     "emails": {
       "title": "Emails Array (Alternative)",
