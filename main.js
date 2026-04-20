@@ -1,7 +1,5 @@
 import { Actor } from 'apify';
 import axios from 'axios';
-import csv from 'csv-parser';
-import { Readable } from 'stream';
 
 await Actor.init();
 
@@ -23,19 +21,42 @@ const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
 
 let emailList = [];
 
+function parseCSV(content) {
+  const lines = content.trim().split(/\r?\n/);
+  if (lines.length === 0) return [];
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const values = [];
+    let inQuote = false;
+    let current = '';
+    for (let ch of line) {
+      if (ch === '"') {
+        inQuote = !inQuote;
+      } else if (ch === ',' && !inQuote) {
+        values.push(current.trim().replace(/^"|"$/g, ''));
+        current = '';
+      } else {
+        current += ch;
+      }
+    }
+    values.push(current.trim().replace(/^"|"$/g, ''));
+    const obj = {};
+    headers.forEach((h, idx) => {
+      obj[h] = values[idx] || '';
+    });
+    if (obj.originalEmail) result.push(obj);
+  }
+  return result;
+}
+
 if (csvFile && typeof csvFile === 'string' && csvFile.startsWith('FILE-UPLOAD:')) {
   const fileKey = csvFile.replace('FILE-UPLOAD:', '');
   const fileBuffer = await Actor.getFile(fileKey);
-  const fileStream = Readable.from(fileBuffer);
-  const rows = [];
-  await new Promise((resolve, reject) => {
-    fileStream
-      .pipe(csv())
-      .on('data', (row) => rows.push(row))
-      .on('end', resolve)
-      .on('error', reject);
-  });
-  emailList = rows;
+  const fileContent = fileBuffer.toString();
+  emailList = parseCSV(fileContent);
 } else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
 } else {
