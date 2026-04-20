@@ -33,6 +33,7 @@
           "targetTone": {
             "type": "string",
             "title": "Target Tone",
+            "description": "Desired tone for this email.",
             "default": "warm and honest",
             "enum": ["warm and honest", "friendly", "empathetic", "encouraging", "professional-warm"],
             "enumTitles": ["Warm & Honest", "Friendly", "Empathetic", "Encouraging", "Professional Warm"]
@@ -57,18 +58,18 @@
     "maxConcurrency": {
       "title": "Max Concurrency",
       "type": "integer",
+      "description": "Number of emails to process simultaneously (1-20).",
       "minimum": 1,
       "maximum": 20,
-      "default": 5,
-      "description": "Number of emails to process simultaneously (1-20)."
+      "default": 5
     },
     "timeout": {
       "title": "Timeout (seconds)",
       "type": "integer",
+      "description": "Max wait time per email request.",
       "minimum": 10,
       "maximum": 300,
-      "default": 60,
-      "description": "Max wait time per email request."
+      "default": 60
     }
   }
 }
