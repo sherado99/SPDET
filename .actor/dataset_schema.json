@@ -1,0 +1,42 @@
+{
+  "actorDatasetSchemaVersion": 1,
+  "title": "SETI Email Rewrite Result",
+  "properties": {
+    "emailResult": {
+      "type": "object",
+      "title": "Email Result",
+      "description": "The result of the email rewrite by SETI.",
+      "template": "{{originalEmail}} → {{improvedEmail}} ({{toneUsed}})",
+      "properties": {
+        "originalEmail": {
+          "type": "string",
+          "title": "Original Email",
+          "description": "The original cold email provided by the user."
+        },
+        "improvedEmail": {
+          "type": "string",
+          "title": "Improved Email",
+          "description": "The email rewritten by Stech AI with a warmer, more honest tone."
+        },
+        "toneUsed": {
+          "type": "string",
+          "title": "Tone Used",
+          "description": "The tone applied (e.g., warm, empathetic, friendly)."
+        },
+        "status": {
+          "type": "string",
+          "title": "Status",
+          "enum": ["success", "error"],
+          "description": "The success or failure status of the processing."
+        },
+        "timestamp": {
+          "type": "string",
+          "title": "Timestamp",
+          "description": "The processing timestamp in ISO 8601 format."
+        }
+      },
+      "required": ["originalEmail", "improvedEmail", "status"]
+    }
+  },
+  "required": ["emailResult"]
+}
