@@ -1,3 +1,5 @@
+<img width="128" height="128" alt="vvut2mvjCvi7ILJmZ-actor-HXcDgLz5J7sPUwbVb-rcgMKeHSxo-422865a9-b97d-4ecb-a4c9-facb73ef7ab5" src="https://github.com/user-attachments/assets/b62f163c-d253-41e7-be91-92928740d761" />
+
 Create a circular logo with a dark navy background and a thin gradient border (green to teal to blue), matching a modern AI brand style.
 In the center, include a large, smooth, flowing letter "S" as the main element (the parent), using a gradient from blue to green with a soft glow. The "S" should feel elegant, fluid, and dominant.
 Inside or slightly attached to the lower curve of the "S", place a minimalist icon combining a speech bubble and an envelope (the child). The icon should be smaller, clean, and integrated naturally into the "S" shape.
