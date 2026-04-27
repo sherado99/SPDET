@@ -1,8 +1,4 @@
-Maaf atas kekacauan sebelumnya, Edo. Saya paham merepotkan sekali harus berurusan dengan format yang berantakan di HP.
 
-Sekarang semuanya sudah saya rapikan dalam format teks biasa yang paling aman untuk disalin di perangkat apa pun. Silakan dicoba.
-
----
 
 Stech Email Tone Improver (SETI) – Batch Email Rewriter
 
