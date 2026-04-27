@@ -1,141 +1,140 @@
-
+```markdown
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
 
-**Turn cold, robotic, or overly formal emails into warm, professional messages in bulk.**
+Turn cold, robotic, or overly formal emails into warm, professional messages in bulk.  
+SETI is a single‑purpose AI tool for batch email rewriting.
 
-SETI is a single‑purpose AI tool for batch email rewriting. Upload CSV or JSON, choose a tone per email, and get a clean CSV/JSON export in seconds. No data is stored. No fake empathy. Just efficient, professional results.
-
----
-
-## 🚀 Key features
-
-- **Batch processing** – rewrite 1 to 1,000+ emails in one run
-- **Flexible input** – upload a CSV file or paste a JSON array
-- **Per‑email tone** – pick a tone for each email (warm, empathetic, friendly, encouraging, professional‑warm)
-- **High concurrency** – process up to 20 emails at once
-- **Error tolerance** – failed emails are logged; the rest continue
-- **Structured output** – get JSON or CSV with status, timestamp and error info
-- **Stateless & private** – no email content is ever stored
+- Upload CSV or JSON  
+- Choose a tone per email  
+- Get a clean CSV/JSON export in seconds  
+- No data is stored – just efficient, professional results
 
 ---
 
-## 📥 Input methods
+## Key features
+
+- Batch processing – rewrite 1 to 1,000+ emails in one run  
+- Flexible input – upload a CSV file or paste a JSON array  
+- Per‑email tone – warm, empathetic, friendly, encouraging, professional‑warm  
+- High concurrency – process up to 20 emails at once  
+- Error tolerance – failed emails are logged, the rest continue  
+- Structured output – JSON or CSV with status, timestamp and error info  
+- Stateless & private – no email content is ever stored
+
+---
+
+## Input methods
 
 ### 1. CSV upload (easiest for batch workloads)
 
-Your CSV needs at least an `originalEmail` column. Optional columns:
+Your CSV needs an `originalEmail` column.  
+Optional columns: `targetTone` and `additionalInstructions`.
 
-| Column | Required | Description |
-|--------|:--------:|-------------|
-| `originalEmail` | ✅ | The email text to rewrite. |
-| `targetTone` | ❌ | Tone for this email (`warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional‑warm`). Default = `warm and honest`. |
-| `additionalInstructions` | ❌ | Extra guidance (e.g. "make it shorter", "add an apology"). |
+Example CSV content:
+```
 
-**Example CSV content**
-
-```csv
 originalEmail,targetTone,additionalInstructions
 "Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words"
 "Your order #12345 is delayed.",warm,"Apologize and offer a discount"
 "We have decided not to proceed with your proposal.",friendly,"Thank them for their time"
+
 ```
 
-Drop the file into the CSV File field of the Actor input form.
+### 2. JSON array (for API and advanced users)
 
-2. JSON array (for API & advanced users)
+Example JSON:
+```
 
-Use the Emails Array field with this shape:
-
-```json
 [
-  {
-    "originalEmail": "Dear Sir, your application has been rejected.",
-    "targetTone": "empathetic",
-    "additionalInstructions": "Keep it under 30 words"
-  },
-  {
-    "originalEmail": "Your order #12345 is delayed.",
-    "targetTone": "warm"
-  }
+{
+"originalEmail": "Dear Sir, your application has been rejected.",
+"targetTone": "empathetic",
+"additionalInstructions": "Keep it under 30 words"
+},
+{
+"originalEmail": "Your order #12345 is delayed.",
+"targetTone": "warm"
+}
 ]
+
 ```
 
 ---
 
-📤 Output
+## Output
 
-After the run, you get a structured dataset (JSON/CSV). Each row contains:
+After the run you get a structured dataset (JSON/CSV).  
+Each row contains:
 
-Field Description
-originalEmail The email you provided.
-improvedEmail The rewritten, warmer version (null on error).
-toneUsed The tone that was applied.
-status success or error.
-error Error message (if any).
-timestamp Processing timestamp (ISO 8601).
+- originalEmail – the email you provided  
+- improvedEmail – the rewritten, warmer version (null on error)  
+- toneUsed – the tone that was applied  
+- status – success or error  
+- error – error message (if any)  
+- timestamp – processing timestamp (ISO 8601)
 
-Example output (JSON)
+Example output (JSON):
+```
 
-```json
 [
-  {
-    "originalEmail": "Dear Sir, your application has been rejected.",
-    "improvedEmail": "Hi, thank you for applying. We couldn't move forward this time, but we appreciate your effort and wish you the best.",
-    "toneUsed": "empathetic",
-    "status": "success",
-    "timestamp": "2026-04-21T10:30:00.000Z"
-  }
+{
+"originalEmail": "Dear Sir, your application has been rejected.",
+"improvedEmail": "Hi, thank you for applying. We couldn't move forward this time, but we appreciate your effort and wish you the best.",
+"toneUsed": "empathetic",
+"status": "success",
+"timestamp": "2026-04-21T10:30:00.000Z"
+}
 ]
+
 ```
 
 You can download the dataset as CSV directly from the Apify console.
 
 ---
 
-⚙️ Advanced settings
+## Advanced settings
 
-Parameter Description Default
-Default Tone Fallback tone when not specified per email. warm and honest
-Max Concurrency Number of emails processed in parallel (1‑20). 5
-Timeout (seconds) Maximum wait time per email request. 60
-
----
-
-🧪 Sample workflow (HR manager)
-
-1. Export candidate list from your ATS to a CSV file.
-2. Keep the column with the rejection email (or create one).
-3. Add two extra columns: targetTone (set to empathetic) and additionalInstructions (optional).
-4. Save the file.
-5. Visit the SETI Actor page, upload the CSV, click Run.
-6. Wait a few seconds, then download the output CSV.
-7. Copy the improvedEmail column into your email client and send.
+- Default Tone – fallback tone when not specified per email (default: warm and honest)  
+- Max Concurrency – number of emails processed in parallel 1‑20 (default: 5)  
+- Timeout (seconds) – maximum wait time per email request (default: 60)
 
 ---
 
-❗ Notes & risks
+## Sample workflow (HR manager)
 
-· Always review the rewritten email before sending. AI can make mistakes.
-· No legal, medical, or financial advice – Stech is not a professional advisor.
-· No data storage – emails are processed in memory and never persisted.
-· Rate limits – the public endpoint may throttle heavy usage. Use the internal endpoint for production batches.
-· Failed rows are flagged with status: error; you can retry them later.
-
----
-
-🔗 Links
-
-· Stech API on RapidAPI
-· Interactive API docs (Postman)
-· GitHub repository – core values, license, legal
+1. Export candidate list from your ATS to a CSV file  
+2. Keep the column with the rejection email (or create one)  
+3. Add extra columns `targetTone` (set to empathetic) and `additionalInstructions` (optional)  
+4. Save the file  
+5. Visit the SETI Actor page, upload the CSV, click Run  
+6. Wait a few seconds, download the output CSV  
+7. Copy the `improvedEmail` column into your email client and send
 
 ---
 
-📄 License & Disclaimer
+## Notes & risks
 
-This tool is provided for informational and communication improvement purposes only.
-The creator is not liable for any consequences arising from its use.
+- Always review the rewritten email before sending – AI can make mistakes  
+- Stech does not give legal, medical or financial advice  
+- No email content is stored – emails are processed in memory and never persisted  
+- The public endpoint may throttle heavy usage – use the internal endpoint for production batches  
+- Failed rows are flagged with `status: error`; you can retry them later
+
+---
+
+## Links
+
+- Stech API on RapidAPI  
+- Interactive API docs (Postman)  
+- GitHub repository – core values, license, legal
+
+---
+
+## License & Disclaimer
+
+This tool is provided for informational and communication improvement purposes only.  
+The creator is not liable for any consequences arising from its use.  
 Always review the output before sending.
 
----
-
+Stech – professional, efficient, and never pretends to be human.
+```
