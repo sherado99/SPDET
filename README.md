@@ -1,4 +1,4 @@
-```markdown
+
 # Stech Email Tone Improver (SETI) – Batch Edition
 
 Rewrite cold, robotic, or overly formal emails into **warm, professional, and human‑sounding** messages using Stech AI.
@@ -43,6 +43,8 @@ Create a `.csv` file with the following columns:
 | `originalEmail` | ✅ Yes | The exact email text you want to rewrite. |
 | `targetTone` | ❌ No | Tone for this email. Options: `warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional-warm`. Default = `warm and honest`. |
 | `additionalInstructions` | ❌ No | Extra guidance, e.g., "make it shorter", "add an apology". |
+
+---
 
 **Example CSV content:**
 ```csv
