@@ -56,8 +56,7 @@ originalEmail,targetTone,additionalInstructions
 
 Then upload this file using the CSV File field in the Actor input form.
 
-### 2. Provide a JSON array
- (for API or advanced users)
+### 2. Provide a JSON array (for API or advanced users)
 
 If you prefer JSON, use the Emails Array field with this structure:
 
@@ -156,8 +155,3 @@ This Actor is provided for informational and communication improvement purposes 
 Stech does not give financial, legal, or medical advice. Always review the output before sending.
 By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
----
-
-Stech – professional, efficient, and never pretends to be human. 😊🌿
-
-```
