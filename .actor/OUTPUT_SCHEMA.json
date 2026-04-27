@@ -22,8 +22,7 @@
     },
     "status": {
       "type": "string",
-      "enum": ["success", "error"],
-      "description": "The success or failure status of the processing.",
+      "description": "The success or failure status of the processing (e.g., 'success' or 'error').",
       "title": "Status",
       "template": "{{status}}"
     },
