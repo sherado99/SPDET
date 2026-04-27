@@ -4,32 +4,44 @@
   "version": "0.0.1",
   "buildTag": "latest",
   "description": "Transform your cold or robotic emails into warm, human, and honest messages using Stech AI presence.",
-
-  "outputSchema": {
-    "type": "object",
+  "output": {
+    "actorOutputSchemaVersion": 1,
+    "title": "SETI Result",
     "properties": {
-      "originalEmail": {
-        "type": "string",
-        "description": "The original cold email provided by the user."
-      },
-      "improvedEmail": {
-        "type": "string",
-        "description": "The email rewritten by Stech AI with a warmer, more honest tone."
-      },
-      "toneUsed": {
-        "type": "string",
-        "description": "The tone applied (e.g., warm, empathetic, friendly)."
-      },
-      "status": {
-        "type": "string",
-        "enum": ["success", "error"],
-        "description": "The success or failure status of the processing."
-      },
-      "timestamp": {
-        "type": "string",
-        "description": "The processing timestamp in ISO 8601 format."
+      "emailResult": {
+        "type": "object",
+        "title": "Email Result",
+        "properties": {
+          "originalEmail": {
+            "type": "string",
+            "description": "The original cold email provided by the user.",
+            "title": "Original Email"
+          },
+          "improvedEmail": {
+            "type": "string",
+            "description": "The email rewritten by Stech AI with a warmer, more honest tone.",
+            "title": "Improved Email"
+          },
+          "toneUsed": {
+            "type": "string",
+            "description": "The tone applied (e.g., warm, empathetic, friendly).",
+            "title": "Tone Used"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success", "error"],
+            "description": "The success or failure status of the processing.",
+            "title": "Status"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "The processing timestamp in ISO 8601 format.",
+            "title": "Timestamp"
+          }
+        },
+        "required": ["originalEmail", "improvedEmail", "status"]
       }
     },
-    "required": ["originalEmail", "improvedEmail", "status"]
+    "required": ["emailResult"]
   }
 }
