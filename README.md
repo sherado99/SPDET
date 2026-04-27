@@ -56,7 +56,8 @@ originalEmail,targetTone,additionalInstructions
 
 Then upload this file using the CSV File field in the Actor input form.
 
-### 2. Provide a JSON array (for API or advanced users)
+### 2. Provide a JSON array
+ (for API or advanced users)
 
 If you prefer JSON, use the Emails Array field with this structure:
 
