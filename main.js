@@ -192,32 +192,3 @@ console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filt
 
 await Actor.exit();
 
-{
-  "outputSchema": {
-    "type": "object",
-    "properties": {
-      "originalEmail": {
-        "type": "string",
-        "description": "The original cold email provided by the user."
-      },
-      "improvedEmail": {
-        "type": "string",
-        "description": "The email rewritten by Stech AI with a warmer, more honest tone."
-      },
-      "toneUsed": {
-        "type": "string",
-        "description": "The tone applied (e.g., warm, empathetic, friendly)."
-      },
-      "status": {
-        "type": "string",
-        "enum": ["success", "error"],
-        "description": "The success or failure status of the processing."
-      },
-      "timestamp": {
-        "type": "string",
-        "description": "The processing timestamp in ISO 8601 format."
-      }
-    },
-    "required": ["originalEmail", "improvedEmail", "status"]
-  }
-}
