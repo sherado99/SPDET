@@ -5,6 +5,7 @@
     "emailResult": {
       "type": "object",
       "title": "Email Result",
+      "template": "{{originalEmail}} → {{improvedEmail}} ({{toneUsed}})",
       "properties": {
         "originalEmail": {
           "type": "string",
