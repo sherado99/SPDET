@@ -1,5 +1,4 @@
-<img width="128" height="128" alt="vvut2mvjCvi7ILJmZ-actor-HXcDgLz5J7sPUwbVb-rcgMKeHSxo-422865a9-b97d-4ecb-a4c9-facb73ef7ab5" src="https://github.com/user-attachments/assets/b62f163c-d253-41e7-be91-92928740d761">
-
+<p><center></center><img width="128" height="128" alt="vvut2mvjCvi7ILJmZ-actor-HXcDgLz5J7sPUwbVb-rcgMKeHSxo-422865a9-b97d-4ecb-a4c9-facb73ef7ab5-removebg-preview" src="https://github.com/user-attachments/assets/ebcc18a0-80b8-40ca-9f3a-919d306f66cb" />
 
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
 
