@@ -44,8 +44,6 @@ Create a `.csv` file with the following columns:
 | `targetTone` | ❌ No | Tone for this email. Options: `warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional-warm`. Default = `warm and honest`. |
 | `additionalInstructions` | ❌ No | Extra guidance, e.g., "make it shorter", "add an apology". |
 
----
-
 **Example CSV content:**
 ```csv
 originalEmail,targetTone,additionalInstructions
@@ -154,4 +152,6 @@ Time saved: hours → minutes.
 This Actor is provided for informational and communication improvement purposes only.
 Stech does not give financial, legal, or medical advice. Always review the output before sending.
 By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
+
+---
 
