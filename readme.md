@@ -1,4 +1,4 @@
-<p><center></center><img width="128" height="128" alt="vvut2mvjCvi7ILJmZ-actor-HXcDgLz5J7sPUwbVb-rcgMKeHSxo-422865a9-b97d-4ecb-a4c9-facb73ef7ab5-removebg-preview" src="https://github.com/user-attachments/assets/ebcc18a0-80b8-40ca-9f3a-919d306f66cb" />
+<p><center><img width="300" height="300" alt="ChatGPT Image 28 Apr 2026, 00 39 57" src="https://github.com/user-attachments/assets/24f75cf7-f534-4704-93d1-6c70186fdf72"/></center></p>
 
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
 
