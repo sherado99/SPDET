@@ -5,5 +5,5 @@
   "buildTag": "latest",
   "description": "Transform your cold or robotic emails into warm, human, and honest messages using Stech AI presence.",
   "output": "./OUTPUT_SCHEMA.json",
-"dataset": "./dataset_schema.json"
+  "dataset": "./dataset_schema.json"
 }
