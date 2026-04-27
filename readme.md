@@ -1,4 +1,5 @@
-<p><center><img width="300" height="300" alt="ChatGPT Image 28 Apr 2026, 00 39 57" src="https://github.com/user-attachments/assets/24f75cf7-f534-4704-93d1-6c70186fdf72"/></center></p>
+[Uploading ChatGPT Image 28 Apr 2026, 00.39.57.tif…]()
+
 
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
 
