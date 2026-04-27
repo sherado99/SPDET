@@ -1,4 +1,6 @@
-[Uploading ChatGPT Image 28 Apr 2026, 00.39.57.tif…]()
+![Uploading ChatGPT Image 28 Apr 2026, 00.39.57.tif…]()
+
+
 
 
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
