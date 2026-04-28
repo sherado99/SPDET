@@ -1,12 +1,14 @@
 <div align="center"><img width="250" height="250" alt="SETI Logo" src="https://github.com/user-attachments/assets/47a61f20-0f15-4904-8961-f24321100ac5" /></div>
 
+---
+
 # Stech Email Tone Improver (SETI) – Bulk Email Rewriter
 
-**Transform cold, robotic, or overly formal emails into warm, professional, human‑sounding messages — in bulk, in seconds.**
+Transform cold, robotic, or overly formal emails into warm, professional, human‑sounding messages — in bulk, in seconds.
 
 SETI is a single‑purpose AI (SPAI) Actor on the Apify Store that focuses on one task: making your emails warmer, more honest, and more effective. It processes batches of 1 to 1,000+ emails per run, accepts CSV or JSON input, lets you pick a different tone for each email, and exports polished results immediately. No data is stored; no fake empathy; just professional, reliable output.
 
-> **Market context:** The AI‑powered email assistant market is projected to grow from **$2.11 billion in 2025 to $2.56 billion in 2026** at a CAGR of **21.2%**, while the broader AI writing assistant market is expected to reach **$8.3 billion by 2030**. The demand for ethical, non‑manipulative AI communication tools is a significant and underserved segment within this market.
+> **Market context:** The AI‑powered email assistant market is projected to grow from $2.11 billion in 2025 to $2.56 billion in 2026 at a CAGR of 21.2%, while the broader AI writing assistant market is expected to reach $8.3 billion by 2030. The demand for ethical, non‑manipulative AI communication tools is a significant and underserved segment within this market.
 
 ---
 
@@ -14,9 +16,9 @@ SETI is a single‑purpose AI (SPAI) Actor on the Apify Store that focuses on on
 
 SETI helps anyone who wants to send better, more human emails without spending hours rewriting them.
 
-- **HR & Recruitment** – send rejection emails that are empathetic and respectful, not cold. Ideal for high‑volume ATS workflows and maintaining a positive employer brand even when delivering bad news.
-- **Customer Support** – turn robotic, template‑based replies into caring, helpful responses that build customer loyalty and reduce churn.
-- **Sales & Marketing** – personalize follow‑ups and cold outreach without sounding like a spam bot; increase reply rates with genuine, trustworthy messaging.
+- **HR & Recruitment** – send rejection emails that are empathetic and respectful, not cold. Ideal for high‑volume ATS workflows.
+- **Customer Support** – turn robotic, template‑based replies into caring, helpful responses that build customer loyalty.
+- **Sales & Marketing** – personalize follow‑ups and cold outreach without sounding like a spam bot.
 - **Anyone** who values professional, warm, and honest communication.
 
 **No coding skills are required.** If you can use a spreadsheet, you can use SETI.
@@ -79,7 +81,6 @@ Create a CSV file with at least an `originalEmail` column. Optional columns: `ta
 | `additionalInstructions` | ❌ | Extra guidance (e.g. "make it shorter", "add an apology"). |
 
 **Example CSV content**
-
 ```csv
 originalEmail,targetTone,additionalInstructions
 "Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words"
@@ -90,8 +91,6 @@ originalEmail,targetTone,additionalInstructions
 Upload this file using the **CSV File** field in the Actor input form.
 
 ### 2. JSON Array (for API & advanced users)
-
-Use the **Emails Array** field with this structure:
 
 ```json
 [
@@ -149,22 +148,6 @@ You can download the dataset as CSV directly from the Apify Console, or access i
 
 ---
 
-## 🧪 Sample Workflow (HR Manager)
-
-You have **50 rejection emails** to send. You don't want to copy‑paste each one and you want every message to leave a respectful impression.
-
-1. Export your candidate list from your ATS (Applicant Tracking System) to a CSV file.
-2. Open the CSV, keep the column with the rejection email text (or create one).
-3. Add two extra columns: `targetTone` (set to `empathetic`) and `additionalInstructions` (optional).
-4. Save the file.
-5. Go to the SETI Actor page on Apify Store, upload the CSV, click **Run**.
-6. Wait a few seconds, then download the output CSV.
-7. Copy the `improvedEmail` column into your email client and send.
-
-**Time saved:** hours → minutes. **Brand impression:** transformed.
-
----
-
 ## 🔌 Integrations (Built‑in by Apify)
 
 Because SETI is a published Apify Actor, it automatically appears in the integration catalogs of:
@@ -186,6 +169,20 @@ Because SETI is a published Apify Actor, it automatically appears in the integra
 4. Zapier sends the rewarmed reply back via Gmail.
 
 Just a few clicks — you never touch a single line of code.
+
+---
+
+## 🧪 Sample Workflow (HR Manager)
+
+1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
+2. Keep the column with the rejection email (or create one).
+3. Add extra columns: `targetTone` (set to `empathetic`) and `additionalInstructions` (optional).
+4. Save the file.
+5. Visit the SETI Actor page on Apify Store, upload the CSV, click **Run**.
+6. Wait a few seconds, then download the output CSV.
+7. Copy the `improvedEmail` column into your email client and send.
+
+**Time saved:** hours → minutes. **Brand impression:** transformed.
 
 ---
 
@@ -214,6 +211,8 @@ Just a few clicks — you never touch a single line of code.
 This Actor is provided for informational and communication improvement purposes only.  
 Stech does not give financial, legal, or medical advice. Always review the output before sending.  
 By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
+
+The source code of SETI is publicly available for transparency and trust. All rights are reserved under the **SETI Proprietary License v1.0**. For full terms, see the [LICENSE](https://github.com/sherado99/stech-email-tone-improver/blob/main/license.md) file in the repository.
 
 ---
 
