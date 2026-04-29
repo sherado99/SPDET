@@ -17,11 +17,7 @@ async function processEmail(item, index) {
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
 
-  // Deklarasi di luar try-catch agar bisa diakses keduanya
-  let improvedSubject = '';
-  let improvedEmail = '';
-
-  // Gabung instruksi personalisasi
+  // Bangun satu prompt gabungan
   let personalization = '';
   if (recipientName) {
     personalization += ` Address the recipient as ${recipientName}.`;
@@ -33,14 +29,18 @@ async function processEmail(item, index) {
   let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
   
+  // Tambahkan instruksi untuk subject jika ada
   if (originalSubject) {
     prompt += `\nAlso rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
   }
   
-  prompt += `\n\nOutput your response exactly in the format below. Do not include any other text.`;
-  prompt += `\n\`\`\`subject\n(rewritten subject here, or leave empty)\n\`\`\``;
-  prompt += `\n\`\`\`body\n(rewritten email body here)\n\`\`\``;
+  // Instruksi pemisahan yang lebih andal
+  prompt += `\n\nReturn your response in two parts, separated by the word "---BODY---". The first part is the rewritten subject line (leave empty if no subject was provided). The second part is the rewritten email body. Do not include any extra text or explanations.`;
+  
   prompt += `\n\nOriginal email:\n${originalEmail}`;
+
+  let improvedSubject = '';
+  let improvedEmail = '';
 
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
@@ -49,32 +49,38 @@ async function processEmail(item, index) {
     });
     const rawOutput = response.data.response?.trim() || '';
     
-    improvedEmail = rawOutput; // fallback
-
-    // Ekstrak subject dari fence markdown
-    const subjectMatch = rawOutput.match(/```subject\s*([\s\S]*?)```/i);
-    if (subjectMatch) {
-      improvedSubject = subjectMatch[1].trim();
+    // Pisahkan subject dan body menggunakan delimiter "---BODY---"
+    if (originalSubject && rawOutput.includes('---BODY---')) {
+      const parts = rawOutput.split('---BODY---');
+      improvedSubject = parts[0].trim();
+      improvedEmail = parts.slice(1).join('---BODY---').trim(); // jika ada delimiter di body
+    } else {
+      // Tidak ada subject, seluruh output adalah body
+      improvedEmail = rawOutput;
     }
 
-    // Ekstrak body dari fence markdown
-    const bodyMatch = rawOutput.match(/```body\s*([\s\S]*?)```/i);
-    if (bodyMatch) {
-      improvedEmail = bodyMatch[1].trim();
-    }
+    return {
+      index,
+      originalEmail,
+      improvedEmail,
+      toneUsed: targetTone,
+      status: 'success',
+      timestamp: new Date().toISOString(),
+      ...(originalSubject && { originalSubject, improvedSubject }),
+      ...(recipientName && { recipientName }),
+      ...(senderName && { senderName }),
+    };
   } catch (err) {
-    // Variabel tetap terisi kosong sebagai fallback
+    return {
+      index,
+      originalEmail,
+      improvedEmail: null,
+      status: 'error',
+      error: err.message,
+      timestamp: new Date().toISOString(),
+      ...(originalSubject && { originalSubject, improvedSubject: '' }),
+      ...(recipientName && { recipientName }),
+      ...(senderName && { senderName }),
+    };
   }
-
-  return {
-    index,
-    originalEmail,
-    improvedEmail,
-    toneUsed: targetTone,
-    status: improvedEmail ? 'success' : 'error',
-    timestamp: new Date().toISOString(),
-    ...(originalSubject && { originalSubject, improvedSubject }),
-    ...(recipientName && { recipientName }),
-    ...(senderName && { senderName }),
-  };
 }
