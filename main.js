@@ -1,13 +1,3 @@
-Edo, aku melihat error-nya. Masalahnya sangat sederhana: duplikasi penanganan recipientEmail di dua tempat di main.js. Ini menyebabkan SyntaxError.
-
-Kode yang salah ada di dua bagian:
-
-1. Di pemetaan CSV (sekitar baris 75): recipientEmail: row.recipientEmail || row.recipient_email || row.email || ''
-2. Di dalam processEmail (sekitar baris 236): baris yang sama persis terduplikasi.
-
-Aku akan membersihkan main.js dan menghilangkan semua duplikasi ini. Berikut kode main.js yang sudah diperbaiki. Silakan salin dan timpa seluruh isi file.
-
-```javascript
 import { Actor } from 'apify';
 import axios from 'axios';
 
@@ -29,9 +19,7 @@ if (!SETI_PROXY_SECRET) {
   throw new Error('SETI_PROXY_SECRET environment variable is missing');
 }
 
-const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
-
-// Simple CSV parser (handles quoted fields, commas, newlines)
+const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti'
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
@@ -88,7 +76,7 @@ function applyMappingAndTemplate(row, mapping, template) {
 
 let emailList = [];
 
-// 1. Try to read from CSV file
+
 if (csvFile && typeof csvFile === 'string') {
   let fileContent = null;
   if (csvFile.startsWith('FILE-UPLOAD:')) {
@@ -106,7 +94,7 @@ if (csvFile && typeof csvFile === 'string') {
     throw new Error('CSV file is empty or could not be parsed.');
   }
   
-  // If columnMapping and rejectionTemplate provided, use dynamic mapping
+  
   if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
@@ -118,7 +106,7 @@ if (csvFile && typeof csvFile === 'string') {
       recipientEmail: row.recipientEmail || row.recipient_email || row.email || '',
     })).filter(item => item.originalEmail);
   } else {
-    // Fallback: assume CSV has column 'originalEmail'
+    
     emailList = rows.filter(row => row.originalEmail).map(row => ({
       originalEmail: row.originalEmail,
       targetTone: row.targetTone || defaultTone,
@@ -130,7 +118,7 @@ if (csvFile && typeof csvFile === 'string') {
     }));
   }
 } 
-// 2. Or read from emails array (JSON)
+
 else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
 } 
@@ -161,7 +149,6 @@ async function processEmail(item, index) {
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
 
-  // Bangun personalisasi untuk salam dan tanda tangan
   let personalization = '';
   if (recipientName) {
     personalization += ` Use the recipient's name "${recipientName}" in the greeting.`;
@@ -173,7 +160,6 @@ async function processEmail(item, index) {
   let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
   
-  // Jika ada subjek, gunakan sebagai konteks TAPI JANGAN DIUBAH
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
   }
@@ -240,4 +226,4 @@ await Actor.pushData(finalOutput);
 console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
 
 await Actor.exit();
-```
+
