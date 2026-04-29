@@ -102,10 +102,20 @@ if (csvFile && typeof csvFile === 'string') {
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
       targetTone: row.targetTone || defaultTone,
       additionalInstructions: row.additionalInstructions || '',
+      originalSubject: row.originalSubject || row.subject || '',
+      recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
+      senderName: row.senderName || row.sender_name || row.sender || '',
     })).filter(item => item.originalEmail);
   } else {
     // Fallback: assume CSV has column 'originalEmail'
-    emailList = rows.filter(row => row.originalEmail);
+    emailList = rows.filter(row => row.originalEmail).map(row => ({
+      originalEmail: row.originalEmail,
+      targetTone: row.targetTone || defaultTone,
+      additionalInstructions: row.additionalInstructions || '',
+      originalSubject: row.originalSubject || row.subject || '',
+      recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
+      senderName: row.senderName || row.sender_name || row.sender || '',
+    }));
   }
 } 
 // 2. Or read from emails array (JSON)
@@ -134,8 +144,28 @@ async function processEmail(item, index) {
   }
   const targetTone = item.targetTone || defaultTone;
   const additional = item.additionalInstructions || '';
-  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning. Output only the rewritten email.`;
+  const originalSubject = item.originalSubject || '';
+  const recipientName = item.recipientName || '';
+  const senderName = item.senderName || '';
+
+  // Prompt untuk memperbaiki subject
+  let subjectPrompt = '';
+  if (originalSubject) {
+    subjectPrompt = `Also rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
+  }
+
+  // Prompt untuk personalisasi nama
+  let personalization = '';
+  if (recipientName) {
+    personalization += ` Address the recipient as ${recipientName}.`;
+  }
+  if (senderName) {
+    personalization += ` Sign the email as ${senderName}.`;
+  }
+
+  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning. Output only the rewritten email.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
+  if (subjectPrompt) prompt += `\n\n${subjectPrompt}`;
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
   try {
@@ -151,6 +181,9 @@ async function processEmail(item, index) {
       toneUsed: targetTone,
       status: 'success',
       timestamp: new Date().toISOString(),
+      ...(originalSubject && { originalSubject, improvedSubject: '' }),
+      ...(recipientName && { recipientName }),
+      ...(senderName && { senderName }),
     };
   } catch (err) {
     return {
@@ -191,4 +224,3 @@ await Actor.pushData(finalOutput);
 console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
 
 await Actor.exit();
-
