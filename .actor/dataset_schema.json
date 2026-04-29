@@ -34,6 +34,30 @@
                 "title": "Timestamp",
                 "description": "The processing timestamp in ISO 8601 format.",
                 "example": "2026-04-21T10:30:00.000Z"
+            },
+            "originalSubject": {
+                "type": "string",
+                "title": "Original Subject",
+                "description": "Original email subject line.",
+                "example": "Application Status"
+            },
+            "improvedSubject": {
+                "type": "string",
+                "title": "Improved Subject",
+                "description": "Rewritten email subject line.",
+                "example": "Update on Your Application"
+            },
+            "recipientName": {
+                "type": "string",
+                "title": "Recipient Name",
+                "description": "Name of the recipient.",
+                "example": "John"
+            },
+            "senderName": {
+                "type": "string",
+                "title": "Sender Name",
+                "description": "Name of the sender.",
+                "example": "HR Team"
             }
         },
         "required": ["originalEmail", "improvedEmail", "status"]
@@ -47,7 +71,11 @@
                     "improvedEmail",
                     "toneUsed",
                     "status",
-                    "timestamp"
+                    "timestamp",
+                    "originalSubject",
+                    "improvedSubject",
+                    "recipientName",
+                    "senderName"
                 ]
             },
             "display": {
@@ -71,6 +99,22 @@
                     },
                     "timestamp": {
                         "label": "Time",
+                        "format": "text"
+                    },
+                    "originalSubject": {
+                        "label": "Original Subject",
+                        "format": "text"
+                    },
+                    "improvedSubject": {
+                        "label": "Improved Subject",
+                        "format": "text"
+                    },
+                    "recipientName": {
+                        "label": "Recipient",
+                        "format": "text"
+                    },
+                    "senderName": {
+                        "label": "Sender",
                         "format": "text"
                     }
                 }
