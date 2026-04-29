@@ -31,6 +31,30 @@
       "description": "The processing timestamp in ISO 8601 format.",
       "title": "Timestamp",
       "template": "{{timestamp}}"
+    },
+    "originalSubject": {
+      "type": "string",
+      "title": "Original Subject",
+      "description": "Original email subject line.",
+      "template": "{{originalSubject}}"
+    },
+    "improvedSubject": {
+      "type": "string",
+      "title": "Improved Subject",
+      "description": "Rewritten email subject line.",
+      "template": "{{improvedSubject}}"
+    },
+    "recipientName": {
+      "type": "string",
+      "title": "Recipient Name",
+      "description": "Name of the recipient.",
+      "template": "{{recipientName}}"
+    },
+    "senderName": {
+      "type": "string",
+      "title": "Sender Name",
+      "description": "Name of the sender.",
+      "template": "{{senderName}}"
     }
   },
   "required": ["originalEmail", "improvedEmail", "status"]
