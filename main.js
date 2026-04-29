@@ -17,7 +17,7 @@ async function processEmail(item, index) {
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
 
-  // Bangun satu prompt gabungan
+  // Gabung instruksi personalisasi
   let personalization = '';
   if (recipientName) {
     personalization += ` Address the recipient as ${recipientName}.`;
@@ -29,12 +29,14 @@ async function processEmail(item, index) {
   let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
   
-  // Tambahkan instruksi untuk subject jika ada
   if (originalSubject) {
     prompt += `\nAlso rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
   }
   
-  prompt += `\n\nOutput ONLY a valid JSON object with two fields: "subject" (the rewritten subject line, or empty string if no subject was provided) and "body" (the rewritten email body). Do not include any other text.`;
+  // Format baru: gunakan fence markdown untuk memaksa pemisahan
+  prompt += `\n\nOutput your response exactly in the format below. Do not include any other text.`;
+  prompt += `\n\`\`\`subject\n(rewritten subject here, or leave empty)\n\`\`\``;
+  prompt += `\n\`\`\`body\n(rewritten email body here)\n\`\`\``;
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
   try {
@@ -45,16 +47,18 @@ async function processEmail(item, index) {
     const rawOutput = response.data.response?.trim() || '';
     
     let improvedSubject = '';
-    let improvedEmail = '';
+    let improvedEmail = rawOutput; // fallback
 
-    try {
-      // Coba parse JSON dari output
-      const parsed = JSON.parse(rawOutput);
-      improvedSubject = parsed.subject || '';
-      improvedEmail = parsed.body || rawOutput;
-    } catch (parseErr) {
-      // Jika gagal parse JSON, gunakan raw output sebagai body, subject kosong
-      improvedEmail = rawOutput;
+    // Ekstrak subject dari fence markdown
+    const subjectMatch = rawOutput.match(/```subject\s*([\s\S]*?)```/i);
+    if (subjectMatch) {
+      improvedSubject = subjectMatch[1].trim();
+    }
+
+    // Ekstrak body dari fence markdown
+    const bodyMatch = rawOutput.match(/```body\s*([\s\S]*?)```/i);
+    if (bodyMatch) {
+      improvedEmail = bodyMatch[1].trim();
     }
 
     return {
