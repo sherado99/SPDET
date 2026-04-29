@@ -21,7 +21,22 @@ if (!SETI_PROXY_SECRET) {
 
 const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
 
-// Simple CSV parser (handles quoted fields, commas, newlines)
+// Fungsi untuk membersihkan teks pengantar AI yang tidak diinginkan
+function cleanEmailOutput(text) {
+  const phrasesToStrip = [
+    /^Here is a rewritten version of the email:?\s*/i,
+    /^Sure!?\s*here is a rewritten version:?\s*/i,
+    /^I have rewritten the email:?\s*/i,
+    /^Here is the rewritten email:?\s*/i,
+    /^Here you go:?\s*/i
+  ];
+  for (const regex of phrasesToStrip) {
+    text = text.replace(regex, '');
+  }
+  return text.trim();
+}
+
+// Parser CSV sederhana (menangani tanda kutip, koma, baris baru)
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
@@ -78,7 +93,7 @@ function applyMappingAndTemplate(row, mapping, template) {
 
 let emailList = [];
 
-// 1. Try to read from CSV file
+// 1. Baca dari file CSV
 if (csvFile && typeof csvFile === 'string') {
   let fileContent = null;
   if (csvFile.startsWith('FILE-UPLOAD:')) {
@@ -96,7 +111,7 @@ if (csvFile && typeof csvFile === 'string') {
     throw new Error('CSV file is empty or could not be parsed.');
   }
   
-  // If columnMapping and rejectionTemplate provided, use dynamic mapping
+  // Jika ada mapping dan template, gunakan itu
   if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
@@ -107,7 +122,7 @@ if (csvFile && typeof csvFile === 'string') {
       senderName: row.senderName || row.sender_name || row.sender || '',
     })).filter(item => item.originalEmail);
   } else {
-    // Fallback: assume CSV has column 'originalEmail'
+    // Fallback: asumsikan CSV punya kolom 'originalEmail'
     emailList = rows.filter(row => row.originalEmail).map(row => ({
       originalEmail: row.originalEmail,
       targetTone: row.targetTone || defaultTone,
@@ -118,7 +133,7 @@ if (csvFile && typeof csvFile === 'string') {
     }));
   }
 } 
-// 2. Or read from emails array (JSON)
+// 2. Atau baca dari array JSON
 else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
 } 
@@ -149,7 +164,7 @@ async function processEmail(item, index) {
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
 
-  // Bangun personalisasi
+  // Bangun personalisasi untuk penerima dan pengirim
   let personalization = '';
   if (recipientName) {
     personalization += ` Address the recipient as ${recipientName}.`;
@@ -158,8 +173,11 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as ${senderName}.`;
   }
 
+  // Buat prompt dengan instruksi yang lebih ketat
   let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
+  prompt += `\n\nCRITICAL: Output ONLY the rewritten email text. Do NOT include any introductory or concluding phrases like "Here is a rewritten version" or "I hope this helps". Just the email as it would be sent.`;
+  
   if (originalSubject) {
     prompt += `\nAlso rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
   }
@@ -170,7 +188,10 @@ async function processEmail(item, index) {
       headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
       timeout: timeout * 1000,
     });
-    const improvedEmail = response.data.response?.trim() || '';
+    let improvedEmail = response.data.response?.trim() || '';
+
+    // Bersihkan teks pengantar yang mungkin masih ada
+    improvedEmail = cleanEmailOutput(improvedEmail);
 
     return {
       index,
