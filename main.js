@@ -17,6 +17,10 @@ async function processEmail(item, index) {
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
 
+  // Deklarasi di luar try-catch agar bisa diakses keduanya
+  let improvedSubject = '';
+  let improvedEmail = '';
+
   // Gabung instruksi personalisasi
   let personalization = '';
   if (recipientName) {
@@ -33,7 +37,6 @@ async function processEmail(item, index) {
     prompt += `\nAlso rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
   }
   
-  // Format baru: gunakan fence markdown untuk memaksa pemisahan
   prompt += `\n\nOutput your response exactly in the format below. Do not include any other text.`;
   prompt += `\n\`\`\`subject\n(rewritten subject here, or leave empty)\n\`\`\``;
   prompt += `\n\`\`\`body\n(rewritten email body here)\n\`\`\``;
@@ -46,8 +49,7 @@ async function processEmail(item, index) {
     });
     const rawOutput = response.data.response?.trim() || '';
     
-    let improvedSubject = '';
-    let improvedEmail = rawOutput; // fallback
+    improvedEmail = rawOutput; // fallback
 
     // Ekstrak subject dari fence markdown
     const subjectMatch = rawOutput.match(/```subject\s*([\s\S]*?)```/i);
@@ -60,29 +62,19 @@ async function processEmail(item, index) {
     if (bodyMatch) {
       improvedEmail = bodyMatch[1].trim();
     }
-
-    return {
-      index,
-      originalEmail,
-      improvedEmail,
-      toneUsed: targetTone,
-      status: 'success',
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject, improvedSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-    };
   } catch (err) {
-    return {
-      index,
-      originalEmail,
-      improvedEmail: null,
-      status: 'error',
-      error: err.message,
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject, improvedSubject: '' }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-    };
+    // Variabel tetap terisi kosong sebagai fallback
   }
+
+  return {
+    index,
+    originalEmail,
+    improvedEmail,
+    toneUsed: targetTone,
+    status: improvedEmail ? 'success' : 'error',
+    timestamp: new Date().toISOString(),
+    ...(originalSubject && { originalSubject, improvedSubject }),
+    ...(recipientName && { recipientName }),
+    ...(senderName && { senderName }),
+  };
 }
