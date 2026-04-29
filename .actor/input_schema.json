@@ -19,7 +19,10 @@
         {
           "originalEmail": "Dear Sir, your application has been rejected.",
           "targetTone": "empathetic",
-          "additionalInstructions": "Make it short"
+          "additionalInstructions": "Make it short",
+          "originalSubject": "Application Status",
+          "recipientName": "John",
+          "senderName": "HR Team"
         }
       ],
       "items": {
@@ -41,6 +44,21 @@
             "title": "Additional Instructions",
             "description": "Extra guidance for the rewrite.",
             "editor": "textarea"
+          },
+          "originalSubject": {
+            "type": "string",
+            "title": "Original Subject (optional)",
+            "description": "Original email subject line to be rewritten."
+          },
+          "recipientName": {
+            "type": "string",
+            "title": "Recipient Name (optional)",
+            "description": "Name of the recipient for personalization."
+          },
+          "senderName": {
+            "type": "string",
+            "title": "Sender Name (optional)",
+            "description": "Name of the sender for personalization."
           }
         },
         "required": ["originalEmail"]
