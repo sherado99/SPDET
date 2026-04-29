@@ -1,3 +1,13 @@
+Edo, aku melihat error-nya. Masalahnya sangat sederhana: duplikasi penanganan recipientEmail di dua tempat di main.js. Ini menyebabkan SyntaxError.
+
+Kode yang salah ada di dua bagian:
+
+1. Di pemetaan CSV (sekitar baris 75): recipientEmail: row.recipientEmail || row.recipient_email || row.email || ''
+2. Di dalam processEmail (sekitar baris 236): baris yang sama persis terduplikasi.
+
+Aku akan membersihkan main.js dan menghilangkan semua duplikasi ini. Berikut kode main.js yang sudah diperbaiki. Silakan salin dan timpa seluruh isi file.
+
+```javascript
 import { Actor } from 'apify';
 import axios from 'axios';
 
@@ -150,7 +160,6 @@ async function processEmail(item, index) {
   const originalSubject = item.originalSubject || '';
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
-  const recipientEmail = item.recipientEmail || '';
 
   // Bangun personalisasi untuk salam dan tanda tangan
   let personalization = '';
@@ -177,276 +186,6 @@ async function processEmail(item, index) {
       timeout: timeout * 1000,
     });
     const improvedEmail = response.data.response?.trim() || '';
-
-    return {
-      index,
-      originalEmail,
-      improvedEmail,
-      toneUsed: targetTone,
-      status: 'success',
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-      ...(recipientEmail && { recipientEmail }),
-    };
-  } catch (err) {
-    return {
-      index,
-      originalEmail,
-      improvedEmail: null,
-      status: 'error',
-      error: err.message,
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-      ...(recipientEmail && { recipientEmail }),
-    };
-  }
-}
-
-const results = [];
-const running = new Set();
-const queue = [...emailList];
-let nextIndex = 0;
-
-while (queue.length > 0 || running.size > 0) {
-  while (running.size < maxConcurrency && queue.length > 0) {
-    const item = queue.shift();
-    const index = nextIndex++;
-    const promise = processEmail(item, index).then(res => {
-      running.delete(promise);
-      results.push(res);
-    });
-    running.add(promise);
-  }
-  if (running.size > 0) {
-    await Promise.race(running);
-  }
-}
-
-results.sort((a, b) => a.index - b.index);
-const finalOutput = results.map(({ index, ...rest }) => rest);
-
-await Actor.pushData(finalOutput);
-console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
-
-await Actor.exit();      senderName: row.senderName || row.sender_name || row.sender || '',
-      recipientEmail: row.recipientEmail || row.recipient_email || row.email || '',
-    })).filter(item => item.originalEmail);
-  } else {
-    // Fallback: assume CSV has column 'originalEmail'
-    emailList = rows.filter(row => row.originalEmail).map(row => ({
-      originalEmail: row.originalEmail,
-      targetTone: row.targetTone || defaultTone,
-      additionalInstructions: row.additionalInstructions || '',
-      originalSubject: row.originalSubject || row.subject || '',
-      recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
-      senderName: row.senderName || row.sender_name || row.sender || '',
-      recipientEmail: row.recipientEmail || row.recipient_email || row.email || '',
-    }));
-  }
-} 
-// 2. Or read from emails array (JSON)
-else if (Array.isArray(emails) && emails.length > 0) {
-  emailList = emails;
-} 
-else {
-  throw new Error('No input provided. Please either upload a CSV file or provide an array of emails.');
-}
-
-if (emailList.length === 0) {
-  throw new Error('No valid email entries found. Check your input data.');
-}
-
-async function processEmail(item, index) {
-  const originalEmail = item.originalEmail;
-  if (!originalEmail) {
-    return {
-      index,
-      originalEmail: null,
-      improvedEmail: null,
-      status: 'error',
-      error: 'Missing originalEmail field',
-      timestamp: new Date().toISOString(),
-    };
-  }
-
-  const targetTone = item.targetTone || defaultTone;
-  const additional = item.additionalInstructions || '';
-  const originalSubject = item.originalSubject || '';
-  const recipientName = item.recipientName || '';
-  const senderName = item.senderName || '';
-  const recipientEmail = item.recipientEmail || '';
-
-  // Bangun personalisasi untuk salam dan tanda tangan
-  let personalization = '';
-  if (recipientName) {
-    personalization += ` Use the recipient's name "${recipientName}" in the greeting.`;
-  }
-  if (senderName) {
-    personalization += ` Sign the email as "${senderName}".`;
-  }
-
-  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
-  if (additional) prompt += ` Additional instructions: ${additional}`;
-  
-  // Jika ada subjek, gunakan sebagai konteks TAPI JANGAN DIUBAH
-  if (originalSubject) {
-    prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
-  }
-  
-  prompt += `\n\nOriginal email:\n${originalEmail}`;
-
-  try {
-    const response = await axios.post(API_URL, { message: prompt }, {
-      headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
-      timeout: timeout * 1000,
-    });
-    const improvedEmail = response.data.response?.trim() || '';
-
-    return {
-      index,
-      originalEmail,
-      improvedEmail,
-      toneUsed: targetTone,
-      status: 'success',
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-      ...(recipientEmail && { recipientEmail }),
-    };
-  } catch (err) {
-    return {
-      index,
-      originalEmail,
-      improvedEmail: null,
-      status: 'error',
-      error: err.message,
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-      ...(recipientEmail && { recipientEmail }),
-    };
-  }
-}
-
-const results = [];
-const running = new Set();
-const queue = [...emailList];
-let nextIndex = 0;
-
-while (queue.length > 0 || running.size > 0) {
-  while (running.size < maxConcurrency && queue.length > 0) {
-    const item = queue.shift();
-    const index = nextIndex++;
-    const promise = processEmail(item, index).then(res => {
-      running.delete(promise);
-      results.push(res);
-    });
-    running.add(promise);
-  }
-  if (running.size > 0) {
-    await Promise.race(running);
-  }
-}
-
-results.sort((a, b) => a.index - b.index);
-const finalOutput = results.map(({ index, ...rest }) => rest);
-
-await Actor.pushData(finalOutput);
-console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
-
-await Actor.exit();  }
-  const rows = parseCSV(fileContent);
-  if (rows.length === 0) {
-    throw new Error('CSV file is empty or could not be parsed.');
-  }
-  
-  // Jika ada mapping dan template, gunakan itu
-  if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
-    emailList = rows.map(row => ({
-      originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
-      targetTone: row.targetTone || defaultTone,
-      additionalInstructions: row.additionalInstructions || '',
-      originalSubject: row.originalSubject || row.subject || '',
-      recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
-      senderName: row.senderName || row.sender_name || row.sender || '',
-    })).filter(item => item.originalEmail);
-  } else {
-    // Fallback: asumsikan CSV punya kolom 'originalEmail'
-    emailList = rows.filter(row => row.originalEmail).map(row => ({
-      originalEmail: row.originalEmail,
-      targetTone: row.targetTone || defaultTone,
-      additionalInstructions: row.additionalInstructions || '',
-      originalSubject: row.originalSubject || row.subject || '',
-      recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
-      senderName: row.senderName || row.sender_name || row.sender || '',
-    }));
-  }
-} 
-// 2. Atau baca dari array JSON
-else if (Array.isArray(emails) && emails.length > 0) {
-  emailList = emails;
-} 
-else {
-  throw new Error('No input provided. Please either upload a CSV file or provide an array of emails.');
-}
-
-if (emailList.length === 0) {
-  throw new Error('No valid email entries found. Check your input data.');
-}
-
-async function processEmail(item, index) {
-  const originalEmail = item.originalEmail;
-  if (!originalEmail) {
-    return {
-      index,
-      originalEmail: null,
-      improvedEmail: null,
-      status: 'error',
-      error: 'Missing originalEmail field',
-      timestamp: new Date().toISOString(),
-    };
-  }
-
-  const targetTone = item.targetTone || defaultTone;
-  const additional = item.additionalInstructions || '';
-  const originalSubject = item.originalSubject || '';
-  const recipientName = item.recipientName || '';
-  const senderName = item.senderName || '';
-
-  // Bangun personalisasi untuk penerima dan pengirim
-  let personalization = '';
-  if (recipientName) {
-    personalization += ` Address the recipient as ${recipientName}.`;
-  }
-  if (senderName) {
-    personalization += ` Sign the email as ${senderName}.`;
-  }
-
-  // Buat prompt dengan instruksi yang lebih ketat
-  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
-  if (additional) prompt += ` Additional instructions: ${additional}`;
-  prompt += `\n\nCRITICAL: Output ONLY the rewritten email text. Do NOT include any introductory or concluding phrases like "Here is a rewritten version" or "I hope this helps". Just the email as it would be sent.`;
-  
-  if (originalSubject) {
-    prompt += `\nAlso rewrite this email subject line to be ${targetTone}: "${originalSubject}".`;
-  }
-  prompt += `\n\nOriginal email:\n${originalEmail}`;
-
-  try {
-    const response = await axios.post(API_URL, { message: prompt }, {
-      headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
-      timeout: timeout * 1000,
-    });
-    let improvedEmail = response.data.response?.trim() || '';
-
-    // Bersihkan teks pengantar yang mungkin masih ada
-    improvedEmail = cleanEmailOutput(improvedEmail);
 
     return {
       index,
@@ -501,3 +240,4 @@ await Actor.pushData(finalOutput);
 console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
 
 await Actor.exit();
+```
