@@ -179,7 +179,7 @@ async function processEmail(item, index) {
       toneUsed: targetTone,
       status: 'success',
       timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject, improvedSubject: '' }),
+      ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
     };
@@ -191,7 +191,7 @@ async function processEmail(item, index) {
       status: 'error',
       error: err.message,
       timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject, improvedSubject: '' }),
+      ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
     };
