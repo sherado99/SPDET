@@ -124,18 +124,18 @@ Upload this file using the CSV File field in the Actor input form.
 After the run, you get a structured dataset (JSON/CSV). Each row contains:
 
 - Field Description
-originalEmail The email you provided.
-improvedEmail The rewritten, warmer version (null on error). Personalized if names were provided.
-toneUsed The tone that was applied.
-status success or error.
-error Error message (if any).
-timestamp Processing timestamp (ISO 8601).
-originalSubject The subject line you provided (if any). Carried through unchanged.
-recipientName The recipient name you provided (if any).
-senderName The sender name you provided (if any).
-recipientEmail The recipient email you provided (if any).
+- originalEmail The email you provided.
+- improvedEmail The rewritten, warmer version (null on error). Personalized if names were provided.
+- toneUsed The tone that was applied.
+- status success or error.
+- error Error message (if any).
+- timestamp Processing timestamp (ISO 8601).
+- originalSubject The subject line you provided (if any). Carried through unchanged.
+- recipientName The recipient name you provided (if any).
+- senderName The sender name you provided (if any).
+- recipientEmail The recipient email you provided (if any).
 
-Example output (JSON):
+## Example output (JSON):
 
 ```json
 [
@@ -153,11 +153,11 @@ Example output (JSON):
 ]
 ```
 
-You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
+## You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
 
 ---
 
-⚙️ Advanced Settings
+## ⚙️ Advanced Settings
 
 Parameter Description Default
 Default Tone Fallback tone when not specified per email. warm and honest
@@ -166,7 +166,7 @@ Timeout (seconds) Maximum wait time per email request. 60
 
 ---
 
-🔌 Integrations (Built‑in by Apify)
+## 🔌 Integrations (Built‑in by Apify)
 
 Because SETI is a published Apify Actor, it automatically appears in the integration catalogs of:
 
@@ -180,148 +180,8 @@ Because SETI is a published Apify Actor, it automatically appears in the integra
 
 No extra setup is required from the developer. The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SETI from the list of available Actors.
 
-Example no‑code workflow (Zapier + Gmail):
+## Example no‑code workflow (Zapier + Gmail):
 
-1. New email arrives in Gmail.
-2. Zapier sends the email text to SETI.
-3. SETI rewrites the email with warmth and professionalism.
-4. Zapier sends the rewarmed reply back via Gmail.
-
-Just a few clicks — you never touch a single line of code.
-
----
-
-🧪 Sample Workflow (HR Manager)
-
-1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
-2. Keep the column with the rejection email (or create one).
-3. Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
-4. Save the file.
-5. Visit the SETI Actor page on Apify Store, upload the CSV, click Run.
-6. Wait a few seconds, then download the output CSV.
-7. Copy the improvedEmail column into your email client and send.
-
-Time saved: hours → minutes. Brand impression: transformed.
-
----
-
-❗ Notes & Risks
-
-· Always review the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
-· No legal, medical, or financial advice – Stech is not a professional advisor; the output is for language improvement only.
-· No data storage – emails are processed in memory and never persisted; once a run is complete, the data is available only in your dataset until you delete it.
-· Rate limits – the public endpoint may throttle heavy usage; for production batch workloads, use the internal endpoint (already configured in this Actor).
-· Failed rows are flagged with status: error in the output; you can retry them after addressing the cause (e.g., network timeout, malformed input).
-· Apify charges – as a Pay Per Event Actor, each processed result incurs a small fee, which is displayed transparently to the user before the run starts. The first 5 seconds of each run are free.
-
----
-
-🔗 Links
-
-· SETI on Apify Store – run SETI directly in your browser
-· Stech API on RapidAPI – for production API access with higher rate limits
-· Interactive API Documentation (Postman) – explore and test the API endpoints directly
-· GitHub Repository – core values, license, and legal information
-
----
-
-📄 License & Disclaimer
-
-This Actor is provided for informational and communication improvement purposes only.
-Stech does not give financial, legal, or medical advice. Always review the output before sending.
-By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
-
-The source code of SETI is publicly available for transparency and trust. All rights are reserved under the SETI Proprietary License v1.0. For full terms, see the LICENSE file in the repository.
-
----
-
-Stech – honest, warm, and never pretends to be human. 😊🌿
-
-```| `additionalInstructions` | ❌ | Extra guidance (e.g. "make it shorter", "add an apology"). |
-
-**Example CSV content**
-```csv
-originalEmail,targetTone,additionalInstructions
-"Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words"
-"Your order #12345 is delayed.",warm,"Apologize and offer a discount"
-"We have decided not to proceed with your proposal.",friendly,"Thank them for their time"
-```
-
-Upload this file using the **CSV File** field in the Actor input form.
-
-### 2. JSON Array (for API & advanced users)
-
-```json
-[
-  {
-    "originalEmail": "Dear Sir, your application has been rejected.",
-    "targetTone": "empathetic",
-    "additionalInstructions": "Keep it under 30 words"
-  },
-  {
-    "originalEmail": "Your order #12345 is delayed.",
-    "targetTone": "warm"
-  }
-]
-```
-
----
-
-## 📤 Output
-
-After the run, you get a structured dataset (JSON/CSV). Each row contains:
-
-| Field | Description |
-|-------|-------------|
-| `originalEmail` | The email you provided. |
-| `improvedEmail` | The rewritten, warmer version (`null` on error). |
-| `toneUsed` | The tone that was applied. |
-| `status` | `success` or `error`. |
-| `error` | Error message (if any). |
-| `timestamp` | Processing timestamp (ISO 8601). |
-
-**Example output (JSON):**
-```json
-[
-  {
-    "originalEmail": "Dear Sir, your application has been rejected.",
-    "improvedEmail": "Hi, thank you for applying. We couldn't move forward this time, but we appreciate your effort and wish you the best.",
-    "toneUsed": "empathetic",
-    "status": "success",
-    "timestamp": "2026-04-21T10:30:00.000Z"
-  }
-]
-```
-
-You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
-
----
-
-## ⚙️ Advanced Settings
-
-| Parameter | Description | Default |
-|-----------|-------------|:-------:|
-| `Default Tone` | Fallback tone when not specified per email. | `warm and honest` |
-| `Max Concurrency` | Number of emails processed in parallel (1‑20). | `5` |
-| `Timeout (seconds)` | Maximum wait time per email request. | `60` |
-
----
-
-## 🔌 Integrations (Built‑in by Apify)
-
-Because SETI is a published Apify Actor, it automatically appears in the integration catalogs of:
-
-- **n8n** – connect SETI to hundreds of apps without code.
-- **Make** – drag‑and‑drop SETI into automated workflows.
-- **Zapier** – trigger SETI from thousands of events.
-- **Gmail** and **Google Drive** – send results as email attachments or save directly to your drive.
-- **Slack** – get notified when a run finishes.
-- **GitHub** – create issues automatically when a run fails.
-- **LangChain** and **LlamaIndex** – use SETI as a tool inside your custom AI agents.
-
-**No extra setup is required from the developer.** The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SETI from the list of available Actors.
-
-**Example no‑code workflow (Zapier + Gmail):**
 1. New email arrives in Gmail.
 2. Zapier sends the email text to SETI.
 3. SETI rewrites the email with warmth and professionalism.
@@ -335,44 +195,44 @@ Just a few clicks — you never touch a single line of code.
 
 1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
 2. Keep the column with the rejection email (or create one).
-3. Add extra columns: `targetTone` (set to `empathetic`) and `additionalInstructions` (optional).
+3. Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
 4. Save the file.
-5. Visit the SETI Actor page on Apify Store, upload the CSV, click **Run**.
+5. Visit the SETI Actor page on Apify Store, upload the CSV, click Run.
 6. Wait a few seconds, then download the output CSV.
-7. Copy the `improvedEmail` column into your email client and send.
+7. Copy the improvedEmail column into your email client and send.
 
-**Time saved:** hours → minutes. **Brand impression:** transformed.
+Time saved: hours → minutes. Brand impression: transformed.
 
 ---
 
 ## ❗ Notes & Risks
 
-- **Always review** the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
-- **No legal, medical, or financial advice** – Stech is not a professional advisor; the output is for language improvement only.
-- **No data storage** – emails are processed in memory and never persisted; once a run is complete, the data is available only in your dataset until you delete it.
-- **Rate limits** – the public endpoint may throttle heavy usage; for production batch workloads, use the internal endpoint (already configured in this Actor).
-- **Failed rows** are flagged with `status: error` in the output; you can retry them after addressing the cause (e.g., network timeout, malformed input).
-- **Apify charges** – as a Pay Per Event Actor, each processed result incurs a small fee, which is displayed transparently to the user before the run starts. **The first 5 seconds of each run are free.**
+· Always review the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
+· No legal, medical, or financial advice – Stech is not a professional advisor; the output is for language improvement only.
+· No data storage – emails are processed in memory and never persisted; once a run is complete, the data is available only in your dataset until you delete it.
+· Rate limits – the public endpoint may throttle heavy usage; for production batch workloads, use the internal endpoint (already configured in this Actor).
+· Failed rows are flagged with status: error in the output; you can retry them after addressing the cause (e.g., network timeout, malformed input).
+· Apify charges – as a Pay Per Event Actor, each processed result incurs a small fee, which is displayed transparently to the user before the run starts. The first 5 seconds of each run are free.
 
 ---
 
 ## 🔗 Links
 
-- [SETI on Apify Store](https://apify.com/stech_ai/stech-email-tone-improver) – run SETI directly in your browser
-- [Stech API on RapidAPI](https://rapidapi.com/sheradogilang/api/stech-honest-presence-ai) – for production API access with higher rate limits
-- [Interactive API Documentation (Postman)](https://www.postman.com/solar-station-884701) – explore and test the API endpoints directly
-- [GitHub Repository](https://github.com/sherado99/Stech) – core values, license, and legal information
+· SETI on Apify Store – run SETI directly in your browser
+· Stech API on RapidAPI – for production API access with higher rate limits
+· Interactive API Documentation (Postman) – explore and test the API endpoints directly
+· GitHub Repository – core values, license, and legal information
 
 ---
 
 ## 📄 License & Disclaimer
 
-This Actor is provided for informational and communication improvement purposes only.  
-Stech does not give financial, legal, or medical advice. Always review the output before sending.  
+This Actor is provided for informational and communication improvement purposes only.
+Stech does not give financial, legal, or medical advice. Always review the output before sending.
 By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
-The source code of SETI is publicly available for transparency and trust. All rights are reserved under the **SETI Proprietary License v1.0**. For full terms, see the [LICENSE](https://github.com/sherado99/stech-email-tone-improver/blob/main/license.md) file in the repository.
+The source code of SETI is publicly available for transparency and trust. All rights are reserved under the SETI Proprietary License v1.0. For full terms, see the LICENSE file in the repository.
 
 ---
 
-*Stech – honest, warm, and never pretends to be human.* 😊🌿
+Stech – honest, warm, and never pretends to be human. 😊🌿
