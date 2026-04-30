@@ -1,19 +1,19 @@
 {
-  "title": "Stech Email Tone Improver",
-  "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with optional column mapping) or provide JSON array.",
+  "title": "Stech Email Tone Improver (SETI)",
+  "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with flexible column names) or provide a JSON array. SETI automatically maps common column names (email, name, sender, etc.).",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
     "csvFile": {
       "title": "CSV File (optional)",
       "type": "string",
-      "description": "Upload a CSV file. If you use dynamic mapping, provide columnMapping and rejectionTemplate.",
+      "description": "Upload a CSV file. You can use your existing company CSV without renaming columns. If you use dynamic mapping, provide columnMapping and rejectionTemplate.",
       "editor": "fileupload"
     },
     "emails": {
       "title": "Emails Array (optional)",
       "type": "array",
-      "description": "Alternative to CSV: provide an array of email objects.",
+      "description": "Alternative to CSV: provide an array of email objects. All personalization fields are optional.",
       "editor": "json",
       "prefill": [
         {
@@ -22,7 +22,8 @@
           "additionalInstructions": "Make it short",
           "originalSubject": "Application Status",
           "recipientName": "John",
-          "senderName": "HR Team"
+          "senderName": "HR Team",
+          "recipientEmail": "john@example.com"
         }
       ],
       "items": {
@@ -48,17 +49,22 @@
           "originalSubject": {
             "type": "string",
             "title": "Original Subject (optional)",
-            "description": "Original email subject line to be rewritten."
+            "description": "Original email subject line. Never changed by SETI. Included for reference and ATS compatibility."
           },
           "recipientName": {
             "type": "string",
             "title": "Recipient Name (optional)",
-            "description": "Name of the recipient for personalization."
+            "description": "Name of the recipient for personalization. SETI also recognizes: recipient, name, recipient_name."
           },
           "senderName": {
             "type": "string",
             "title": "Sender Name (optional)",
-            "description": "Name of the sender for personalization."
+            "description": "Name of the sender to sign the email. SETI also recognizes: sender, sender_name."
+          },
+          "recipientEmail": {
+            "type": "string",
+            "title": "Recipient Email (optional)",
+            "description": "Recipient's email address. SETI also recognizes: email, recipient_email. Carried through to output for ATS compatibility."
           }
         },
         "required": ["originalEmail"]
