@@ -197,6 +197,10 @@ Because SETI is a published Apify Actor, it automatically appears in the integra
 
 ## 📄 License & Disclaimer
 - This Actor is provided for informational and communication improvement purposes only.
+
+---
+
+Stech – honest, warm, and never pretends to be human. 😊🌿
 - Stech does not give financial, legal, or medical advice. Always review the output before sending.
 - By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
