@@ -155,7 +155,7 @@ async function processEmail(item, index) {
   const originalSubject = item.originalSubject || '';
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
-
+const recipientEmail = item.recipientEmail || '';
   let personalization = '';
   if (recipientName) {
     personalization += ` Use the recipient's name "${recipientName}" in the greeting.`;
