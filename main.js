@@ -64,6 +64,17 @@ function parseCSV(content) {
   return result;
 }
 
+function removeSubjectFromBody(body, subject) {
+  if (!subject || !body) return body;
+  const escapedSubject = subject.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const subjectPattern = new RegExp(`^(Subject\\s*:\\s*)?\\s*${escapedSubject}\\s*\\n*`, 'i');
+  return body.replace(subjectPattern, '').trim();
+}
+let improvedEmail = response.data.response?.trim() || '';
+if (originalSubject) {
+  improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
+}
+
 function applyMappingAndTemplate(row, mapping, template) {
   if (!template || !mapping) return null;
   let filled = template;
@@ -183,6 +194,7 @@ async function processEmail(item, index) {
       ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
+      ...(recipientEmail && { recipientEmail }),
     };
   } catch (err) {
     return {
@@ -195,6 +207,7 @@ async function processEmail(item, index) {
       ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
+      ...(recipientEmail && { recipientEmail }),
     };
   }
 }
