@@ -91,12 +91,10 @@ originalEmail,targetTone,additionalInstructions,originalSubject,recipientName,se
 "Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words",Application Status,John,HR Team,john@example.com
 "Your order #12345 is delayed.",warm,"Apologize and offer a discount",Order Delay,Sarah,Customer Support,sarah@example.com
 "We have decided not to proceed with your proposal.",friendly,"Thank them for their time",Proposal Update,Alex,Sales Team,alex@example.com
+Upload this file using the CSV File field in the Actor input form.
 ```
 
-Upload this file using the CSV File field in the Actor input form.
-
-### 2. JSON Array (for API & advanced users)
-
+## 2. JSON Array (for API & advanced users)
 ```json
 [
   {
@@ -117,26 +115,21 @@ Upload this file using the CSV File field in the Actor input form.
 ]
 ```
 
----
-
 ## 📤 Output
-
 After the run, you get a structured dataset (JSON/CSV). Each row contains:
-
-- Field Description
-- originalEmail The email you provided.
-- improvedEmail The rewritten, warmer version (null on error). Personalized if names were provided.
-- toneUsed The tone that was applied.
-- status success or error.
-- error Error message (if any).
-- timestamp Processing timestamp (ISO 8601).
-- originalSubject The subject line you provided (if any). Carried through unchanged.
-- recipientName The recipient name you provided (if any).
-- senderName The sender name you provided (if any).
-- recipientEmail The recipient email you provided (if any).
+- Field	Description
+- originalEmail	The email you provided.
+- improvedEmail	The rewritten, warmer version (null on error). Personalized if names were provided.
+- toneUsed	The tone that was applied.
+- status	success or error.
+- error	Error message (if any).
+- timestamp	Processing timestamp (ISO 8601).
+- originalSubject	The subject line you provided (if any). Carried through unchanged.
+- recipientName	The recipient name you provided (if any).
+- senderName	The sender name you provided (if any).
+- recipientEmail	The recipient email you provided (if any).
 
 ## Example output (JSON):
-
 ```json
 [
   {
@@ -152,87 +145,59 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
   }
 ]
 ```
-
-## You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
-
----
+You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
 
 ## ⚙️ Advanced Settings
-
-Parameter Description Default
-Default Tone Fallback tone when not specified per email. warm and honest
-Max Concurrency Number of emails processed in parallel (1‑20). 5
-Timeout (seconds) Maximum wait time per email request. 60
-
----
+- Parameter	Description	Default
+- Default Tone	Fallback tone when not specified per email.	warm and honest
+- Max Concurrency	Number of emails processed in parallel (1‑20).	5
+- Timeout (seconds)	Maximum wait time per email request.	60
 
 ## 🔌 Integrations (Built‑in by Apify)
-
 Because SETI is a published Apify Actor, it automatically appears in the integration catalogs of:
 
-· n8n – connect SETI to hundreds of apps without code.
-· Make – drag‑and‑drop SETI into automated workflows.
-· Zapier – trigger SETI from thousands of events.
-· Gmail and Google Drive – send results as email attachments or save directly to your drive.
-· Slack – get notified when a run finishes.
-· GitHub – create issues automatically when a run fails.
-· LangChain and LlamaIndex – use SETI as a tool inside your custom AI agents.
-
-No extra setup is required from the developer. The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SETI from the list of available Actors.
-
-## Example no‑code workflow (Zapier + Gmail):
-
-1. New email arrives in Gmail.
-2. Zapier sends the email text to SETI.
-3. SETI rewrites the email with warmth and professionalism.
-4. Zapier sends the rewarmed reply back via Gmail.
-
-Just a few clicks — you never touch a single line of code.
-
----
+- n8n – connect SETI to hundreds of apps without code.
+- Make – drag‑and‑drop SETI into automated workflows.
+- Zapier – trigger SETI from thousands of events.
+- Gmail and Google Drive – send results as email attachments or save directly to your drive.
+- Slack – get notified when a run finishes.
+- GitHub – create issues automatically when a run fails.
+- LangChain and LlamaIndex – use SETI as a tool inside your custom AI agents.
+- No extra setup is required from the developer. The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SETI from the list of available Actors.
+- Example no‑code workflow (Zapier + Gmail):
+- New email arrives in Gmail.
+- Zapier sends the email text to SETI.
+- SETI rewrites the email with warmth and professionalism.
+- Zapier sends the rewarmed reply back via Gmail.
+- Just a few clicks — you never touch a single line of code.
 
 ## 🧪 Sample Workflow (HR Manager)
-
-1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
-2. Keep the column with the rejection email (or create one).
-3. Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
-4. Save the file.
-5. Visit the SETI Actor page on Apify Store, upload the CSV, click Run.
-6. Wait a few seconds, then download the output CSV.
-7. Copy the improvedEmail column into your email client and send.
-
-Time saved: hours → minutes. Brand impression: transformed.
-
----
+- Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
+- Keep the column with the rejection email (or create one).
+- Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
+- Save the file.
+- Visit the SETI Actor page on Apify Store, upload the CSV, click Run.
+- Wait a few seconds, then download the output CSV.
+- Copy the improvedEmail column into your email client and send.
+- Time saved: hours → minutes. Brand impression: transformed.
 
 ## ❗ Notes & Risks
-
-· Always review the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
-· No legal, medical, or financial advice – Stech is not a professional advisor; the output is for language improvement only.
-· No data storage – emails are processed in memory and never persisted; once a run is complete, the data is available only in your dataset until you delete it.
-· Rate limits – the public endpoint may throttle heavy usage; for production batch workloads, use the internal endpoint (already configured in this Actor).
-· Failed rows are flagged with status: error in the output; you can retry them after addressing the cause (e.g., network timeout, malformed input).
-· Apify charges – as a Pay Per Event Actor, each processed result incurs a small fee, which is displayed transparently to the user before the run starts. The first 5 seconds of each run are free.
-
----
+- Always review the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
+- No legal, medical, or financial advice – Stech is not a professional advisor; the output is for language improvement only.
+- No data storage – emails are processed in memory and never persisted; once a run is complete, the data is available only in your dataset until you delete it.
+- Rate limits – the public endpoint may throttle heavy usage; for production batch workloads, use the internal endpoint (already configured in this Actor).
+- Failed rows are flagged with status: error in the output; you can retry them after addressing the cause (e.g., network timeout, malformed input).
+- Apify charges – as a Pay Per Event Actor, each processed result incurs a small fee, which is displayed transparently to the user before the run starts. The first 5 seconds of each run are free.
 
 ## 🔗 Links
-
-· SETI on Apify Store – run SETI directly in your browser
-· Stech API on RapidAPI – for production API access with higher rate limits
-· Interactive API Documentation (Postman) – explore and test the API endpoints directly
-· GitHub Repository – core values, license, and legal information
-
----
+- SETI on Apify Store – run SETI directly in your browser
+- Stech API on RapidAPI – for production API access with higher rate limits
+- Interactive API Documentation (Postman) – explore and test the API endpoints directly
+- GitHub Repository – core values, license, and legal information
 
 ## 📄 License & Disclaimer
-
-This Actor is provided for informational and communication improvement purposes only.
-Stech does not give financial, legal, or medical advice. Always review the output before sending.
-By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
+- This Actor is provided for informational and communication improvement purposes only.
+- Stech does not give financial, legal, or medical advice. Always review the output before sending.
+- By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
 The source code of SETI is publicly available for transparency and trust. All rights are reserved under the SETI Proprietary License v1.0. For full terms, see the LICENSE file in the repository.
-
----
-
-Stech – honest, warm, and never pretends to be human. 😊🌿
