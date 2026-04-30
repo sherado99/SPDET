@@ -38,12 +38,6 @@
       "description": "Original email subject line.",
       "template": "{{originalSubject}}"
     },
-    "improvedSubject": {
-      "type": "string",
-      "title": "Improved Subject",
-      "description": "Rewritten email subject line.",
-      "template": "{{improvedSubject}}"
-    },
     "recipientName": {
       "type": "string",
       "title": "Recipient Name",
@@ -55,6 +49,12 @@
       "title": "Sender Name",
       "description": "Name of the sender.",
       "template": "{{senderName}}"
+    },
+    "recipientEmail": {
+      "type": "string",
+      "title": "Recipient Email",
+      "description": "Email address of the recipient.",
+      "template": "{{recipientEmail}}"
     }
   },
   "required": ["originalEmail", "improvedEmail", "status"]
