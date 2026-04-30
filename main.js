@@ -70,10 +70,6 @@ function removeSubjectFromBody(body, subject) {
   const subjectPattern = new RegExp(`^(Subject\\s*:\\s*)?\\s*${escapedSubject}\\s*\\n*`, 'i');
   return body.replace(subjectPattern, '').trim();
 }
-let improvedEmail = response.data.response?.trim() || '';
-if (originalSubject) {
-  improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
-}
 
 function applyMappingAndTemplate(row, mapping, template) {
   if (!template || !mapping) return null;
@@ -183,7 +179,10 @@ async function processEmail(item, index) {
       timeout: timeout * 1000,
     });
     const improvedEmail = response.data.response?.trim() || '';
-
+    let improvedEmail = response.data.response?.trim() || '';
+if (originalSubject) {
+  improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
+}
     return {
       index,
       originalEmail,
