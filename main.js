@@ -174,27 +174,26 @@ async function processEmail(item, index) {
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
   try {
-    const response = await axios.post(API_URL, { message: prompt }, {
-      headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
-      timeout: timeout * 1000,
-    });
-    const improvedEmail = response.data.response?.trim() || '';
-    let improvedEmail = response.data.response?.trim() || '';
-if (originalSubject) {
-  improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
-}
-    return {
-      index,
-      originalEmail,
-      improvedEmail,
-      toneUsed: targetTone,
-      status: 'success',
-      timestamp: new Date().toISOString(),
-      ...(originalSubject && { originalSubject }),
-      ...(recipientName && { recipientName }),
-      ...(senderName && { senderName }),
-      ...(recipientEmail && { recipientEmail }),
-    };
+  const response = await axios.post(API_URL, { message: prompt }, {
+    headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
+    timeout: timeout * 1000,
+  });
+  let improvedEmail = response.data.response?.trim() || '';
+  if (originalSubject) {
+    improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
+  }
+  return {
+    index,
+    originalEmail,
+    improvedEmail,
+    toneUsed: targetTone,
+    status: 'success',
+    timestamp: new Date().toISOString(),
+    ...(originalSubject && { originalSubject }),
+    ...(recipientName && { recipientName }),
+    ...(senderName && { senderName }),
+    ...(recipientEmail && { recipientEmail }),
+  };
   } catch (err) {
     return {
       index,
