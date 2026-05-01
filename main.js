@@ -143,7 +143,7 @@ async function processEmail(item, index) {
     return {
       index,
       originalEmail: null,
-      improvedEmail: null,
+      improvedEmail: '',
       status: 'error',
       error: 'Missing originalEmail field',
       timestamp: new Date().toISOString(),
