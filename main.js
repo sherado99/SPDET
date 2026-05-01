@@ -19,7 +19,8 @@ if (!SETI_PROXY_SECRET) {
   throw new Error('SETI_PROXY_SECRET environment variable is missing');
 }
 
-const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti'
+const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
+
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
@@ -83,7 +84,6 @@ function applyMappingAndTemplate(row, mapping, template) {
 
 let emailList = [];
 
-
 if (csvFile && typeof csvFile === 'string') {
   let fileContent = null;
   if (csvFile.startsWith('FILE-UPLOAD:')) {
@@ -101,7 +101,6 @@ if (csvFile && typeof csvFile === 'string') {
     throw new Error('CSV file is empty or could not be parsed.');
   }
   
-  
   if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
@@ -113,7 +112,6 @@ if (csvFile && typeof csvFile === 'string') {
       recipientEmail: row.recipientEmail || row.recipient_email || row.email || '',
     })).filter(item => item.originalEmail);
   } else {
-    
     emailList = rows.filter(row => row.originalEmail).map(row => ({
       originalEmail: row.originalEmail,
       targetTone: row.targetTone || defaultTone,
@@ -124,12 +122,9 @@ if (csvFile && typeof csvFile === 'string') {
       recipientEmail: row.recipientEmail || row.recipient_email || row.email || '',
     }));
   }
-} 
-
-else if (Array.isArray(emails) && emails.length > 0) {
+} else if (Array.isArray(emails) && emails.length > 0) {
   emailList = emails;
-} 
-else {
+} else {
   throw new Error('No input provided. Please either upload a CSV file or provide an array of emails.');
 }
 
@@ -141,9 +136,8 @@ async function processEmail(item, index) {
   const originalEmail = item.originalEmail;
   if (!originalEmail) {
     return {
-      index,
       originalEmail: null,
-      improvedEmail: '',
+      improvedEmail: "",
       status: 'error',
       error: 'Missing originalEmail field',
       timestamp: new Date().toISOString(),
@@ -155,7 +149,8 @@ async function processEmail(item, index) {
   const originalSubject = item.originalSubject || '';
   const recipientName = item.recipientName || '';
   const senderName = item.senderName || '';
-const recipientEmail = item.recipientEmail || '';
+  const recipientEmail = item.recipientEmail || '';
+
   let personalization = '';
   if (recipientName) {
     personalization += ` Use the recipient's name "${recipientName}" in the greeting.`;
@@ -166,39 +161,35 @@ const recipientEmail = item.recipientEmail || '';
 
   let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
-  
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
   }
-  
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
   try {
-  const response = await axios.post(API_URL, { message: prompt }, {
-    headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
-    timeout: timeout * 1000,
-  });
-  let improvedEmail = response.data.response?.trim() || '';
-  if (originalSubject) {
-    improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
-  }
-  return {
-    index,
-    originalEmail,
-    improvedEmail,
-    toneUsed: targetTone,
-    status: 'success',
-    timestamp: new Date().toISOString(),
-    ...(originalSubject && { originalSubject }),
-    ...(recipientName && { recipientName }),
-    ...(senderName && { senderName }),
-    ...(recipientEmail && { recipientEmail }),
-  };
+    const response = await axios.post(API_URL, { message: prompt }, {
+      headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
+      timeout: timeout * 1000,
+    });
+    let improvedEmail = response.data.response?.trim() || '';
+    if (originalSubject) {
+      improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
+    }
+    return {
+      originalEmail,
+      improvedEmail,
+      toneUsed: targetTone,
+      status: 'success',
+      timestamp: new Date().toISOString(),
+      ...(originalSubject && { originalSubject }),
+      ...(recipientName && { recipientName }),
+      ...(senderName && { senderName }),
+      ...(recipientEmail && { recipientEmail }),
+    };
   } catch (err) {
     return {
-      index,
-      originalEmail,
-      improvedEmail: null,
+      originalEmail: originalEmail || "",
+      improvedEmail: "",
       status: 'error',
       error: err.message,
       timestamp: new Date().toISOString(),
@@ -237,4 +228,3 @@ await Actor.pushData(finalOutput);
 console.log(`Processed ${finalOutput.length} emails. Success: ${finalOutput.filter(r => r.status === 'success').length}, Errors: ${finalOutput.filter(r => r.status === 'error').length}`);
 
 await Actor.exit();
-
