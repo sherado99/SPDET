@@ -200,7 +200,7 @@ Because SETI is a published Apify Actor, it automatically appears in the integra
 - Stech does not give financial, legal, or medical advice. Always review the output before sending.
 - By using this Actor, you agree that the creator is not liable for any consequences arising from its use.
 
-The source code of SETI is publicly available for transparency and trust. All rights are reserved under the SETI Proprietary License v1.0. For full terms, see the LICENSE file in the repository.
+All rights are reserved under the Stech Commercial License (SCL) v2.1.
 
 ---
 
