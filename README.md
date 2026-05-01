@@ -22,6 +22,29 @@ SETI helps anyone who wants to send better, more human emails without spending h
 
 **No coding skills are required.** If you can use a spreadsheet, you can use SETI.
 
+### 📣 From Cold to Compassionate: Who Really Uses SETI?
+
+In many HR departments, the pressure to process hundreds of applications quickly turns rejection emails into cold, robotic templates. This leaves candidates feeling disrespected and damages the company's reputation. SETI fixes this by being the bridge between efficient HR workflows and genuine human courtesy.
+
+**Here is how rejection flows without SETI:**
+1. An HR manager exports a list of rejected candidates from their ATS (Applicant Tracking System).
+2. They are forced to send out a generic, cold template: *"Dear applicant, your application has been rejected."*
+3. Candidates feel like just another number in a database.
+4. **Result:** The company's reputation as a caring employer is quietly eroded, and candidates are less likely to reapply or recommend the company.
+
+**Here is how rejection flows with SETI (the ideal workflow):**
+1. An HR manager exports their candidate list to a CSV file, including names and the job title they applied for.
+2. They upload the CSV to SETI and select the `empathetic` tone.
+3. SETI transforms a cold *"Dear applicant, your application has been rejected."* into a warm, personalized message that thanks the candidate for their time and encourages them to apply for future roles.
+4. **Result:** Even in rejection, the candidate feels respected and valued. The company's reputation for being human-centric is strengthened, and a positive relationship is maintained for future opportunities.
+
+---
+
+**Why this matters:**
+- **For HR Managers:** You can process hundreds of rejections in seconds without sacrificing empathy for efficiency.
+- **For Candidates:** You receive a response that acknowledges your effort, not a soul-crushing template.
+- **For the Company:** Every single email becomes an opportunity to show that you put people over paperwork.
+
 ---
 
 ## ⚙️ Two Ways to Use SETI
