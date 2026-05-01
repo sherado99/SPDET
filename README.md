@@ -22,7 +22,9 @@ SETI helps anyone who wants to send better, more human emails without spending h
 
 **No coding skills are required.** If you can use a spreadsheet, you can use SETI.
 
-### 📣 From Cold to Compassionate: Who Really Uses SETI?
+---
+
+## 📣 From Cold to Compassionate: Who Really Uses SETI?
 
 In many HR departments, the pressure to process hundreds of applications quickly turns rejection emails into cold, robotic templates. This leaves candidates feeling disrespected and damages the company's reputation. SETI fixes this by being the bridge between efficient HR workflows and genuine human courtesy.
 
