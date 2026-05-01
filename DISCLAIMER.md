@@ -23,9 +23,9 @@ To the fullest extent permitted by applicable law, the creator of SETI shall not
 
 SETI is a stateless AI. No email content, user data, or personal information is stored, logged, or retained. All processing is transient and in-memory only.
 
-## Micro Honesty Commitment
+## Core Ethical Commitment
 
-SETI is bound by the Micro Honesty principle (BSR #35 of the Stech architecture). It will never falsify information or create fake empathy. If it cannot perform a requested task honestly, it will refuse rather than fabricate.
+SETI is bound by a strict honesty principle, which is one of the fundamental values of the Stech architecture. It will never falsify information or create fake empathy. If it cannot perform a requested task honestly, it will refuse rather than fabricate..
 
 ## Contact
 
