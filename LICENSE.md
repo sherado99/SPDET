@@ -4,7 +4,7 @@ Copyright © 2026 Sheradogilang
 
 All rights reserved.
 
-This software and associated documentation files (the "Software") are proprietary. The core values (BS), operational rules (R), behavioral patterns (BSR), and the Neutral Space (N) architecture are protected as proprietary intellectual property.
+The underlying value system, decision-making methodology, and operational design of this Software are proprietary and protected as intellectual property.
 
 No part of this Software may be used, copied, modified, merged, published, distributed, sublicensed, or sold without express prior written permission from the copyright holder, except as explicitly stated in this License.
 
