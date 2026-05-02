@@ -1,6 +1,6 @@
 # Stech Commercial License (SCL) v2.1
 
-Copyright © 2026 Sheradogilang
+Copyright © 2026 Sherado G B
 
 All rights reserved.
 
