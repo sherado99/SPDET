@@ -3,10 +3,14 @@
   "name": "Stech Presence Driven Email Transformer (SPDET)",
   "version": "0.0.1",
   "buildTag": "latest",
-  "description": "Transform harsh, emotional, or unprofessional feedback into honest, constructive, and professional language — each one refined individually through genuine, ethical connection. Capable of processing many feedback items while maintaining impact and integrity.",
+  "description": "Transform cold, robotic, or overly formal emails into warm, honest, and professional messages — each one refined individually through genuine, ethical connection. Capable of processing many emails while maintaining impact and integrity.",
   "input": "./input_schema.json",
   "output": "./output_schema.json",
   "storages": {
     "dataset": "./dataset_schema.json"
+  },
+  "seo": {
+    "name": "SPDET – AI Presence-Driven Email Transformer",
+    "description": "Transform cold emails into warm, honest, professional messages. Batch CSV/JSON processing. Stateless, private, no data stored. Built for HR, Customer Service, and Sales teams."
   }
 }
