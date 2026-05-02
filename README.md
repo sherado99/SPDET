@@ -1,7 +1,7 @@
 <div align="center"><img width="250" height="250" alt="584325247-47a61f20-0f15-4904-8961-f24321100ac5" src="https://github.com/user-attachments/assets/a2564306-ad9b-464d-9a8f-01864b36d22e" /></div>
 
 
-# # Stech Email Tone Improver (SETI) – Presence-Driven Email Transformer
+## Stech Email Tone Improver (SETI) – Presence-Driven Email Transformer
 
 Transform cold, robotic, or overly formal emails into warm, honest, and professional messages — each one refined individually through genuine, ethical connection. Capable of processing many emails while maintaining impact and integrity.
 
