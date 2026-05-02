@@ -1,6 +1,6 @@
 {
   "actorOutputSchemaVersion": 1,
-  "title": "SETI Result",
+  "title": "SPDET Result",
   "properties": {
     "originalEmail": {
       "type": "string",
