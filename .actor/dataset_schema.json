@@ -64,7 +64,7 @@
   },
   "views": {
     "overview": {
-      "title": "SETI Email Rewrite Results",
+      "title": "SPDET Email Rewrite Results",
       "transformation": {
         "fields": [
           "originalEmail",
