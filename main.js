@@ -14,12 +14,12 @@ const {
   timeout = 60,
 } = input;
 
-const SPDET_PROXY_SECRET = process.env.SPDET_PROXY_SECRET || process.env.SETI_PROXY_SECRET;
+const SPDET_PROXY_SECRET = process.env.SPDET_PROXY_SECRET || process.env.SPDET_PROXY_SECRET;
 if (!SPDET_PROXY_SECRET) {
-  throw new Error('SPDET_PROXY_SECRET or SETI_PROXY_SECRET environment variable is missing');
+  throw new Error('SPDET_PROXY_SECRET or SPDET_PROXY_SECRET environment variable is missing');
 }
 
-const API_URL = 'https://stech-api.sheradogilang.workers.dev/seti';
+const API_URL = 'https://stech-api.sheradogilang.workers.dev/spdet';
 
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
