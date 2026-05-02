@@ -1,9 +1,9 @@
 <div align="center"><img width="250" height="250" alt="584325247-47a61f20-0f15-4904-8961-f24321100ac5" src="https://github.com/user-attachments/assets/a2564306-ad9b-464d-9a8f-01864b36d22e" /></div>
 
 
-# Stech Email Tone Improver (SETI) – Bulk Email Rewriter
+# # Stech Email Tone Improver (SETI) – Presence-Driven Email Transformer
 
-Transform cold, robotic, or overly formal emails into warm, professional, human‑sounding messages — in bulk, in seconds.
+Transform cold, robotic, or overly formal emails into warm, honest, and professional messages — each one refined individually through genuine, ethical connection. Capable of processing many emails while maintaining impact and integrity.
 
 SETI is a single‑purpose AI (SPAI) Actor on the Apify Store that focuses on one task: making your emails warmer, more honest, and more effective. It processes batches of 1 to 1,000+ emails per run, accepts CSV or JSON input, lets you pick a different tone for each email, and exports polished results immediately. No data is stored; no fake empathy; just professional, reliable output.
 
