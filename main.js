@@ -171,7 +171,6 @@ async function processEmail(item, index) {
       headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
       timeout: timeout * 1000,
     });
-    let improvedEmail = response.data.response?.trim() || '';
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
