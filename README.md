@@ -207,6 +207,11 @@ Because SETI is a published Apify Actor, it automatically appears in the integra
 - Copy the improvedEmail column into your email client and send.
 - Time saved: hours → minutes. Brand impression: transformed.
 
+## ❌ Not a Bulk Processor
+
+SETI is not a mass-mailing tool. It does not take a single template and spray it to thousands of recipients. Each email is individually refined through the Stech Core API, ensuring ethical, honest, and personalized output. We deliver the value of genuine human connection, not just the quantity of messages processed.
+
+
 ## ❗ Notes & Risks
 - Always review the rewritten email before sending. AI can make mistakes, and the final responsibility for the message rests with the sender.
 - No legal, medical, or financial advice – Stech is not a professional advisor; the output is for language improvement only.
