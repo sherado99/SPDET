@@ -1,5 +1,5 @@
 {
-  "title": "Stech Email Tone Improver (SETI)",
+  "title": "Stech Presence Driven Email Transformer",
   "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with flexible column names) or provide a JSON array. SETI automatically maps common column names (email, name, sender, etc.).",
   "type": "object",
   "schemaVersion": 1,
