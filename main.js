@@ -34,7 +34,7 @@ async function processEmail(item, index) {
 
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
-      headers: { 'X-Stech-Actor-Secret': SETI_PROXY_SECRET },
+      headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
       timeout: timeout * 1000,
     });
     // Ambil respons mentah, lalu bersihkan jika perlu
