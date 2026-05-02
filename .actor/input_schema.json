@@ -1,6 +1,6 @@
 {
-  "title": "Stech Presence Driven Email Transformer",
-  "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with flexible column names) or provide a JSON array. SETI automatically maps common column names (email, name, sender, etc.).",
+  "title": "Stech Presence Driven Email Transformer (SPDET)",
+  "description": "Rewrite multiple emails to be warm, honest, and personal. Upload CSV (with flexible column names) or provide a JSON array. SPDET automatically maps common column names (email, name, sender, etc.).",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
@@ -49,22 +49,22 @@
           "originalSubject": {
             "type": "string",
             "title": "Original Subject (optional)",
-            "description": "Original email subject line. Never changed by SETI. Included for reference and ATS compatibility."
+            "description": "Original email subject line. Never changed by SPDET. Included for reference and ATS compatibility."
           },
           "recipientName": {
             "type": "string",
             "title": "Recipient Name (optional)",
-            "description": "Name of the recipient for personalization. SETI also recognizes: recipient, name, recipient_name."
+            "description": "Name of the recipient for personalization. SPDET also recognizes: recipient, name, recipient_name."
           },
           "senderName": {
             "type": "string",
             "title": "Sender Name (optional)",
-            "description": "Name of the sender to sign the email. SETI also recognizes: sender, sender_name."
+            "description": "Name of the sender to sign the email. SPDET also recognizes: sender, sender_name."
           },
           "recipientEmail": {
             "type": "string",
             "title": "Recipient Email (optional)",
-            "description": "Recipient's email address. SETI also recognizes: email, recipient_email. Carried through to output for ATS compatibility."
+            "description": "Recipient's email address. SPDET also recognizes: email, recipient_email. Carried through to output for ATS compatibility."
           }
         },
         "required": ["originalEmail"]
