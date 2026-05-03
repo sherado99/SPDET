@@ -1,7 +1,7 @@
 <div align="center"><img width="250" height="250" alt="584325247-47a61f20-0f15-4904-8961-f24321100ac5" src="https://github.com/user-attachments/assets/a2564306-ad9b-464d-9a8f-01864b36d22e" /></div>
 
 
-## Stech Presence Driven Email Transformer (SPDET)
+## Stech Presence Driven Email Transformer (SPDET) - Genuinely Warm Emails from Cold Ones 
 
 Transform cold, robotic, or overly formal emails into warm, honest, and professional messages — each one refined individually through genuine, ethical connection. Capable of processing many emails while maintaining impact and integrity.
 
@@ -180,6 +180,7 @@ You can download the dataset as CSV directly from the Apify Console, or access i
 - Timeout (seconds)	Maximum wait time per email request.	60
 
 ## 🔌 Integrations (Built‑in by Apify)
+
 Because SPDET is a published Apify Actor, it automatically appears in the integration catalogs of:
 
 - n8n – connect SPDET to hundreds of apps without code.
@@ -189,23 +190,27 @@ Because SPDET is a published Apify Actor, it automatically appears in the integr
 - Slack – get notified when a run finishes.
 - GitHub – create issues automatically when a run fails.
 - LangChain and LlamaIndex – use SPDET as a tool inside your custom AI agents.
-- No extra setup is required from the developer. The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SPDET from the list of available Actors.
-- Example no‑code workflow (Zapier + Gmail):
-- New email arrives in Gmail.
-- Zapier sends the email text to SPDET.
-- SPDET rewrites the email with warmth and professionalism.
-- Zapier sends the rewarmed reply back via Gmail.
-- Just a few clicks — you never touch a single line of code.
+
+No extra setup is required from the developer. The integrations are ready to use directly from the Apify Actor page. Users simply authenticate with their own accounts and select SPDET from the list of available Actors.
+
+**Example no‑code workflow (Zapier + Gmail):**
+1. A new email arrives in Gmail.
+2. Zapier sends the email text to SPDET.
+3. SPDET rewrites the email with warmth and professionalism.
+4. Zapier sends the rewarmed reply back via Gmail.
+
+Just a few clicks — you never touch a single line of code.
 
 ## 🧪 Sample Workflow (HR Manager)
-- Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
-- Keep the column with the rejection email (or create one).
-- Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
-- Save the file.
-- Visit the SPDET Actor page on Apify Store, upload the CSV, click Run.
-- Wait a few seconds, then download the output CSV.
-- Copy the improvedEmail column into your email client and send.
-- Time saved: hours → minutes. Brand impression: transformed.
+1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
+2. Keep the column with the rejection email (or create one).
+3. Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
+4. Save the file.
+5. Visit the SPDET Actor page on Apify Store, upload the CSV, click Run.
+6. Wait a few seconds, then download the output CSV.
+7. Copy the improvedEmail column into your email client and send.
+
+Time saved: hours → minutes. Brand impression: transformed.
 
 ## ❌ Not a Bulk Processor
 
