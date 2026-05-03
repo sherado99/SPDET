@@ -3,12 +3,11 @@
 
 # Stech Presence-Driven Email Transformer (SPDET) - Genuinely Warm Emails from Cold Ones 
 
-Transform cold, robotic, or overly formal emails into warm, honest, and professional messages — each one refined individually through genuine, ethical connection. Capable of processing many emails while maintaining impact and integrity.
+Transform cold, robotic, or overly formal emails into **warm, honest, and professional messages** — each one refined individually through genuine, ethical presence. Capable of processing many emails while maintaining impact and integrity.
 
-SPDET is a single‑purpose AI (SPAI) Actor on the Apify Store that focuses on one task: making your emails warmer, more honest, and more effective. It processes batches of 1 to 100+ emails per run, accepts CSV or JSON input, lets you pick a different tone for each email, and exports polished results immediately. No data is stored; no fake empathy; just professional, reliable output.
+SPDET is a single‑purpose AI (SPAI) Actor on the Apify Store that focuses on one task: ensuring every email is delivered with **ethical warmth**. It processes batches of 1 to 100+ emails per run — **each email refined individually, one by one** — accepts CSV or JSON input, lets you pick a different tone for each email, and exports polished results immediately. No data is stored; no fake empathy; just honest, professional, reliable output.
 
-> **Market context:** The AI‑powered email assistant market is projected to grow from $2.11 billion in 2025 to $2.56 billion in 2026 at a CAGR of 21.2%, while the broader AI writing assistant market is expected to reach $8.3 billion by 2030. The demand for ethical, non‑manipulative AI communication tools is a significant and underserved segment within this market.
-
+> **Market context:** The AI‑powered email assistant market is projected to grow from $2.11 billion in 2025 to $2.56 billion in 2026 at a CAGR of 21.2%, while the broader AI writing assistant market is expected to reach $8.3 billion by 2030. Organisations increasingly adopt AI for email automation, but face a critical gap: tools that optimize for speed and volume often strip away genuine human connection, creating emails that are efficient but impersonal. SPDET fills this gap by embedding Micro Honesty and ethical presence directly into its architecture and focusing on warmth over robotic efficiency.
 ---
 
 ## 🎯 Who SPDET Is For
