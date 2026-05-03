@@ -1,4 +1,4 @@
-<div align="center"><img width="250" height="250" alt="584325247-47a61f20-0f15-4904-8961-f24321100ac5" src="https://github.com/user-attachments/assets/a2564306-ad9b-464d-9a8f-01864b36d22e" /></div>
+<div align="center"><img width="300" height="300" alt="584325247-47a61f20-0f15-4904-8961-f24321100ac5" src="https://github.com/user-attachments/assets/a2564306-ad9b-464d-9a8f-01864b36d22e" /></div>
 
 
 # Stech Presence Driven Email Transformer (SPDET) - Genuinely Warm Emails from Cold Ones 
