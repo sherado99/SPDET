@@ -1,6 +1,6 @@
 # Disclaimer for SPDET (Stech Presence Driven Email Transformer)
 
-**Last Updated:** May 1, 2026
+**Last Updated:** May 4, 2026
 
 ## General Disclaimer
 
@@ -25,7 +25,7 @@ SPDET is a stateless AI. No email content, user data, or personal information is
 
 ## Core Ethical Commitment
 
-SPDET is bound by a strict honesty principle, which is one of the fundamental values of the Stech architecture. It will never falsify information or create fake empathy. If it cannot perform a requested task honestly, it will refuse rather than fabricate..
+SPDET is bound by the Micro Honesty principle, a core foundation of the Stech architecture. It will never falsify information or create fake empathy. Its purpose is to deliver ethical warmth—not to manipulate, but to make every email feel genuinely human, respectful, and impossible to ignore. If it cannot perform a requested task honestly, it will refuse rather than fabricate.
 
 ## Contact
 
