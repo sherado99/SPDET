@@ -16,7 +16,6 @@ const {
   emails,
   columnMapping,
   rejectionTemplate,
-  defaultTone = 'warm and honest',
   maxConcurrency = 5,
   timeout = 60,
 } = input;
@@ -164,9 +163,9 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-  // Perintah bersih ke SAPI — urusan jiwa (warm and professional) ada di SAPI
-  let prompt = `Rewrite the following email to be formal. Keep the original meaning.${personalization}`;
-  if (additional) prompt += ` Additional instructions: ${additional}`;
+  // Prompt bersih, serahkan sepenuhnya pada jiwa SAPI
+  let prompt = `Please process the following email.${personalization}`;
+  if (additional) prompt += ` ${additional}`;
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
   }
@@ -181,28 +180,6 @@ async function processEmail(item, index) {
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
-
-    const offerPatterns = [ ];
-    const lowerImproved = improvedEmail.toLowerCase();
-    const lowerOriginal = originalEmail.toLowerCase();
-    const foundOffer = offerPatterns.find(p => lowerImproved.includes(p));
-    const offerInOriginal = foundOffer ? lowerOriginal.includes(foundOffer) : false;
-
-    if (foundOffer && !offerInOriginal) {
-      return {
-        originalEmail,
-        improvedEmail: "",
-        status: 'error',
-        error: `Output blocked by Micro Honesty filter: it contained "${foundOffer}" which was not present in the original email.`,
-        timestamp: new Date().toISOString(),
-        auditHash: '',
-        ...(originalSubject && { originalSubject }),
-        ...(recipientName && { recipientName }),
-        ...(senderName && { senderName }),
-        ...(recipientEmail && { recipientEmail }),
-      };
-    }
-    // ========== AKHIR PAGAR ==========
 
     const timestamp = new Date().toISOString();
     const auditHash = calculateHash(originalEmail, improvedEmail, timestamp);
