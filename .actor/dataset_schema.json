@@ -1,3 +1,4 @@
+// dataset_schema.json (SPDET) - SUDAH TERMASUK auditHash
 {
   "actorSpecification": 1,
   "fields": {
@@ -35,6 +36,12 @@
         "description": "The processing timestamp in ISO 8601 format.",
         "example": "2026-04-21T10:30:00.000Z"
       },
+      "auditHash": {
+        "type": "string",
+        "title": "Audit Hash",
+        "description": "SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.",
+        "example": "a3f2b8c9d1e4f5..."
+      },
       "originalSubject": {
         "type": "string",
         "title": "Original Subject",
@@ -60,7 +67,7 @@
         "example": "john@example.com"
       }
     },
-    "required": ["originalEmail", "improvedEmail", "status"]
+    "required": ["originalEmail", "improvedEmail", "status", "auditHash"]
   },
   "views": {
     "overview": {
@@ -72,6 +79,7 @@
           "toneUsed",
           "status",
           "timestamp",
+          "auditHash",
           "originalSubject",
           "recipientName",
           "senderName",
@@ -86,6 +94,7 @@
           "toneUsed": { "label": "Tone", "format": "text" },
           "status": { "label": "Status", "format": "text" },
           "timestamp": { "label": "Time", "format": "text" },
+          "auditHash": { "label": "Audit Hash", "format": "text" },
           "originalSubject": { "label": "Original Subject", "format": "text" },
           "recipientName": { "label": "Recipient", "format": "text" },
           "senderName": { "label": "Sender", "format": "text" },
