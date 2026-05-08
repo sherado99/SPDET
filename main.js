@@ -23,7 +23,7 @@ const {
 
 const SPDET_PROXY_SECRET = process.env.SPDET_PROXY_SECRET || process.env.SPDET_PROXY_SECRET;
 if (!SPDET_PROXY_SECRET) {
-  throw new Error('SPDET_PROXY_SECRET or SPDET_PROXY_SECRET environment variable is missing');
+  throw new Error('SPDET_PROXY_SECRET environment variable is missing');
 }
 
 const API_URL = 'https://stech-api.sheradogilang.workers.dev/spdet';
