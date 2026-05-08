@@ -1,5 +1,11 @@
 import { Actor } from 'apify';
 import axios from 'axios';
+import crypto from 'crypto';
+
+function calculateHash(originalEmail, improvedEmail, timestamp) {
+  const data = `${originalEmail}|${improvedEmail}|${timestamp}`;
+  return crypto.createHash('sha256').update(data).digest('hex');
+}
 
 await Actor.init();
 
