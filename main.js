@@ -174,6 +174,7 @@ async function processEmail(item, index) {
   }
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
+  // --- AWAL BLOK TRY ---
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
       headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
@@ -185,8 +186,6 @@ async function processEmail(item, index) {
     }
 
     // ========== PAGAR MICRO HONESTY ==========
-    // Tolak output yang mengarang janji, diskon, atau tawaran bantuan
-    // yang tidak ada di email asli.
     const offerPatterns = [
       'discount', 'diskon', '% off', 'coupon', 'voucher', 'promo code',
       'free of charge', 'no cost', 'on the house',
@@ -231,6 +230,7 @@ async function processEmail(item, index) {
       ...(recipientEmail && { recipientEmail }),
     };
   } catch (err) {
+    // --- AWAL BLOK CATCH ---
     return {
       originalEmail: originalEmail || "",
       improvedEmail: "",
@@ -244,6 +244,7 @@ async function processEmail(item, index) {
       ...(recipientEmail && { recipientEmail }),
     };
   }
+  // --- AKHIR BLOK CATCH ---
 }
 
 const results = [];
