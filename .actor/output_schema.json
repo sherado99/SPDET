@@ -32,6 +32,12 @@
       "title": "Timestamp",
       "template": "{{timestamp}}"
     },
+    "auditHash": {
+      "type": "string",
+      "description": "SHA-256 hash for audit trail and EU AI Act compliance.",
+      "title": "Audit Hash",
+      "template": "{{auditHash}}"
+    },
     "originalSubject": {
       "type": "string",
       "title": "Original Subject",
@@ -57,5 +63,5 @@
       "template": "{{recipientEmail}}"
     }
   },
-  "required": ["originalEmail", "improvedEmail", "status"]
+  "required": ["originalEmail", "improvedEmail", "status", "auditHash"]
 }
