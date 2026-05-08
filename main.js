@@ -167,22 +167,43 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
-  if (additional) prompt += ` Additional instructions: ${additional}`;
-  if (originalSubject) {
-    prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
-  }
-  prompt += `\n\nOriginal email:\n${originalEmail}`;
-
-  try {
-    const response = await axios.post(API_URL, { message: prompt }, {
-      headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
-      timeout: timeout * 1000,
-    });
-    let improvedEmail = response.data.response?.trim() || '';
+      let improvedEmail = response.data.response?.trim() || '';
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
+
+    // ========== PAGAR MICRO HONESTY ==========
+    // Tolak output yang mengarang janji, diskon, atau tawaran bantuan
+    // yang tidak ada di email asli.
+    const offerPatterns = [
+      'discount', 'diskon', '% off', 'coupon', 'voucher', 'promo code',
+      'free of charge', 'no cost', 'on the house',
+      'we are here to help', 'let us know if you need', 'feel free to reach out',
+      'we can assist', 'don\'t hesitate to contact', 'we\'re happy to help',
+      'as a gesture of goodwill', 'as a token of apology'
+    ];
+
+    const lowerImproved = improvedEmail.toLowerCase();
+    const lowerOriginal = originalEmail.toLowerCase();
+    const foundOffer = offerPatterns.find(p => lowerImproved.includes(p));
+    const offerInOriginal = foundOffer ? lowerOriginal.includes(foundOffer) : false;
+
+    if (foundOffer && !offerInOriginal) {
+      return {
+        originalEmail,
+        improvedEmail: "",
+        status: 'error',
+        error: `Output blocked by Micro Honesty filter: it contained "${foundOffer}" which was not present in the original email.`,
+        timestamp: new Date().toISOString(),
+        auditHash: '',
+        ...(originalSubject && { originalSubject }),
+        ...(recipientName && { recipientName }),
+        ...(senderName && { senderName }),
+        ...(recipientEmail && { recipientEmail }),
+      };
+    }
+    // ========== AKHIR PAGAR ==========
+
     const timestamp = new Date().toISOString();
     const auditHash = calculateHash(originalEmail, improvedEmail, timestamp);
     return {
