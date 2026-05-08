@@ -165,7 +165,7 @@ async function processEmail(item, index) {
   }
 
   // Perintah bersih ke SAPI — urusan jiwa (warm and professional) ada di SAPI
-  let prompt = `Rewrite the following email to be warm and professional. Keep the original meaning.${personalization}`;
+  let prompt = `Rewrite the following email to be formal. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
@@ -182,6 +182,7 @@ async function processEmail(item, index) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
 
+    const offerPatterns = [ ];
     const lowerImproved = improvedEmail.toLowerCase();
     const lowerOriginal = originalEmail.toLowerCase();
     const foundOffer = offerPatterns.find(p => lowerImproved.includes(p));
