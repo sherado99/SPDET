@@ -167,7 +167,19 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-      let improvedEmail = response.data.response?.trim() || '';
+  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
+  if (additional) prompt += ` Additional instructions: ${additional}`;
+  if (originalSubject) {
+    prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
+  }
+  prompt += `\n\nOriginal email:\n${originalEmail}`;
+
+  try {
+    const response = await axios.post(API_URL, { message: prompt }, {
+      headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
+      timeout: timeout * 1000,
+    });
+    let improvedEmail = response.data.response?.trim() || '';
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
