@@ -153,6 +153,8 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
 - recipientName	The recipient name you provided (if any).
 - senderName	The sender name you provided (if any).
 - recipientEmail	The recipient email you provided (if any).
+- auditHash	The SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.
+
 
 ## Example output (JSON):
 ```json
@@ -167,6 +169,7 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
     "recipientName": "John",
     "senderName": "HR Team",
     "recipientEmail": "john@example.com"
+    "auditHash": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9"
   }
 ]
 ```
