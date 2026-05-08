@@ -2,12 +2,13 @@ import { Actor } from 'apify';
 import axios from 'axios';
 import crypto from 'crypto';
 
+await Actor.init();
+
+// Fungsi untuk menghitung auditHash
 function calculateHash(originalEmail, improvedEmail, timestamp) {
   const data = `${originalEmail}|${improvedEmail}|${timestamp}`;
   return crypto.createHash('sha256').update(data).digest('hex');
 }
-
-await Actor.init();
 
 const input = await Actor.getInput();
 const {
@@ -147,6 +148,7 @@ async function processEmail(item, index) {
       status: 'error',
       error: 'Missing originalEmail field',
       timestamp: new Date().toISOString(),
+      auditHash: '',
     };
   }
 
@@ -181,12 +183,15 @@ async function processEmail(item, index) {
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
+    const timestamp = new Date().toISOString();
+    const auditHash = calculateHash(originalEmail, improvedEmail, timestamp);
     return {
       originalEmail,
       improvedEmail,
       toneUsed: targetTone,
       status: 'success',
-      timestamp: new Date().toISOString(),
+      timestamp,
+      auditHash,
       ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
@@ -199,6 +204,7 @@ async function processEmail(item, index) {
       status: 'error',
       error: err.message,
       timestamp: new Date().toISOString(),
+      auditHash: '',
       ...(originalSubject && { originalSubject }),
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
