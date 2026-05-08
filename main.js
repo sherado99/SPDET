@@ -45,7 +45,7 @@ function parseCSV(content) {
     }
   }
   headers.push(current.trim().replace(/^"|"$/g, ''));
-  
+
   const result = [];
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i];
@@ -107,11 +107,10 @@ if (csvFile && typeof csvFile === 'string') {
   if (rows.length === 0) {
     throw new Error('CSV file is empty or could not be parsed.');
   }
-  
+
   if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
-      targetTone: row.targetTone || defaultTone,
       additionalInstructions: row.additionalInstructions || '',
       originalSubject: row.originalSubject || row.subject || '',
       recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
@@ -121,7 +120,6 @@ if (csvFile && typeof csvFile === 'string') {
   } else {
     emailList = rows.filter(row => row.originalEmail).map(row => ({
       originalEmail: row.originalEmail,
-      targetTone: row.targetTone || defaultTone,
       additionalInstructions: row.additionalInstructions || '',
       originalSubject: row.originalSubject || row.subject || '',
       recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
@@ -152,7 +150,6 @@ async function processEmail(item, index) {
     };
   }
 
-  const targetTone = item.targetTone || defaultTone;
   const additional = item.additionalInstructions || '';
   const originalSubject = item.originalSubject || '';
   const recipientName = item.recipientName || '';
@@ -167,14 +164,14 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-  let prompt = `Rewrite the following email to be ${targetTone}. Keep the original meaning.${personalization}`;
+  // Perintah bersih ke SAPI — urusan jiwa (warm and professional) ada di SAPI
+  let prompt = `Rewrite the following email to be warm and professional. Keep the original meaning.${personalization}`;
   if (additional) prompt += ` Additional instructions: ${additional}`;
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
   }
   prompt += `\n\nOriginal email:\n${originalEmail}`;
 
-  // --- AWAL BLOK TRY ---
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
       headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
@@ -220,7 +217,6 @@ async function processEmail(item, index) {
     return {
       originalEmail,
       improvedEmail,
-      toneUsed: targetTone,
       status: 'success',
       timestamp,
       auditHash,
@@ -230,7 +226,6 @@ async function processEmail(item, index) {
       ...(recipientEmail && { recipientEmail }),
     };
   } catch (err) {
-    // --- AWAL BLOK CATCH ---
     return {
       originalEmail: originalEmail || "",
       improvedEmail: "",
@@ -244,7 +239,6 @@ async function processEmail(item, index) {
       ...(recipientEmail && { recipientEmail }),
     };
   }
-  // --- AKHIR BLOK CATCH ---
 }
 
 const results = [];
