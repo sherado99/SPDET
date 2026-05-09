@@ -90,89 +90,95 @@ You can turn SPDET into a **fully autonomous AI Agent** that monitors your inbox
 - **Structured output** – get JSON or CSV with all fields for every entry
 - **Stateless & private** – no email content is ever stored on any server; your data passes through and is immediately discarded
 
+
 ---
 
 ## 📥 Input Methods
 
-### 1. CSV Upload (easiest for batch workloads)
+1. CSV Upload (easiest for batch workloads)
 
-Create a CSV file with at least an `originalEmail` column.
+Create a CSV file with at least an originalEmail column.
 
-| Column | Required | Description |
-|--------|:--------:|-------------|
-| `originalEmail` | ✅ | The email text to rewrite. |
-| `targetTone` | ❌ | Tone for this email (`warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional‑warm`). Default = `warm and honest`. |
-| `additionalInstructions` | ❌ | Extra guidance (e.g. "make it shorter", "add an apology"). |
-| `originalSubject` | ❌ | Email subject line. **Never changed by SPDET.** Included for reference and ATS compatibility. |
-| `recipientName` | ❌ | Recipient's name. If provided, SPDET will use it in the greeting. |
-| `senderName` | ❌ | Sender's name. If provided, SPDET will use it to sign the email. |
-| `recipientEmail` | ❌ | Recipient's email address. Carried through to output for ATS compatibility. |
+Column Required Description
+originalEmail ✅ The email text to rewrite.
+additionalInstructions ❌ Extra guidance (e.g. "make it shorter", "apologize and offer a discount").
+originalSubject ❌ Email subject line. Never changed by SPDET. Included for reference and ATS compatibility.
+recipientName ❌ Recipient's name. If provided, SPDET will use it in the greeting.
+senderName ❌ Sender's name. If provided, SPDET will use it to sign the email.
+recipientEmail ❌ Recipient's email address. Carried through to output for ATS compatibility.
 
-> 💡 **Just use your existing file.** If your company's CSV already has columns like `name`, `email`, or `subject`, you can either rename them or keep them. SPDET automatically recognizes common column names (`email`, `recipient_email`, `name`, `recipient`, `sender`, etc.) and maps them correctly.
+💡 Just use your existing file. SPDET automatically recognizes common column names (email, recipient_email, name, recipient, sender, etc.) and maps them correctly.
 
-**Example CSV content**
+Example CSV content
+
 ```csv
-originalEmail,targetTone,additionalInstructions,originalSubject,recipientName,senderName,recipientEmail
-"Dear Sir, your application has been rejected.",empathetic,"Keep it under 30 words",Application Status,John,HR Team,john@example.com
-"Your order #12345 is delayed.",warm,"Apologize and offer a discount",Order Delay,Sarah,Customer Support,sarah@example.com
-"We have decided not to proceed with your proposal.",friendly,"Thank them for their time",Proposal Update,Alex,Sales Team,alex@example.com
-Upload this file using the CSV File field in the Actor input form.
+originalEmail,additionalInstructions,originalSubject,recipientName,senderName,recipientEmail
+"Dear Sir, your application has been rejected.","Keep it short and encouraging",Application Status,John,HR Team,john@example.com
+"Your order #12345 is delayed. Sorry for the trouble.","Apologize and offer a discount",Order Delay,Sarah,Customer Support,sarah@example.com
+"We have decided not to proceed with your proposal.","Thank them for their time",Proposal Update,Alex,Sales Team,alex@example.com
 ```
 
-## 2. JSON Array (for API & advanced users)
+Upload this file using the CSV File field in the Actor input form.
+
+2. JSON Array (for API & advanced users)
+
 ```json
 [
   {
     "originalEmail": "Dear Sir, your application has been rejected.",
-    "targetTone": "empathetic",
-    "additionalInstructions": "Keep it under 30 words",
+    "additionalInstructions": "Keep it short and encouraging",
     "originalSubject": "Application Status",
     "recipientName": "John",
     "senderName": "HR Team",
     "recipientEmail": "john@example.com"
   },
   {
-    "originalEmail": "Your order #12345 is delayed.",
-    "targetTone": "warm",
+    "originalEmail": "Your order #12345 is delayed. Sorry for the trouble.",
+    "additionalInstructions": "Apologize and offer a discount",
     "recipientName": "Sarah",
     "senderName": "Customer Support"
   }
 ]
 ```
 
-## 📤 Output
+📤 Output
+
 After the run, you get a structured dataset (JSON/CSV). Each row contains:
-- Field	Description
-- originalEmail	The email you provided.
-- improvedEmail	The rewritten, warmer version (null on error). Personalized if names were provided.
-- toneUsed	The tone that was applied.
-- status	success or error.
-- error	Error message (if any).
-- timestamp	Processing timestamp (ISO 8601).
-- originalSubject	The subject line you provided (if any). Carried through unchanged.
-- recipientName	The recipient name you provided (if any).
-- senderName	The sender name you provided (if any).
-- recipientEmail	The recipient email you provided (if any).
-- auditHash	The SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.
 
+Field Description
+originalEmail The email you provided.
+improvedEmail The rewritten, warmer version (null on error). Personalized if names were provided.
+additionalInstructions Extra guidance or context provided by the user for this specific email (if any).
+status success or error.
+error Error message (if any).
+timestamp Processing timestamp (ISO 8601).
+auditHash SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.
+originalSubject The subject line you provided (if any). Carried through unchanged.
+recipientName The recipient name you provided (if any).
+senderName The sender name you provided (if any).
+recipientEmail The recipient email you provided (if any).
 
-## Example output (JSON):
+Example output (JSON):
+
 ```json
 [
   {
-    "originalEmail": "Dear Sir, your application has been rejected.",
+    "originalEmail": "Dear applicant, we regret to inform you that your application has been rejected.",
     "improvedEmail": "Dear John,\n\nThank you for taking the time to apply. We received many applications and unfortunately, we won't be moving forward this time. We wish you the best in your search.\n\nBest regards,\nHR Team",
-    "toneUsed": "empathetic",
+    "additionalInstructions": "Keep it short and encouraging",
     "status": "success",
     "timestamp": "2026-04-21T10:30:00.000Z",
+    "auditHash": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
     "originalSubject": "Application Status",
     "recipientName": "John",
     "senderName": "HR Team",
     "recipientEmail": "john@example.com"
-    "auditHash": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9"
   }
 ]
 ```
+
+---
+
 You can download the dataset as CSV directly from the Apify Console, or access it programmatically via the Apify API.
 
 ## ⚙️ Advanced Settings
