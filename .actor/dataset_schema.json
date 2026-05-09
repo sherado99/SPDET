@@ -22,12 +22,6 @@
         "description": "Extra guidance or context provided by the user for this specific email.",
         "example": "Keep it short and encouraging"
       },
-      "toneUsed": {
-        "type": "string",
-        "title": "Tone Used",
-        "description": "The tone applied to the email (e.g., warm, empathetic, friendly).",
-        "example": "empathetic"
-      },
       "status": {
         "type": "string",
         "title": "Status",
@@ -82,7 +76,6 @@
           "originalEmail",
           "improvedEmail",
           "additionalInstructions",
-          "toneUsed",
           "status",
           "timestamp",
           "auditHash",
@@ -98,7 +91,6 @@
           "originalEmail": { "label": "Original Email", "format": "text" },
           "improvedEmail": { "label": "Improved Email", "format": "text" },
           "additionalInstructions": { "label": "Additional Instructions", "format": "text" },
-          "toneUsed": { "label": "Tone", "format": "text" },
           "status": { "label": "Status", "format": "text" },
           "timestamp": { "label": "Time", "format": "text" },
           "auditHash": { "label": "Audit Hash", "format": "text" },
