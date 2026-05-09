@@ -146,6 +146,7 @@ async function processEmail(item, index) {
       error: 'Missing originalEmail field',
       timestamp: new Date().toISOString(),
       auditHash: '',
+      additionalInstructions: item.additionalInstructions || '',
     };
   }
 
@@ -193,6 +194,7 @@ async function processEmail(item, index) {
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
       ...(recipientEmail && { recipientEmail }),
+      ...(additional && { additionalInstructions: additional }),
     };
   } catch (err) {
     return {
@@ -206,6 +208,7 @@ async function processEmail(item, index) {
       ...(recipientName && { recipientName }),
       ...(senderName && { senderName }),
       ...(recipientEmail && { recipientEmail }),
+      ...(additional && { additionalInstructions: additional }),
     };
   }
 }
