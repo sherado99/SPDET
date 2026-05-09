@@ -149,8 +149,8 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
 | Field | Description |
 |:---|:---|
 | `originalEmail` | The email you provided. |
-| `improvedEmail` | The rewritten, warmer version (null on error). Personalized if names were provided. |
 | `additionalInstructions` | Extra guidance or context provided by the user for this specific email (if any). |
+| `improvedEmail` | The rewritten, warmer version (null on error). Personalized if names were provided. |
 | `status` | `success` or `error`. |
 | `error` | Error message (if any). |
 | `timestamp` | Processing timestamp (ISO 8601). |
@@ -158,7 +158,7 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
 | `originalSubject` | The subject line you provided (if any). Carried through unchanged. |
 | `recipientName` | The recipient name you provided (if any). |
 | `senderName` | The sender name you provided (if any). |
-| `recipientEmail` | The recipient email you provided (if any). |
+| `recipientEmail` | The recipient email you provided (if any). Carried through to output for ATS compatibility. |
 
 Example output (JSON):
 
