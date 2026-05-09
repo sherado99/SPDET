@@ -16,6 +16,12 @@
         "description": "The email rewritten by Stech AI with a warmer, more honest tone.",
         "example": "Hi, thank you for applying. Unfortunately we couldn't move forward this time, but we appreciate your effort."
       },
+      "additionalInstructions": {
+        "type": "string",
+        "title": "Additional Instructions",
+        "description": "Extra guidance or context provided by the user for this specific email.",
+        "example": "Keep it short and encouraging"
+      },
       "toneUsed": {
         "type": "string",
         "title": "Tone Used",
@@ -39,7 +45,7 @@
         "type": "string",
         "title": "Audit Hash",
         "description": "SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.",
-        "example": "a3f2b8c9d1e4f5..."
+        "example": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9"
       },
       "originalSubject": {
         "type": "string",
@@ -66,7 +72,7 @@
         "example": "john@example.com"
       }
     },
-    "required": ["originalEmail", "improvedEmail", "status", "auditHash"]
+    "required": ["originalEmail", "improvedEmail", "status", "auditHash", "additionalInstructions"]
   },
   "views": {
     "overview": {
@@ -75,6 +81,7 @@
         "fields": [
           "originalEmail",
           "improvedEmail",
+          "additionalInstructions",
           "toneUsed",
           "status",
           "timestamp",
@@ -90,6 +97,7 @@
         "properties": {
           "originalEmail": { "label": "Original Email", "format": "text" },
           "improvedEmail": { "label": "Improved Email", "format": "text" },
+          "additionalInstructions": { "label": "Additional Instructions", "format": "text" },
           "toneUsed": { "label": "Tone", "format": "text" },
           "status": { "label": "Status", "format": "text" },
           "timestamp": { "label": "Time", "format": "text" },
