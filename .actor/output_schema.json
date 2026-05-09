@@ -14,6 +14,12 @@
       "title": "Improved Email",
       "template": "{{improvedEmail}}"
     },
+    "additionalInstructions": {
+      "type": "string",
+      "description": "The extra guidance or context provided by the user for this specific email.",
+      "title": "Additional Instructions",
+      "template": "{{additionalInstructions}}"
+    },
     "toneUsed": {
       "type": "string",
       "description": "The tone applied (e.g., warm, empathetic, friendly).",
@@ -34,7 +40,7 @@
     },
     "auditHash": {
       "type": "string",
-      "description": "SHA-256 hash for audit trail and EU AI Act compliance.",
+      "description": "SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.",
       "title": "Audit Hash",
       "template": "{{auditHash}}"
     },
@@ -63,5 +69,5 @@
       "template": "{{recipientEmail}}"
     }
   },
-  "required": ["originalEmail", "improvedEmail", "status", "auditHash"]
+  "required": ["originalEmail", "improvedEmail", "status", "auditHash", "additionalInstructions"]
 }
