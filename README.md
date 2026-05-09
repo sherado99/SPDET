@@ -99,13 +99,14 @@ You can turn SPDET into a **fully autonomous AI Agent** that monitors your inbox
 
 Create a CSV file with at least an originalEmail column.
 
-Column Required Description
-originalEmail ✅ The email text to rewrite.
-additionalInstructions ❌ Extra guidance (e.g. "make it shorter", "apologize and offer a discount").
-originalSubject ❌ Email subject line. Never changed by SPDET. Included for reference and ATS compatibility.
-recipientName ❌ Recipient's name. If provided, SPDET will use it in the greeting.
-senderName ❌ Sender's name. If provided, SPDET will use it to sign the email.
-recipientEmail ❌ Recipient's email address. Carried through to output for ATS compatibility.
+| Column | Required | Description |
+|:---|:---:|:---|
+| `originalEmail` | ✅ | The email text to rewrite. |
+| `additionalInstructions` | ❌ | Extra guidance (e.g. "make it shorter", "apologize and offer a discount"). |
+| `originalSubject` | ❌ | Email subject line. **Never changed by SPDET.** Included for reference and ATS compatibility. |
+| `recipientName` | ❌ | Recipient's name. If provided, SPDET will use it in the greeting. |
+| `senderName` | ❌ | Sender's name. If provided, SPDET will use it to sign the email. |
+| `recipientEmail` | ❌ | Recipient's email address. Carried through to output for ATS compatibility. |
 
 💡 Just use your existing file. SPDET automatically recognizes common column names (email, recipient_email, name, recipient, sender, etc.) and maps them correctly.
 
@@ -145,18 +146,19 @@ Upload this file using the CSV File field in the Actor input form.
 
 After the run, you get a structured dataset (JSON/CSV). Each row contains:
 
-Field Description
-originalEmail The email you provided.
-improvedEmail The rewritten, warmer version (null on error). Personalized if names were provided.
-additionalInstructions Extra guidance or context provided by the user for this specific email (if any).
-status success or error.
-error Error message (if any).
-timestamp Processing timestamp (ISO 8601).
-auditHash SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.
-originalSubject The subject line you provided (if any). Carried through unchanged.
-recipientName The recipient name you provided (if any).
-senderName The sender name you provided (if any).
-recipientEmail The recipient email you provided (if any).
+| Field | Description |
+|:---|:---|
+| `originalEmail` | The email you provided. |
+| `improvedEmail` | The rewritten, warmer version (null on error). Personalized if names were provided. |
+| `additionalInstructions` | Extra guidance or context provided by the user for this specific email (if any). |
+| `status` | `success` or `error`. |
+| `error` | Error message (if any). |
+| `timestamp` | Processing timestamp (ISO 8601). |
+| `auditHash` | SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance. |
+| `originalSubject` | The subject line you provided (if any). Carried through unchanged. |
+| `recipientName` | The recipient name you provided (if any). |
+| `senderName` | The sender name you provided (if any). |
+| `recipientEmail` | The recipient email you provided (if any). |
 
 Example output (JSON):
 
