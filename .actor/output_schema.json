@@ -8,17 +8,17 @@
       "title": "Original Email",
       "template": "{{originalEmail}}"
     },
-    "improvedEmail": {
-      "type": "string",
-      "description": "The email rewritten by Stech AI with a warmer, more honest tone.",
-      "title": "Improved Email",
-      "template": "{{improvedEmail}}"
-    },
     "additionalInstructions": {
       "type": "string",
       "description": "Extra guidance or context provided by the user for this specific email.",
       "title": "Additional Instructions",
       "template": "{{additionalInstructions}}"
+    },
+    "improvedEmail": {
+      "type": "string",
+      "description": "The email rewritten by Stech AI with a warmer, more honest tone.",
+      "title": "Improved Email",
+      "template": "{{improvedEmail}}"
     },
     "status": {
       "type": "string",
@@ -63,5 +63,5 @@
       "template": "{{recipientEmail}}"
     }
   },
-  "required": ["originalEmail", "improvedEmail", "status", "auditHash", "additionalInstructions"]
+  "required": ["originalEmail", "additionalInstructions", "improvedEmail", "status", "auditHash"]
 }
