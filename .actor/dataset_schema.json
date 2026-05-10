@@ -10,12 +10,6 @@
         "description": "The original cold email provided by the user.",
         "example": "Dear Sir, your application has been rejected."
       },
-      "additionalInstructions": {
-        "type": "string",
-        "title": "Additional Instructions",
-        "description": "Extra guidance or context provided by the user for this specific email.",
-        "example": "Keep it short and encouraging"
-      },
       "improvedEmail": {
         "type": "string",
         "title": "Improved Email",
@@ -40,6 +34,18 @@
         "title": "Audit Hash",
         "description": "SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance.",
         "example": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9"
+      },
+      "download_docx": {
+        "type": "string",
+        "title": "Download DOCX",
+        "description": "URL to download the improved email as a Microsoft Word (.docx) file.",
+        "example": "https://api.apify.com/v2/key-value-stores/STORE_ID/records/email_1_a3f2b8c9.docx"
+      },
+      "download_pdf": {
+        "type": "string",
+        "title": "Download PDF",
+        "description": "URL to download the improved email as a PDF file.",
+        "example": "https://api.apify.com/v2/key-value-stores/STORE_ID/records/email_1_a3f2b8c9.pdf"
       },
       "originalSubject": {
         "type": "string",
@@ -66,7 +72,7 @@
         "example": "john@example.com"
       }
     },
-    "required": ["originalEmail", "additionalInstructions", "improvedEmail", "status", "auditHash"]
+    "required": ["originalEmail", "improvedEmail", "status", "auditHash", "download_docx", "download_pdf"]
   },
   "views": {
     "overview": {
@@ -74,11 +80,12 @@
       "transformation": {
         "fields": [
           "originalEmail",
-          "additionalInstructions",
           "improvedEmail",
           "status",
           "timestamp",
           "auditHash",
+          "download_docx",
+          "download_pdf",
           "originalSubject",
           "recipientName",
           "senderName",
@@ -89,11 +96,12 @@
         "component": "table",
         "properties": {
           "originalEmail": { "label": "Original Email", "format": "text" },
-          "additionalInstructions": { "label": "Additional Instructions", "format": "text" },
           "improvedEmail": { "label": "Improved Email", "format": "text" },
           "status": { "label": "Status", "format": "text" },
           "timestamp": { "label": "Time", "format": "text" },
           "auditHash": { "label": "Audit Hash", "format": "text" },
+          "download_docx": { "label": "Download DOCX", "format": "text" },
+          "download_pdf": { "label": "Download PDF", "format": "text" },
           "originalSubject": { "label": "Original Subject", "format": "text" },
           "recipientName": { "label": "Recipient", "format": "text" },
           "senderName": { "label": "Sender", "format": "text" },
