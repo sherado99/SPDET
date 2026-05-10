@@ -4,7 +4,9 @@
   "type": "module",
   "dependencies": {
     "apify": "^3.1.0",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "docx": "^8.5.0",
+    "pdfkit": "^0.15.0"
   },
   "scripts": {
     "start": "node main.js"
