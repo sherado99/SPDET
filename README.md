@@ -83,13 +83,31 @@ You can turn SPDET into a **fully autonomous AI Agent** that monitors your inbox
 
 - **Batch processing** – rewrite 1 to 100+ emails in a single run
 - **Flexible input** – upload a CSV file or paste a JSON array
-- **Per‑email tone** – choose from `warm and honest`, `friendly`, `empathetic`, `encouraging`, `professional‑warm` for each email
+- **Multi-format output** – download results as **CSV**, **DOCX**, or **PDF** — all generated in one run
 - **Personalization** – optionally include `recipientName`, `senderName`, and `recipientEmail` for personalized emails
 - **High concurrency** – process up to 20 emails simultaneously to save time
 - **Error tolerance** – if one email fails, the rest continue uninterrupted; all errors are logged
 - **Structured output** – get JSON or CSV with all fields for every entry
 - **Stateless & private** – no email content is ever stored on any server; your data passes through and is immediately discarded
+- **Audit trail** – every output includes an `auditHash` for EU AI Act compliance and verifiable integrity
 
+---
+
+---
+
+## 📄 Multi-Format Output
+
+SPDET generates **three formats in one run** — no extra cost, no extra steps.
+
+| Format | Best For |
+|:---|:---|
+| **CSV** | Bulk processing, data analysis, ATS integration |
+| **DOCX** | Professional letters, ready-to-edit documents |
+| **PDF** | Finalized emails, audit archives, printing |
+
+Every format contains the same essence email content + verification code (`auditHash`). You choose what to download — or take all three.
+
+---
 
 ---
 
@@ -142,7 +160,7 @@ Upload this file using the CSV File field in the Actor input form.
 ]
 ```
 
-📤 Output
+## 📤 Output
 
 After the run, you get a structured dataset (JSON/CSV). Each row contains:
 
@@ -155,12 +173,15 @@ After the run, you get a structured dataset (JSON/CSV). Each row contains:
 | `error` | Error message (if any). |
 | `timestamp` | Processing timestamp (ISO 8601). |
 | `auditHash` | SHA-256 hash of originalEmail + improvedEmail + timestamp for audit trail and EU AI Act compliance. |
+| `download_docx` | Direct download link for the improved email as a Microsoft Word (.docx) file. |
+| `download_pdf` | Direct download link for the improved email as a PDF file. |
 | `originalSubject` | The subject line you provided (if any). Carried through unchanged. |
 | `recipientName` | The recipient name you provided (if any). |
 | `senderName` | The sender name you provided (if any). |
 | `recipientEmail` | The recipient email you provided (if any). Carried through to output for ATS compatibility. |
-
 Example output (JSON):
+
+**Example output (JSON):**
 
 ```json
 [
@@ -171,6 +192,8 @@ Example output (JSON):
     "status": "success",
     "timestamp": "2026-04-21T10:30:00.000Z",
     "auditHash": "a3f2b8c9d1e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+    "download_docx": "https://api.apify.com/v2/key-value-stores/STORE_ID/records/email_1_a3f2b8c9.docx",
+    "download_pdf": "https://api.apify.com/v2/key-value-stores/STORE_ID/records/email_1_a3f2b8c9.pdf",
     "originalSubject": "Application Status",
     "recipientName": "John",
     "senderName": "HR Team",
@@ -211,16 +234,21 @@ No extra setup is required from the developer. The integrations are ready to use
 
 Just a few clicks — you never touch a single line of code.
 
+
+---
+
+
 ## 🧪 Sample Workflow (HR Manager)
 1. Export candidate list from your ATS (Applicant Tracking System) to a CSV file.
 2. Keep the column with the rejection email (or create one).
-3. Add extra columns: targetTone (set to empathetic), recipientName, recipientEmail, and additionalInstructions (optional).
+3. Add extra columns: recipientName, recipientEmail, and additionalInstructions (optional).
 4. Save the file.
 5. Visit the SPDET Actor page on Apify Store, upload the CSV, click Run.
-6. Wait a few seconds, then download the output CSV.
-7. Copy the improvedEmail column into your email client and send.
+6. Wait a few seconds, then download the output CSV, DOCX, or PDF.
+7. Copy the improvedEmail into your email client and send.
 
 Time saved: hours → minutes. Brand impression: transformed.
+
 
 ## ❌ Not a Bulk Processor
 
