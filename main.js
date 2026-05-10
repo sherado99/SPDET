@@ -248,7 +248,7 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-  let prompt = `Rewrite the following email in English.${personalization}`;.${personalization}`;
+  let prompt = `Rewrite the following email in English.${personalization}`;
   if (additional) prompt += ` ${additional}`;
   if (originalSubject) {
     prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
