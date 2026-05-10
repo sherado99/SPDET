@@ -62,7 +62,7 @@ async function generatePDF(recipientName, improvedEmail, auditHash) {
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    doc.fontSize(14).text(`SPDET – Warmed Email`, { align: 'center' });
+    doc.fontSize(14).text(`SPDET – Stech Presence Driven Email Transformer`, { align: 'center' });
     doc.moveDown(0.5);
     doc.fontSize(11).text(`Addressed to: ${recipientName || 'Recipient'}`);
     doc.fontSize(11).text(`Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`);
