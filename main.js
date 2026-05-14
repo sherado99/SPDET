@@ -222,7 +222,7 @@ async function processEmail(item, index) {
   let prompt = `Rewrite the following message.`;
   if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
   if (senderName) prompt += ` Sign the message as "${senderName}".`;
-  if (originalSubject) prompt += ` The subject is "${originalSubject}". Keep the subject.`;
+  if (originalSubject) prompt += ` The subject is "${originalSubject}".`;
   prompt += `\n\nOriginal message:\n${originalEmail}`;
 
   try {
@@ -232,10 +232,6 @@ async function processEmail(item, index) {
     });
     let improvedEmail = response.data.response?.trim() || '';
     
-    // Hapus subject dari body jika SAPI menulisnya (opsional)
-    if (originalSubject) {
-      improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
-    }
 
     const timestamp = new Date().toISOString();
     const auditHash = calculateHash(originalEmail, improvedEmail, timestamp);
