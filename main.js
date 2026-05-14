@@ -222,7 +222,7 @@ async function processEmail(item, index) {
   let prompt = `Rewrite the following message.`;
   if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
   if (senderName) prompt += ` Sign the message as "${senderName}".`;
-  if (originalSubject) prompt += ` The subject is "${originalSubject}".`;
+  if (originalSubject) prompt += ` The subject is "${originalSubject}". keep the subject.`;
   prompt += `\n\nOriginal message:\n${originalEmail}`;
 
   try {
