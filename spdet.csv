@@ -1,3 +1,3 @@
-originalEmail,targetTone,additionalInstructions,originalSubject,recipientName,senderName,recipientEmail
-"Dear applicant, we regret to inform you that your application has been rejected.",empathetic,"Keep it short and encouraging",Application Status,John,HR Team,john@example.com
+originalEmail,additionalInstructions,originalSubject,recipientName,senderName,recipientEmail
+"Dear applicant, we regret to inform you that your application has been rejected.","Keep it short and encouraging",Application Status,John,HR Team,john@example.com
 
