@@ -263,14 +263,7 @@ prompt += `\n\nOriginal message:\n${originalEmail}`;
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
     }
 
-    // Micro Honesty Guard
-    const offerPatterns = [
-      'discount', 'diskon', '% off', 'coupon', 'voucher', 'promo code',
-      'free of charge', 'no cost', 'on the house',
-      'we are here to help', 'let us know if you need', 'feel free to reach out',
-      'we can assist', 'don\'t hesitate to contact', 'we\'re happy to help',
-      'as a gesture of goodwill', 'as a token of apology'
-    ];
+    
     const lowerImproved = improvedEmail.toLowerCase();
     const lowerOriginal = originalEmail.toLowerCase();
     const foundOffer = offerPatterns.find(p => lowerImproved.includes(p));
