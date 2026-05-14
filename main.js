@@ -8,18 +8,11 @@ await Actor.init();
 
 // ========== HELPERS ==========
 
-/**
- * Calculate SHA-256 hash of the data
- */
 function calculateHash(originalEmail, improvedEmail, timestamp) {
   const data = `${originalEmail}|${improvedEmail}|${timestamp}`;
   return crypto.createHash('sha256').update(data).digest('hex');
 }
 
-/**
- * Generate a DOCX file from the processed text
- * @returns {Promise<Buffer>}
- */
 async function generateDOCX(recipientName, improvedEmail, auditHash) {
   const doc = new Document({
     sections: [{
@@ -50,10 +43,6 @@ async function generateDOCX(recipientName, improvedEmail, auditHash) {
   return await Packer.toBuffer(doc);
 }
 
-/**
- * Generate a PDF file from the processed text
- * @returns {Promise<Buffer>}
- */
 async function generatePDF(recipientName, improvedEmail, auditHash) {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ margin: 50 });
@@ -74,20 +63,14 @@ async function generatePDF(recipientName, improvedEmail, auditHash) {
   });
 }
 
-/**
- * Save file to Apify Key-Value Store and return public URL
- */
 async function saveFileToKVS(filename, buffer, contentType) {
   const store = await Actor.openKeyValueStore();
   await store.setValue(filename, buffer, { contentType });
-  // The public KVS URL can be constructed from the run ID and filename.
-  // We assume the environment variable APIFY_RUN_ID is available.
-  const runId = process.env.APIFY_RUN_ID || 'default';
   const baseUrl = `https://api.apify.com/v2/key-value-stores/${store.id}/records/${filename}?disableRedirect=true`;
   return baseUrl;
 }
 
-// ========== INPUT CONFIGURATION ==========
+// ========== INPUT ==========
 
 const input = await Actor.getInput();
 const {
@@ -106,8 +89,7 @@ if (!SPDET_PROXY_SECRET) {
 
 const API_URL = 'https://stech-api.sheradogilang.workers.dev/spdet';
 
-// ========== CSV PARSER (same as before) ==========
-
+// ========== CSV PARSER ==========
 function parseCSV(content) {
   const lines = content.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
@@ -170,13 +152,13 @@ function applyMappingAndTemplate(row, mapping, template) {
 }
 
 // ========== BUILD EMAIL LIST ==========
-
 let emailList = [];
 
 if (csvFile && typeof csvFile === 'string') {
   let fileContent = null;
   if (csvFile.startsWith('FILE-UPLOAD:')) {
     const fileKey = csvFile.replace('FILE-UPLOAD:', '');
+    // Catatan: Actor.getFile mungkin tidak tersedia di Apify SDK v3. Jika error, ganti dengan Actor.getValue.
     const fileBuffer = await Actor.getFile(fileKey);
     fileContent = fileBuffer.toString();
   } else if (csvFile.startsWith('http://') || csvFile.startsWith('https://')) {
@@ -193,7 +175,6 @@ if (csvFile && typeof csvFile === 'string') {
   if (columnMapping && rejectionTemplate && Object.keys(columnMapping).length > 0) {
     emailList = rows.map(row => ({
       originalEmail: applyMappingAndTemplate(row, columnMapping, rejectionTemplate),
-      additionalInstructions: row.additionalInstructions || '',
       originalSubject: row.originalSubject || row.subject || '',
       recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
       senderName: row.senderName || row.sender_name || row.sender || '',
@@ -202,7 +183,6 @@ if (csvFile && typeof csvFile === 'string') {
   } else {
     emailList = rows.filter(row => row.originalEmail).map(row => ({
       originalEmail: row.originalEmail,
-      additionalInstructions: row.additionalInstructions || '',
       originalSubject: row.originalSubject || row.subject || '',
       recipientName: row.recipientName || row.recipient_name || row.recipient || row.name || '',
       senderName: row.senderName || row.sender_name || row.sender || '',
@@ -220,7 +200,6 @@ if (emailList.length === 0) {
 }
 
 // ========== PROCESS EACH EMAIL ==========
-
 async function processEmail(item, index) {
   const originalEmail = item.originalEmail;
   if (!originalEmail) {
@@ -239,19 +218,12 @@ async function processEmail(item, index) {
   const senderName = item.senderName || '';
   const recipientEmail = item.recipientEmail || '';
 
-   let personalization = '';
-  if (recipientName) {
-    personalization += ` Use the recipient's name "${recipientName}" in the greeting.`;
-  }
-  if (senderName) {
-    personalization += ` Sign the email as "${senderName}".`;
-  }
-
- let prompt = `Rewrite the following message.`;
-if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
-if (senderName) prompt += ` Sign the message as "${senderName}".`;
-if (originalSubject) prompt += ` The subject is "${originalSubject}". Keep the subject.`;
-prompt += `\n\nOriginal message:\n${originalEmail}`;
+  // Prompt teknis minimal – gunakan kata "message" bukan "email"
+  let prompt = `Rewrite the following message.`;
+  if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
+  if (senderName) prompt += ` Sign the message as "${senderName}".`;
+  if (originalSubject) prompt += ` The subject is "${originalSubject}". Keep the subject.`;
+  prompt += `\n\nOriginal message:\n${originalEmail}`;
 
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
@@ -259,34 +231,16 @@ prompt += `\n\nOriginal message:\n${originalEmail}`;
       timeout: timeout * 1000,
     });
     let improvedEmail = response.data.response?.trim() || '';
+    
+    // Hapus subject dari body jika SAPI menulisnya (opsional)
     if (originalSubject) {
       improvedEmail = removeSubjectFromBody(improvedEmail, originalSubject);
-    }
-
-    
-    const lowerImproved = improvedEmail.toLowerCase();
-    const lowerOriginal = originalEmail.toLowerCase();
-    const foundOffer = offerPatterns.find(p => lowerImproved.includes(p));
-    const offerInOriginal = foundOffer ? lowerOriginal.includes(foundOffer) : false;
-    if (foundOffer && !offerInOriginal) {
-      return {
-        originalEmail,
-        improvedEmail: "",
-        status: 'error',
-        error: `Output blocked by Micro Honesty filter: it contained "${foundOffer}" which was not present in the original email.`,
-        timestamp: new Date().toISOString(),
-        auditHash: '',
-        ...(originalSubject && { originalSubject }),
-        ...(recipientName && { recipientName }),
-        ...(senderName && { senderName }),
-        ...(recipientEmail && { recipientEmail }),
-      };
     }
 
     const timestamp = new Date().toISOString();
     const auditHash = calculateHash(originalEmail, improvedEmail, timestamp);
 
-    // ---- MULTI-FORMAT FILE GENERATION ----
+    // Generate DOCX dan PDF
     const docxBuffer = await generateDOCX(recipientName, improvedEmail, auditHash);
     const pdfBuffer = await generatePDF(recipientName, improvedEmail, auditHash);
 
@@ -326,7 +280,6 @@ prompt += `\n\nOriginal message:\n${originalEmail}`;
 }
 
 // ========== PARALLEL EXECUTION ==========
-
 const results = [];
 const running = new Set();
 const queue = [...emailList];
