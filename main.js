@@ -218,11 +218,10 @@ async function processEmail(item, index) {
   const senderName = item.senderName || '';
   const recipientEmail = item.recipientEmail || '';
 
-  // Prompt teknis minimal – gunakan kata "message" bukan "email"
-  let prompt = `Rewrite the following message with warm, honest and profesional.`;
+  
+  let prompt = `Rewrite the following message with warm, honest and profesional.keep it concise.`;
   if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
   if (senderName) prompt += ` Sign the message as "${senderName}".`;
-  if (originalSubject) prompt += ` The subject is "${originalSubject}". keep the subject.`;
   prompt += `\n\nOriginal message:\n${originalEmail}`;
 
   try {
