@@ -247,11 +247,11 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
- let prompt = `Rewrite the Original email. Do not change the language.${personalization ? ' ' + personalization : ''}`;
-if (originalSubject) {
-  prompt += `\nThe subject is: "${originalSubject}".`;
-}
-prompt += `\n\nOriginal email:\n${originalEmail}`;
+ let prompt = `Rewrite the following message.`;
+if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
+if (senderName) prompt += ` Sign the message as "${senderName}".`;
+if (originalSubject) prompt += ` The subject is "${originalSubject}". Keep the subject.`;
+prompt += `\n\nOriginal message:\n${originalEmail}`;
 
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
