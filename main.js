@@ -247,9 +247,9 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
- let prompt = `Rewrite the following email so it can be sent to the recipient. Do not add any disclaimer. Do not change the language. Do not reply as if you are the recipient. Just produce the rewritten email.${personalization ? ' ' + personalization : ''}`;
+ let prompt = `Rewrite the Original email. Do not change the language.${personalization ? ' ' + personalization : ''}`;
 if (originalSubject) {
-  prompt += `\nThe subject is: "${originalSubject}". Do not change it.`;
+  prompt += `\nThe subject is: "${originalSubject}".`;
 }
 prompt += `\n\nOriginal email:\n${originalEmail}`;
 
