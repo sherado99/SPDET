@@ -248,12 +248,12 @@ async function processEmail(item, index) {
     personalization += ` Sign the email as "${senderName}".`;
   }
 
-  let prompt = `Rewrite the following email in English.${personalization}`;
-  if (additional) prompt += ` ${additional}`;
-  if (originalSubject) {
-    prompt += `\nThe email subject is "${originalSubject}". Keep the subject unchanged.`;
-  }
-  prompt += `\n\nOriginal email:\n${originalEmail}`;
+ let prompt = `Original email:\n${originalEmail}`;
+if (originalSubject) {
+  prompt = `Subject: ${originalSubject}\n\n${prompt}`;
+}
+// Tidak ada instruksi "Rewrite", tidak ada "Use name", tidak ada "Sign as"
+// Biarkan SAPI yang memutuskan tone dan format sesuai esensinya.
 
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
