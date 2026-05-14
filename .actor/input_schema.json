@@ -18,7 +18,6 @@
       "prefill": [
         {
           "originalEmail": "Dear Sir, your application has been rejected.",
-          "additionalInstructions": "Make it short",
           "originalSubject": "Application Status",
           "recipientName": "John",
           "senderName": "HR Team",
@@ -33,13 +32,7 @@
             "title": "Original Email",
             "description": "The email content you want to rewrite."
           },
-            "additionalInstructions": {
-            "type": "string",
-            "title": "Additional Instructions",
-            "description": "Extra guidance for the rewrite.",
-            "editor": "textarea"
-          },
-          "originalSubject": {
+            "originalSubject": {
             "type": "string",
             "title": "Original Subject (optional)",
             "description": "Original email subject line. Never changed by SPDET. Included for reference and ATS compatibility."
