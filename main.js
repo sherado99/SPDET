@@ -219,7 +219,7 @@ async function processEmail(item, index) {
   const recipientEmail = item.recipientEmail || '';
 
   
-  let prompt = `Rewrite the following in a formal.\n\n${originalEmail}`;
+  let prompt = `Rewrite the following text in a FORMAL MODE at your core.\n\n${originalEmail}`;
 if (recipientName) prompt += ` Address the recipient as "${recipientName}".`;
 if (senderName) prompt += ` Sign as "${senderName}".`;
   try {
