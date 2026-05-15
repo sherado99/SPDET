@@ -219,11 +219,9 @@ async function processEmail(item, index) {
   const recipientEmail = item.recipientEmail || '';
 
   
-  let prompt = `Rewrite the following message with warm, honest and profesional.keep it concise.`;
-  if (recipientName) prompt += ` Use the recipient's name "${recipientName}" in the greeting.`;
-  if (senderName) prompt += ` Sign the message as "${senderName}".`;
-  prompt += `\n\nOriginal message:\n${originalEmail}`;
-
+  let prompt = `Rewrite the following in a formal.\n\n${originalEmail}`;
+if (recipientName) prompt += ` Address the recipient as "${recipientName}".`;
+if (senderName) prompt += ` Sign as "${senderName}".`;
   try {
     const response = await axios.post(API_URL, { message: prompt }, {
       headers: { 'X-Stech-Actor-Secret': SPDET_PROXY_SECRET },
